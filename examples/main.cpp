@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         txt->show();
         txt->setWindowTitle("Sina weibo api result");
 
-         QSinaWeibo weibo;
+        QSinaWeibo weibo;
         QObject::connect(&weibo, SIGNAL(ok(QString)), txt, SLOT(append(QString)));
         QObject::connect(&weibo, SIGNAL(loginFail()), &failbox, SLOT(exec()));
         weibo.setUSer(user);

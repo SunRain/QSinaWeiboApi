@@ -20,9 +20,10 @@ HEADERS  += mainwindow.h
 FORMS    += mainwindow.ui
 
 
-unix:!macx: LIBS += -L$$PWD/../../build-weiboAPI-Qt5-Debug/ -lQSinaWeiboAPI
 
-INCLUDEPATH += $$PWD/../../weiboAPI/include
-DEPENDPATH += $$PWD/../../weiboAPI/include
+unix:!macx: LIBS += -L$$PWD/../../build-QSinaWeiboApi-Qt5-Debug/weiboAPI/ -lQSinaWeiboAPI
 
-unix:!macx: PRE_TARGETDEPS += $$PWD/../../build-weiboAPI-Qt5-Debug/libQSinaWeiboAPI.a
+INCLUDEPATH += $$PWD/../weiboAPI/include
+DEPENDPATH += $$PWD/../weiboAPI/include
+
+#unix:!macx: PRE_TARGETDEPS += $$PWD/../build/build-weiboAPI-Qt5-Debug/libQSinaWeiboAPI.a
