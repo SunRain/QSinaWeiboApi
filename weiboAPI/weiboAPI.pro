@@ -27,7 +27,8 @@ HEADERS += \
     include/QSinaWeibo.h \
     include/RequestApiList.h \
     include/Request.h \
-    include/QWeiboPut.h
+    include/QWeiboPut.h \
+    include/QWeiboMethod.h
 
 SOURCES += \
     qweiboapi_global.cpp \
