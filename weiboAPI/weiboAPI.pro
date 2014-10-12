@@ -8,7 +8,7 @@ QT       += network
 
 TARGET = QSinaWeiboAPI
 TEMPLATE = lib
-CONFIG += staticlib
+#CONFIG += staticlib
 CONFIG   += console
 
 unix:!symbian {
