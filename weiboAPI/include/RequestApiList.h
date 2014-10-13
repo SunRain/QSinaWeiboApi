@@ -55,7 +55,7 @@ REQUEST_API_BEGIN(statuses_friends_timeline, "2/statuses/friends_timeline")
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
         ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
-// 2/statuses/home_timeline: 获取当前登录用户及其所关注用户的最新微博 
+// 2/statuses/home_timeline: 获取当前登录用户及其所关注用户的最新微博
 REQUEST_API_BEGIN(statuses_home_timeline, "2/statuses/home_timeline")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
@@ -67,9 +67,9 @@ REQUEST_API_BEGIN(statuses_home_timeline, "2/statuses/home_timeline")
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
         ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
-// 2/statuses/friends_timeline/ids: 获取当前登录用户及其所关注用户的最新微博的ID 
-REQUEST_API_BEGIN(statuses_friends_timeline_ids, "2/statuses/friends_timeline/ids")
-REQUEST_API_END()
+//// 2/statuses/friends_timeline/ids: 获取当前登录用户及其所关注用户的最新微博的ID
+//REQUEST_API_BEGIN(statuses_friends_timeline_ids, "2/statuses/friends_timeline/ids")
+//REQUEST_API_END()
 // 2/statuses/user_timeline: 获取用户发布的微博 
 REQUEST_API_BEGIN(statuses_user_timeline, "2/statuses/user_timeline")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -84,27 +84,27 @@ REQUEST_API_BEGIN(statuses_user_timeline, "2/statuses/user_timeline")
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
         ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
-// 2/statuses/user_timeline/ids: 获取用户发布的微博的ID  
-REQUEST_API_BEGIN(statuses_user_timeline_ids, "2/statuses/user_timeline/ids")
-        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
-        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("uid", 0)  //需要查询的用户ID。
-        ("screen_name", "")  //需要查询的用户昵称。
-        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
-        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
-        ("count", 20)  //单页返回的记录条数，最大不超过100，默认为20。
-        ("page", 1)  //返回结果的页码，默认为1。
-        ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
-        ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
-REQUEST_API_END()
+//// 2/statuses/user_timeline/ids: 获取用户发布的微博的ID
+//REQUEST_API_BEGIN(statuses_user_timeline_ids, "2/statuses/user_timeline/ids")
+//        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+//        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+//        ("uid", 0)  //需要查询的用户ID。
+//        ("screen_name", "")  //需要查询的用户昵称。
+//        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
+//        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
+//        ("count", 20)  //单页返回的记录条数，最大不超过100，默认为20。
+//        ("page", 1)  //返回结果的页码，默认为1。
+//        ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
+//        ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
+//REQUEST_API_END()
 // 2/statuses/timeline_batch: 批量获取指定的一批用户的微博列表  
 REQUEST_API_BEGIN(statuses_timeline_batch, "2/statuses/timeline_batch")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("uids", "")  //需要查询的用户ID，用半角逗号分隔，一次最多20个。
         ("screen_names", "")  //需要查询的用户昵称，用半角逗号分隔，一次最多20个。
-        ("count", 0)  //单页返回的记录条数，默认为20。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 20)  //单页返回的记录条数，默认为20。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
 REQUEST_API_END()
@@ -115,23 +115,32 @@ REQUEST_API_BEGIN(statuses_repost_timeline, "2/statuses/repost_timeline")
         ("id", 0)  //需要查询的微博ID。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
-        ("count", 0)  //单页返回的记录条数，最大不超过200，默认为20。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 20)  //单页返回的记录条数，最大不超过200，默认为20。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
 REQUEST_API_END()
-// 2/statuses/repost_timeline/ids: 获取一条原创微博的最新转发微博的ID  
-REQUEST_API_BEGIN(statuses_repost_timeline_ids, "2/statuses/repost_timeline/ids")
-        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
-        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("id", 0)  //需要查询的微博ID。
-        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
-        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
-        ("count", 0)  //单页返回的记录条数，最大不超过200，默认为20。
-        ("page", 0)  //返回结果的页码，默认为1。
-        ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
-REQUEST_API_END()
+//// 2/statuses/repost_timeline/ids: 获取一条原创微博的最新转发微博的ID
+//REQUEST_API_BEGIN(statuses_repost_timeline_ids, "2/statuses/repost_timeline/ids")
+//        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+//        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+//        ("id", 0)  //需要查询的微博ID。
+//        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
+//        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
+//        ("count", 0)  //单页返回的记录条数，最大不超过200，默认为20。
+//        ("page", 0)  //返回结果的页码，默认为1。
+//        ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
+//REQUEST_API_END()
 // 2/statuses/mentions: 获取@当前用户的最新微博 
 REQUEST_API_BEGIN(statuses_mentions, "2/statuses/mentions")
+        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
+        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
+        ("count", 20)  //单页返回的记录条数，最大不超过200，默认为20。
+        ("page", 1)  //返回结果的页码，默认为1。
+        ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
+        ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博、2：来自微群，默认为0。
+        ("filter_by_type", 0)  //原创筛选类型，0：全部微博、1：原创的微博，默认为0。
 REQUEST_API_END()
 // 2/statuses/mentions/ids: 获取@当前用户的最新微博的ID  
 REQUEST_API_BEGIN(statuses_mentions_ids, "2/statuses/mentions/ids")
@@ -145,18 +154,7 @@ REQUEST_API_BEGIN(statuses_mentions_ids, "2/statuses/mentions/ids")
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博、2：来自微群，默认为0。
         ("filter_by_type", 0)  //原创筛选类型，0：全部微博、1：原创的微博，默认为0。
 REQUEST_API_END()
-// 2/statuses/bilateral_timeline: 获取双向关注用户的最新微博  
-REQUEST_API_BEGIN(statuses_bilateral_timeline, "2/statuses/bilateral_timeline")
-        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
-        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
-        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
-        ("count", 0)  //单页返回的记录条数，最大不超过100，默认为20。
-        ("page", 0)  //返回结果的页码，默认为1。
-        ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
-        ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
-        ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
-REQUEST_API_END()
+
 // 2/statuses/show: 根据ID获取单条微博信息 
 REQUEST_API_BEGIN(statuses_show, "2/statuses/show")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -175,7 +173,7 @@ REQUEST_API_BEGIN(statuses_querymid, "2/statuses/querymid")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("id", 0)  //需要查询的微博（评论、私信）ID，批量模式下，用半角逗号分隔，最多不超过20个。
-        ("type", 0)  //获取类型，1：微博、2：评论、3：私信，默认为1。
+        ("type", 1)  //获取类型，1：微博、2：评论、3：私信，默认为1。
         ("is_batch", 0)  //是否使用批量模式，0：否、1：是，默认为0。
 REQUEST_API_END()
 // 2/statuses/queryid: 通过mid获取id 
@@ -183,7 +181,7 @@ REQUEST_API_BEGIN(statuses_queryid, "2/statuses/queryid")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("mid", "")  //需要查询的微博（评论、私信）MID，批量模式下，用半角逗号分隔，最多不超过20个。
-        ("type", 0)  //获取类型，1：微博、2：评论、3：私信，默认为1。
+        ("type", 1)  //获取类型，1：微博、2：评论、3：私信，默认为1。
         ("is_batch", 0)  //是否使用批量模式，0：否、1：是，默认为0。
         ("inbox", 0)  //仅对私信有效，当MID类型为私信时用此参数，0：发件箱、1：收件箱，默认为0 。
         ("isBase62", 0)  //MID是否是base62编码，0：否、1：是，默认为0。
@@ -194,10 +192,20 @@ REQUEST_API_BEGIN(statuses_count, "2/statuses/count")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("ids", "")  //需要获取数据的微博ID，多个之间用逗号分隔，最多不超过100个。
 REQUEST_API_END()
-// 2/statuses/to_me: 获取当前登录用户关注的人发给其的定向微博  
+
+///2/statuses/to_me: 获取当前登录用户关注的人发给其的定向微博
+///高级新接口
 REQUEST_API_BEGIN(statuses_to_me, "2/statuses/to_me")
+        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
+        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
+        ("page", 1)  //返回结果的页码，默认为1。
+        ("count", 20)  //返回结果的条数数量，最大不超过200，默认为20。
+        ("trim_user", 0) //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回uid，默认为0
 REQUEST_API_END()
-// 2/statuses/to_me/ids: 获取当前登录用户关注的人发给其的定向微博ID列表  
+/// 2/statuses/to_me/ids: 获取当前登录用户关注的人发给其的定向微博ID列表
+///高级新接口
 REQUEST_API_BEGIN(statuses_to_me_ids, "2/statuses/to_me/ids")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
@@ -217,8 +225,8 @@ REQUEST_API_END()
 REQUEST_API_BEGIN(emotions, "2/emotions")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("type", "")  //表情类别，face：普通表情、ani：魔法表情、cartoon：动漫表情，默认为face。
-        ("language", "")  //语言类别，cnname：简体、twname：繁体，默认为cnname。
+        ("type", "face")  //表情类别，face：普通表情、ani：魔法表情、cartoon：动漫表情，默认为face。
+        ("language", "cnname")  //语言类别，cnname：简体、twname：繁体，默认为cnname。
 REQUEST_API_END()
 // 2/statuses/repost: 转发一条微博信息 
 REQUEST_API_BEGIN(statuses_repost, "2/statuses/repost")
@@ -242,8 +250,8 @@ REQUEST_API_BEGIN(statuses_update, "2/statuses/update")
         ("status", "")  //要发布的微博文本内容，必须做URLencode，内容不超过140个汉字。
         ("visible", 0)  //微博的可见性，0：所有人能看，1：仅自己可见，2：密友可见，3：指定分组可见，默认为0。
         ("list_id", "")  //微博的保护投递指定分组ID，只有当visible参数为3时生效且必选。
-        ("lat", 0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
-        ("long", 0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
+        ("lat", 0.0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
+        ("long", 0.0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
         ("annotations", "")  //元数据，主要是为了方便第三方应用记录一些适合于自己使用的信息，每条微博可以包含一个或者多个元数据，必须以json字串的形式提交，字串长度不超过512个字符，具体内容可以自定。
         ("rip", "")  //开发者上报的操作用户真实IP，形如：211.156.0.1。
 REQUEST_API_END()
@@ -255,8 +263,8 @@ REQUEST_API_BEGIN(statuses_upload, "2/statuses/upload")
         ("visible", 0)  //微博的可见性，0：所有人能看，1：仅自己可见，2：密友可见，3：指定分组可见，默认为0。
         ("list_id", "")  //微博的保护投递指定分组ID，只有当visible参数为3时生效且必选。
         ("pic", 0)  //要上传的图片，仅支持JPEG、GIF、PNG格式，图片大小小于5M。
-        ("lat", 0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
-        ("long", 0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
+        ("lat", 0.0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
+        ("long", 0.0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
         ("annotations", "")  //元数据，主要是为了方便第三方应用记录一些适合于自己使用的信息，每条微博可以包含一个或者多个元数据，必须以json字串的形式提交，字串长度不超过512个字符，具体内容可以自定。
         ("rip", "")  //开发者上报的操作用户真实IP，形如：211.156.0.1。
 REQUEST_API_END()
@@ -269,24 +277,27 @@ REQUEST_API_BEGIN(statuses_upload_url_text, "2/statuses/upload_url_text")
         ("list_id", "")  //微博的保护投递指定分组ID，只有当visible参数为3时生效且必选。
         ("url", "")  //图片的URL地址，必须以http开头。
         ("pic_id", "")  //已经上传的图片pid，多个时使用英文半角逗号符分隔，最多不超过9个。
-        ("lat", 0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
-        ("long", 0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
+        ("lat", 0.0)  //纬度，有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
+        ("long", 0.0)  //经度，有效范围：-180.0到+180.0，+表示东经，默认为0.0。
         ("annotations", "")  //元数据，主要是为了方便第三方应用记录一些适合于自己使用的信息，每条微博可以包含一个或者多个元数据，必须以json字串的形式提交，字串长度不超过512个字符，具体内容可以自定。
         ("rip", "")  //开发者上报的操作用户真实IP，形如：211.156.0.1。
 REQUEST_API_END()
 // 2/statuses/filter/create: 屏蔽某条微博  
-REQUEST_API_BEGIN(statuses_filter_create, "2/statuses/filter/create")
-        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
-        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("id", 0)  //微博id。
-REQUEST_API_END()
+//REQUEST_API_BEGIN(statuses_filter_create, "2/statuses/filter/create")
+//        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+//        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+//        ("id", 0)  //微博id。
+//REQUEST_API_END()
 // 2/statuses/mentions/shield: 屏蔽某个@我的微博及后续由其转发引起的@提及  
-REQUEST_API_BEGIN(statuses_mentions_shield, "2/statuses/mentions/shield")
-        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
-        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("id", 0)  //需要屏蔽的@提到我的微博ID。此ID必须在statuses/mentions列表中。
-        ("follow_up", 0)  //是否仅屏蔽当前微博。0：仅屏蔽当前@提到我的微博；1：屏蔽当前@提到我的微博，以及后续对其转发而引起的@提到我的微博。默认1。
-REQUEST_API_END()
+//REQUEST_API_BEGIN(statuses_mentions_shield, "2/statuses/mentions/shield")
+//        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+//        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+//        ("id", 0)  //需要屏蔽的@提到我的微博ID。此ID必须在statuses/mentions列表中。
+//        ("follow_up", 0)  //是否仅屏蔽当前微博。0：仅屏蔽当前@提到我的微博；1：屏蔽当前@提到我的微博，以及后续对其转发而引起的@提到我的微博。默认1。
+//REQUEST_API_END()
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // 2/comments/show: 获取某条微博的评论列表 
 REQUEST_API_BEGIN(comments_show, "2/comments/show")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -294,8 +305,8 @@ REQUEST_API_BEGIN(comments_show, "2/comments/show")
         ("id", 0)  //需要查询的微博ID。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
 REQUEST_API_END()
 // 2/comments/by_me: 我发出的评论列表 
@@ -304,8 +315,8 @@ REQUEST_API_BEGIN(comments_by_me, "2/comments/by_me")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博的评论、2：来自微群的评论，默认为0。
 REQUEST_API_END()
 // 2/comments/to_me: 我收到的评论列表 
@@ -314,8 +325,8 @@ REQUEST_API_BEGIN(comments_to_me, "2/comments/to_me")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博的评论、2：来自微群的评论，默认为0。
 REQUEST_API_END()
@@ -325,8 +336,8 @@ REQUEST_API_BEGIN(comments_timeline, "2/comments/timeline")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
 // 2/comments/mentions: 获取@到我的评论 
@@ -335,8 +346,8 @@ REQUEST_API_BEGIN(comments_mentions, "2/comments/mentions")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("since_id", 0)  //若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
         ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("filter_by_author", 0)  //作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博的评论、2：来自微群的评论，默认为0。
 REQUEST_API_END()
@@ -346,6 +357,9 @@ REQUEST_API_BEGIN(comments_show_batch, "2/comments/show_batch")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("cids", 0)  //需要查询的批量评论ID，用半角逗号分隔，最大50。
 REQUEST_API_END()
+
+///////////////////////////////////////////////////
+
 // 2/comments/create: 评论一条微博 
 REQUEST_API_BEGIN(comments_create, "2/comments/create")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -1561,6 +1575,24 @@ REQUEST_API_END()
 
 // Oauth2/revokeoauth2: 授权回收接口，帮助开发者主动取消用户的授权  
 REQUEST_API_BEGIN(Oauth2_revokeoauth2, "Oauth2/revokeoauth2")
+REQUEST_API_END()
+
+
+
+
+
+
+// 2/statuses/bilateral_timeline: 获取双向关注用户的最新微博
+REQUEST_API_BEGIN(statuses_bilateral_timeline, "2/statuses/bilateral_timeline")
+        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
+        ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
+        ("since_id", 0)  //若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0。
+        ("max_id", 0)  //若指定此参数，则返回ID小于或等于max_id的微博，默认为0。
+        ("count", 0)  //单页返回的记录条数，最大不超过100，默认为20。
+        ("page", 0)  //返回结果的页码，默认为1。
+        ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
+        ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
+        ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
 }
 

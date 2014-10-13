@@ -19,29 +19,32 @@ public:
         WBOPT_GET_STATUSES_USER_TIMELINE,//获取用户发布的微博信息列表
         WBOPT_GET_STATUSES_TIMELINE_BATCH,//批量获得指定的某一批用户的timeline
         WBOPT_GET_STATUSES_REPOST_TIMELINE,//返回一条微博的最新n条转发微博信息
-        WBOPT_GET_STATUSES_REPOST_BYME,//返回用户转发的最新n条微博信息
+        //WBOPT_GET_STATUSES_REPOST_BYME,//返回用户转发的最新n条微博信息
         WBOPT_GET_STATUSES_MENTIONS,//获取@当前用户的微博列表
+        WBOPT_GET_STATUSES_MENTIONS_IDS, //获取@当前用户的最新微博的ID
         WBOPT_GET_STATUSES_SHOW,//根据ID获取单条微博信息
         WBOPT_GET_STATUSES_SHOW_BATCH,//批量获取微博信息
-        WBOPT_GET_STATUSES_QUERYMID,//通过id获取mid
-        WBOPT_GET_STATUSES_QUERYID,//通过mid获取id
-        WBOPT_GET_STATUSES_REPOST_DAILY,//按天返回热门转发榜
-        WBOPT_GET_STATUSES_REPOST_WEEKLY,//按周返回热门转发榜
-        WBOPT_GET_STATUSES_HOT_COMMENTS_DAILY,//按天返回热门评论榜
-        WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY,//按周返回热门评论榜
-        WBOPT_POST_STATUSES_REPOST,//转发一条微博信息
+        WBOPT_GET_STATUSES_QUERYMID,//通过id获取mid, type 获取类型，1：微博、2：评论、3：私信，默认为1。
+        WBOPT_GET_STATUSES_QUERYID,//通过mid获取id, type 获取类型，1：微博、2：评论、3：私信，默认为1。
+        WBOPT_GET_STATUSES_COUNT, //批量获取指定微博的转发数评论数
+//        WBOPT_GET_STATUSES_REPOST_DAILY,//按天返回热门转发榜
+//        WBOPT_GET_STATUSES_REPOST_WEEKLY,//按周返回热门转发榜
+//        WBOPT_GET_STATUSES_HOT_COMMENTS_DAILY,//按天返回热门评论榜
+//        WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY,//按周返回热门评论榜
+        WBOPT_POST_STATUSES_REPOST,//转发一条微博信息, is_comment 是否在转发的同时发表评论，0：否、1：评论给当前微博、2：评论给原微博、3：都评论，默认为0 。
         WBOPT_POST_STATUSES_DESTROY,//删除微博评论信息
         WBOPT_POST_STATUSES_UPDATE,//发布一条微博信息
-        WBOPT_POST_STATUSES_UPLOAD_URL_TEXT,//发布一条微博，同时指定上传的图片或图片url
         WBOPT_POST_STATUSES_UPLOAD,//发布一条微博，上传图片并发布一条微博信息
+        WBOPT_POST_STATUSES_UPLOAD_URL_TEXT,//发布一条微博，同时指定上传的图片或图片url
 
         WBOPT_GET_COMMENTS_SHOW,//获取某条微博的评论列表
-        WBOPT_GET_COMMENTS_BYME,//我发出的评论列表
-        WBOPT_GET_COMMENTS_TOME,//我收到的评论列表
+        WBOPT_GET_COMMENTS_BY_ME,//我发出的评论列表
+        WBOPT_GET_COMMENTS_TO_ME,//我收到的评论列表
         WBOPT_GET_COMMENTS_TIMELINE,//获取当前用户发送及收到的评论列表
         WBOPT_GET_COMMENTS_MENTIONS,//@到我的评论
         WBOPT_GET_COMMENTS_SHOWBATCH,//@批量获取评论内容
 
+        ///below not check
         WBOPT_POST_COMMENTS_CREATE,//评论一条微博
         WBOPT_POST_COMMENTS_DESTROY,//删除一条评论
         WBOPT_POST_COMMENTS_DESTROY_BATCH ,//批量删除评论
