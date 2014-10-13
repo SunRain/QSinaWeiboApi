@@ -30,18 +30,19 @@ class Request;
 class QWEIBOAPI_EXPORT QSinaWeibo : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(string accessToken READ getAccessToken)
 public:
     explicit QSinaWeibo(QObject *parent = 0);
     ~QSinaWeibo();
-    void setUSer(const QString& user);
-    void setPassword(const QString& passwd);
-    void setAccessToken(const QByteArray& token);
-    QByteArray accessToken() const;
+    Q_INVOKABLE void setUSer(const QString& user);
+    Q_INVOKABLE void setPassword(const QString& passwd);
+    Q_INVOKABLE void setAccessToken(const QByteArray& token);
+    Q_INVOKABLE QByteArray getAccessToken() const;
 
     //take the ownership
     void createRequest(Request* request);
-    void login();
-    void logout();
+    Q_INVOKABLE void login();
+    Q_INVOKABLE void logout();
     void updateStatusWithPicture(const QString& status, const QString& fileName);
 
 signals:

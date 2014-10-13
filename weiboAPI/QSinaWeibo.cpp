@@ -66,7 +66,7 @@ void QSinaWeibo::setAccessToken(const QByteArray &token)
     mAccessToken = token;
 }
 
-QByteArray QSinaWeibo::accessToken() const
+QByteArray QSinaWeibo::getAccessToken() const
 {
     return mAccessToken;
 }
