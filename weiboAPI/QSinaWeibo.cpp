@@ -23,6 +23,8 @@
 #include <QUrlQuery>
 #include <QImage>
 #include <QtDebug>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include "include/QSinaWeibo.h"
 #include "include/QWeiboPut.h"
@@ -51,7 +53,7 @@ QSinaWeibo::~QSinaWeibo()
     }
 }
 
-void QSinaWeibo::setUSer(const QString &user)
+void QSinaWeibo::setUser(const QString &user)
 {
     mUser = user;
 }
@@ -61,12 +63,13 @@ void QSinaWeibo::setPassword(const QString &passwd)
     mPasswd = passwd;
 }
 
-void QSinaWeibo::setAccessToken(const QByteArray &token)
+void QSinaWeibo::setAccessToken(const QString &token)
 {
     mAccessToken = token;
+    emit accessTokenChanged();
 }
 
-QByteArray QSinaWeibo::getAccessToken() const
+QString QSinaWeibo::getAccessToken() const
 {
     return mAccessToken;
 }
@@ -107,7 +110,7 @@ void QSinaWeibo::login()
     url.addQueryItem("password", mPasswd);
 #endif //QT_VERSION_CHECK(5, 0, 0)
     connect(mPut, SIGNAL(ok(QString)), SLOT(parseOAuth2ReplyData(QString)));
-    connect(mPut, SIGNAL(fail(QString)), SIGNAL(loginFail()));
+    connect(mPut, SIGNAL(fail(QString)), SIGNAL(loginFail(QString)));
     mPut->setUrl(url);
     qDebug("begin login...");
     mPut->post();
@@ -117,19 +120,19 @@ void QSinaWeibo::logout()
 {
 
 }
-//仅支持JPEG、GIF、PNG格式，图片大小小于5M
-void QSinaWeibo::updateStatusWithPicture(const QString &status, const QString &fileName)
-{
-    mStatus = status;
-    mFile = fileName;
-    if (mAccessToken.isEmpty()) {
-        qDebug("Not login.");
-        connect(this, SIGNAL(loginOk()), SLOT(sendStatusWithPicture()));
-        login();
-        return;
-    }
-    sendStatusWithPicture();
-}
+////仅支持JPEG、GIF、PNG格式，图片大小小于5M
+//void QSinaWeibo::updateStatusWithPicture(const QString &status, const QString &fileName)
+//{
+//    mStatus = status;
+//    mFile = fileName;
+//    if (mAccessToken.isEmpty()) {
+//        qDebug("Not login.");
+//        connect(this, SIGNAL(loginOk()), SLOT(sendStatusWithPicture()));
+//        login();
+//        return;
+//    }
+//    sendStatusWithPicture();
+//}
 
 void QSinaWeibo::processNextRequest()
 {
@@ -156,57 +159,61 @@ void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
     if (in)
         return;
     in = true;
-    //{"access_token":"2.00xxxxD","remind_in":"4652955","expires_in":4652955,"uid":"12344"}
-    QByteArray d(data.toUtf8());
-    int i = d.indexOf("access_token");
-    int p0 = d.indexOf(":", i) + 2;
-    int p1 = d.indexOf("\"", p0);
-    mAccessToken = d.mid(p0, p1 - p0);
-    i = d.indexOf("uid");
-    p0 = d.indexOf(":", i) + 2;
-    p1 = d.indexOf("\"", p0);
-    mUid = d.mid(p0, p1 - p0);
+
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
+
+    if (error.error != QJsonParseError::NoError) {
+        emit loginFail();
+        return;
+    }
+    QJsonObject jsonObj = doc.object();
+
+    mAccessToken = jsonObj.value("access_token").toString();
+    mUid = jsonObj.value("uid").toString();
+
     qDebug("token=%s, uid=%s", mAccessToken.constData(), mUid.constData());
 
     disconnect(this, SLOT(parseOAuth2ReplyData(QString)));
     disconnect(this, SIGNAL(loginFail()));
+    emit loginOk(mAccessToken, mUid);
     emit loginOk();
 }
 
-void QSinaWeibo::sendStatusWithPicture()
-{
-    qDebug("update weibo with picture");
-    QString path(mFile);
-    //TODO: gif
-    if (!path.endsWith("jpg", Qt::CaseInsensitive)
-            && !path.endsWith("jpeg", Qt::CaseInsensitive)
-            && !path.endsWith("png", Qt::CaseInsensitive)
-            && !path.endsWith("gif", Qt::CaseInsensitive)) {
-        QImage image(path);
-        path = QDir::tempPath() + "/weibotemp" + ".jpg";
-        if (!image.save(path)) {
-            qWarning("convert image failed! %s", qPrintable(path));
-            return;
-        }
-    }
-    QFile f(path);
-    if (!f.open(QIODevice::ReadOnly)) {
-        qDebug("open error: %s", qPrintable(f.errorString()));
-        return;
-    }
-    QByteArray data = f.readAll();
-    f.close();
+//void QSinaWeibo::sendStatusWithPicture()
+//{
+//    qDebug("update weibo with picture");
+//    QString path(mFile);
+//    //TODO: gif
+//    if (!path.endsWith("jpg", Qt::CaseInsensitive)
+//            && !path.endsWith("jpeg", Qt::CaseInsensitive)
+//            && !path.endsWith("png", Qt::CaseInsensitive)
+//            && !path.endsWith("gif", Qt::CaseInsensitive)) {
+//        QImage image(path);
+//        path = QDir::tempPath() + "/weibotemp" + ".jpg";
+//        if (!image.save(path)) {
+//            qWarning("convert image failed! %s", qPrintable(path));
+//            return;
+//        }
+//    }
+//    QFile f(path);
+//    if (!f.open(QIODevice::ReadOnly)) {
+//        qDebug("open error: %s", qPrintable(f.errorString()));
+//        return;
+//    }
+//    QByteArray data = f.readAll();
+//    f.close();
 
-    connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(sendOk()));
+//    connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(sendOk()));
 
-    mPut->reset();
-    QUrl url(kApiHost + "statuses/upload.json");
-    mPut->setUrl(url);
-    mPut->addTextPart("access_token", mAccessToken);
-    mPut->addTextPart("status", QUrl::toPercentEncoding(mStatus));
-    mPut->addDataPart("image/jpg", "pic", data, path);
-    mPut->upload();
-}
+//    mPut->reset();
+//    QUrl url(kApiHost + "statuses/upload.json");
+//    mPut->setUrl(url);
+//    mPut->addTextPart("access_token", mAccessToken);
+//    mPut->addTextPart("status", QUrl::toPercentEncoding(mStatus));
+//    mPut->addDataPart("image/jpg", "pic", data, path);
+//    mPut->upload();
+//}
 
 void QSinaWeibo::dumpError(const QString &error)
 {

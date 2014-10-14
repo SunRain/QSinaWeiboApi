@@ -38,11 +38,11 @@ int main(int argc, char *argv[])
         QSinaWeibo weibo;
         QObject::connect(&weibo, SIGNAL(ok(QString)), txt, SLOT(append(QString)));
         QObject::connect(&weibo, SIGNAL(loginFail()), &failbox, SLOT(exec()));
-        weibo.setUSer(user);
+        weibo.setUser(user);
         weibo.setPassword(passwd);
-        //weibo.login();
-        Request *request = new statuses_public_timeline();
-        weibo.createRequest(request);
+        weibo.login();
+//        Request *request = new statuses_public_timeline();
+//        weibo.createRequest(request);
 
         return app.exec();
 }
