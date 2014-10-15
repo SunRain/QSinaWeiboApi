@@ -25,3 +25,4 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 tmp/*
+Key.h
