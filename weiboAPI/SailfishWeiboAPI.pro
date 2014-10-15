@@ -6,10 +6,11 @@
 
 QT       += network qml quick
 
-TARGET = SailfishWeibo
+TARGET = QSinaWeiboAPI
 TEMPLATE = lib
 #CONFIG += staticlib
-CONFIG   += console
+#CONFIG   += console
+#CONFIG += plugin
 
 #TARGET = $$qtLibraryTarget($$TARGET)
 
@@ -28,3 +29,6 @@ SOURCES += \
     Request.cpp \
     QSinaWeibo.cpp \
     QWeiboPut.cpp
+
+    target.path = /usr/share/SailfishWeibo/lib
+    INSTALLS += target
