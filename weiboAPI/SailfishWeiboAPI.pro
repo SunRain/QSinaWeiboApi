@@ -19,16 +19,16 @@ HEADERS += \
     include/qweiboapi_global.h \
     include/dptr.h \
     include/QSinaWeibo.h \
-    include/RequestApiList.h \
-    include/Request.h \
     include/QWeiboPut.h \
-    include/QWeiboMethod.h
+    include/QWeiboMethod.h \
+    include/QWeiboRequest.h \
+    include/QWeiboRequestApiList.h
 
 SOURCES += \
     qweiboapi_global.cpp \
-    Request.cpp \
     QSinaWeibo.cpp \
-    QWeiboPut.cpp
+    QWeiboPut.cpp \
+    QWeiboRequest.cpp
 
     target.path = /usr/share/SailfishWeibo/lib
     INSTALLS += target

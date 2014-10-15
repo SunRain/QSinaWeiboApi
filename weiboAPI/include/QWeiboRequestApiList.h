@@ -1,11 +1,11 @@
-#ifndef REQUESTAPILIST_H
-#define REQUESTAPILIST_H
+#ifndef QWEIBOREQUESTAPILIST_H
+#define QWEIBOREQUESTAPILIST_H
 
 namespace QSinaWeiboAPI {
 
 //TODO: post and get use different macro
 #define REQUEST_API_BEGIN(Class, APIPATH) \
-    class QWEIBOAPI_EXPORT Class : public Request \
+    class QWEIBOAPI_EXPORT Class : public QWeiboRequest \
     { \
     public: \
         Class() {prepare();} \
@@ -20,7 +20,7 @@ namespace QSinaWeiboAPI {
 };
 
 #define REQUEST_API_BEGIN0(Class) \
-    class QWEIBOAPI_EXPORT Class : public Request \
+    class QWEIBOAPI_EXPORT Class : public QWeiboRequest \
     { \
     public: \
         Class(); \

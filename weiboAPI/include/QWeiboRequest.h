@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ******************************************************************************/
 
-#ifndef QWEIBOAPI_REQUEST_H
-#define QWEIBOAPI_REQUEST_H
+#ifndef QWEIBOREQUEST_H
+#define QWEIBOREQUEST_H
 
 #include <QMap>
 #include <QVariant>
@@ -36,15 +36,18 @@ static const QString kApiHost = "https://api.weibo.com/";
 static QString sAppKey = "2323547071";
 static QString sAppSecret = "16ed80cc77fea11f7f7e96eca178ada3";
 
-class QWEIBOAPI_EXPORT Request
+class QWEIBOAPI_EXPORT QWeiboRequest
 {
 public:
-    enum RequestType {
+    enum WeiboRequestType {
         Get, Post
     };
-    Request();
-    virtual ~Request() {}
-    RequestType type() const;
+    QWeiboRequest();
+    virtual ~QWeiboRequest() {}
+    
+    WeiboRequestType getRequestType() const;
+    void setRequestType(WeiboRequestType type);
+    
     QString apiUrl() const;
     QUrl url() const; //apiUrl() + parameters
     /*!
@@ -52,9 +55,9 @@ public:
      * \return
      * initialize api parameters. usually you don't have to call it. do nothing if already called
      */
-    Request& prepare();
+    QWeiboRequest& prepare();
     //only the existing (name, value) will be modified, otherwise do nothing
-    Request& operator ()(const QString& name, const QVariant& value);
+    QWeiboRequest& operator ()(const QString& name, const QVariant& value);
     void addImage(const QString& file);
     void addImage(const QByteArray& data, const QString& format);
 
@@ -63,11 +66,11 @@ protected:
     virtual void initParameters() {qDebug("Request::initParameters() !!!");}
 
     bool mEditable; //true in ctor
-    RequestType mType;
+    WeiboRequestType mType;
     QString mApiUrl;
     QString mApiPath;
     QMap<QString, QVariant> mParameters;
 };
 
 } //namespace QWeiboAPI
-#endif // QWEIBOAPI_REQUEST_H
+#endif // QWEIBOREQUEST_H

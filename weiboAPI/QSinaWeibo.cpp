@@ -28,7 +28,7 @@
 
 #include "include/QSinaWeibo.h"
 #include "include/QWeiboPut.h"
-#include "include/Request.h"
+#include "include/QWeiboRequest.h"
 
 
 namespace QSinaWeiboAPI {
@@ -38,11 +38,12 @@ QSinaWeibo::QSinaWeibo(QObject *parent)
 {
     mPut = new QWeiboPut(this);
     //connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(ok()));
-    connect(mPut, SIGNAL(fail(QString)), this, SIGNAL(error(QString)));
+    connect(mPut, SIGNAL(fail(QString)), this, SIGNAL(weiboPutFail(QString)));
     connect(mPut, SIGNAL(fail(QString)), this, SLOT(dumpError(QString)));
-    connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(ok(QString)));
-    connect(mPut, SIGNAL(ok(QString)), this, SLOT(dumpOk(QString)));
-    connect(this, SIGNAL(loginOk()), SLOT(processNextRequest()), Qt::DirectConnection);
+    connect(mPut, SIGNAL(weiboPutSucceed(QString)), this, SIGNAL(weiboPutSucceed(QString)));
+    connect(mPut, SIGNAL(weiboPutSucceed(QString)), this, SLOT(dumpOk(QString)));
+    connect(this, SIGNAL(loginSucceed(QString, QString)), SLOT(processNextRequest()), Qt::DirectConnection);
+    connect(this, SIGNAL(loginSucceed(QString, QString)), this, SIGNAL(loginSucceed(QString, QString)));
 }
 
 QSinaWeibo::~QSinaWeibo()
@@ -84,13 +85,14 @@ QString QSinaWeibo::getAccessToken() const
     return mAccessToken;
 }
 
-void QSinaWeibo::createRequest(Request *request)
+void QSinaWeibo::createRequest(QWeiboRequest *request)
 {
     mRequests.append(request);
     //TODO: better way to check login(from error code)
     if (mAccessToken.isEmpty()) {
         qDebug("Not login.");
-        login();
+        //login();
+        emit weiboPutFail(QString("AccessToken empty!!"));
     } else {
         processNextRequest();
     }
@@ -104,22 +106,14 @@ void QSinaWeibo::login()
     }
     mPut->reset();
     QUrl url(kOAuthUrl);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    QUrlQuery urlqurey;
-    urlqurey.addQueryItem("client_id", sAppKey);
-    urlqurey.addQueryItem("client_secret", sAppSecret);
-    urlqurey.addQueryItem("grant_type", "password");
-    urlqurey.addQueryItem("username", mUser);
-    urlqurey.addQueryItem("password", mPasswd);
-    url.setQuery(urlqurey);
-#else
-    url.addQueryItem("client_id", sAppKey);
-    url.addQueryItem("client_secret", sAppSecret);
-    url.addQueryItem("grant_type", "password");
-    url.addQueryItem("username", mUser);
-    url.addQueryItem("password", mPasswd);
-#endif //QT_VERSION_CHECK(5, 0, 0)
-    connect(mPut, SIGNAL(ok(QString)), SLOT(parseOAuth2ReplyData(QString)));
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("client_id", sAppKey);
+    urlQuery.addQueryItem("client_secret", sAppSecret);
+    urlQuery.addQueryItem("grant_type", "password");
+    urlQuery.addQueryItem("username", mUser);
+    urlQuery.addQueryItem("password", mPasswd);
+    url.setQuery(urlQuery);
+    connect(mPut, SIGNAL(weiboPutSucceed(QString)), SLOT(parseOAuth2ReplyData(QString)));
     connect(mPut, SIGNAL(fail(QString)), SIGNAL(loginFail(QString)));
     mPut->setUrl(url);
     qDebug("begin login...");
@@ -148,16 +142,16 @@ void QSinaWeibo::processNextRequest()
 {
     if (mRequests.isEmpty())
         return;
-    Request *request = mRequests.takeFirst();
+    QWeiboRequest *request = mRequests.takeFirst();
     (*request)
             ("access_token", mAccessToken)
             ("uid", mUid)
             ;
     mPut->reset();
     mPut->setUrl(request->url());
-    if (request->type() == Request::Get) {
+    if (request->getRequestType() == QWeiboRequest::Get) {
         mPut->get();
-    } else if (request->type() == Request::Post){
+    } else if (request->getRequestType() == QWeiboRequest::Post){
         mPut->post();
     }
     delete request;
@@ -174,7 +168,7 @@ void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
     QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
 
     if (error.error != QJsonParseError::NoError) {
-        emit loginFail();
+        emit loginFail(QString("QJsonParseError %1").arg(error.errorString()));
         return;
     }
     QJsonObject jsonObj = doc.object();
@@ -186,8 +180,7 @@ void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
 
     disconnect(this, SLOT(parseOAuth2ReplyData(QString)));
     disconnect(this, SIGNAL(loginFail()));
-    emit loginOk(mAccessToken, mUid);
-    emit loginOk();
+    //emit loginOk(mAccessToken, mUid);
 }
 
 //void QSinaWeibo::sendStatusWithPicture()

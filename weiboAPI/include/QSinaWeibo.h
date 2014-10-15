@@ -27,7 +27,7 @@
 
 class QWeiboPut;
 namespace QSinaWeiboAPI {
-class Request;
+class QWeiboRequest;
 class QWEIBOAPI_EXPORT QSinaWeibo : public QObject
 {
     Q_OBJECT
@@ -49,19 +49,17 @@ public:
     void setUid(const QString &uid);
     
     //take the ownership
-    void createRequest(Request* request);
+    void createRequest(QWeiboRequest* request);
     Q_INVOKABLE void login();
     Q_INVOKABLE void logout();
 //    void updateStatusWithPicture(const QString& status, const QString& fileName);
     
 signals:
-    void error(const QString& error);
-    void loginOk(const QString &accessToken, const QString &uid);
-    void loginOk();
+    void weiboPutFail(const QString& weiboPutFail);
+    void loginSucceed(const QString &accessToken, const QString &uid);
     void loginFail(const QString &fail);
-    void loginFail();
-    void sendOk();
-    void ok(const QString& replyData);
+    //void sendOk();
+    void weiboPutSucceed(const QString& replyData);
     void accessTokenChanged();
 
 public slots:
@@ -71,10 +69,10 @@ private slots:
     void parseOAuth2ReplyData(const QString& data);
     //void sendStatusWithPicture();
     void dumpOk(const QString& data);
-    void dumpError(const QString& error);
+    void dumpError(const QString& weiboPutFail);
 private:
     QWeiboPut *mPut;
-    QList<Request*> mRequests; //pending requests that start when login ok
+    QList<QWeiboRequest*> mRequests; //pending requests that start when login ok
     QString mUser, mPasswd;
     QString mAccessToken;
     QString mUid;
