@@ -69,6 +69,16 @@ void QSinaWeibo::setAccessToken(const QString &token)
     emit accessTokenChanged();
 }
 
+QString QSinaWeibo::getUid() const
+{
+    return mUid;
+}
+
+void QSinaWeibo::setUid(const QString &uid)
+{
+    mUid = uid;
+}
+
 QString QSinaWeibo::getAccessToken() const
 {
     return mAccessToken;

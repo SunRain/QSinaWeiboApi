@@ -34,21 +34,26 @@ class QWEIBOAPI_EXPORT QSinaWeibo : public QObject
     Q_PROPERTY(QString accessToken READ getAccessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString username WRITE setUser)
     Q_PROPERTY(QString password WRITE setPassword)
+    Q_PROPERTY(QString uid READ getUid WRITE setUid)
 
 public:
     explicit QSinaWeibo(QObject *parent = 0);
     ~QSinaWeibo();
     void setUser(const QString& user);
     void setPassword(const QString& passwd);
-    void setAccessToken(const QString& token);
+    
     QString getAccessToken() const;
+    void setAccessToken(const QString& token);
 
+    QString getUid() const;
+    void setUid(const QString &uid);
+    
     //take the ownership
     void createRequest(Request* request);
     Q_INVOKABLE void login();
     Q_INVOKABLE void logout();
 //    void updateStatusWithPicture(const QString& status, const QString& fileName);
-
+    
 signals:
     void error(const QString& error);
     void loginOk(const QString &accessToken, const QString &uid);
