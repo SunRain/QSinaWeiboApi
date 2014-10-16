@@ -40,10 +40,10 @@ QSinaWeibo::QSinaWeibo(QObject *parent)
     //connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(ok()));
     connect(mPut, SIGNAL(fail(QString)), this, SIGNAL(weiboPutFail(QString)));
     connect(mPut, SIGNAL(fail(QString)), this, SLOT(dumpError(QString)));
-    connect(mPut, SIGNAL(weiboPutSucceed(QString)), this, SIGNAL(weiboPutSucceed(QString)));
-    connect(mPut, SIGNAL(weiboPutSucceed(QString)), this, SLOT(dumpOk(QString)));
+    connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(weiboPutSucceed(QString)));
+    connect(mPut, SIGNAL(ok(QString)), this, SLOT(dumpOk(QString)));
     connect(this, SIGNAL(loginSucceed(QString, QString)), SLOT(processNextRequest()), Qt::DirectConnection);
-    connect(this, SIGNAL(loginSucceed(QString, QString)), this, SIGNAL(loginSucceed(QString, QString)));
+    //connect(this, SIGNAL(loginSucceed(QString, QString)), this, SIGNAL(loginSucceed(QString, QString)));
 }
 
 QSinaWeibo::~QSinaWeibo()
@@ -102,6 +102,7 @@ void QSinaWeibo::login()
 {
     if (mUser.isEmpty() || mPasswd.isEmpty()) {
         qWarning("user name and password can't be empty");
+        emit loginFail(QString("user name and password can't be empty"));
         return;
     }
     mPut->reset();
@@ -113,7 +114,7 @@ void QSinaWeibo::login()
     urlQuery.addQueryItem("username", mUser);
     urlQuery.addQueryItem("password", mPasswd);
     url.setQuery(urlQuery);
-    connect(mPut, SIGNAL(weiboPutSucceed(QString)), SLOT(parseOAuth2ReplyData(QString)));
+    connect(mPut, SIGNAL(ok(QString)), SLOT(parseOAuth2ReplyData(QString)));
     connect(mPut, SIGNAL(fail(QString)), SIGNAL(loginFail(QString)));
     mPut->setUrl(url);
     qDebug("begin login...");
@@ -159,11 +160,6 @@ void QSinaWeibo::processNextRequest()
 
 void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
 {
-    static bool in = false;
-    if (in)
-        return;
-    in = true;
-
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
 
@@ -176,11 +172,9 @@ void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
     mAccessToken = jsonObj.value("access_token").toString();
     mUid = jsonObj.value("uid").toString();
 
-    qDebug("token=%s, uid=%s", mAccessToken.constData(), mUid.constData());
-
     disconnect(this, SLOT(parseOAuth2ReplyData(QString)));
-    disconnect(this, SIGNAL(loginFail()));
-    //emit loginOk(mAccessToken, mUid);
+    disconnect(this, SIGNAL(loginFail(QString)));
+    emit loginSucceed(mAccessToken, mUid);
 }
 
 //void QSinaWeibo::sendStatusWithPicture()
