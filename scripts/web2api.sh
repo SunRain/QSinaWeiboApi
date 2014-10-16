@@ -111,7 +111,7 @@ parse_api_page() {
     $DOWNLOAD $API_URL | while read_dom; do
         $API_TABLE && $dom_parser || break #not break, but parse_api_error_dom
     done
-    end_api
+    end_api $api
 }
 
 API_MK=api.mk

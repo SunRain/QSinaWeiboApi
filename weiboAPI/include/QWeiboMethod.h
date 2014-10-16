@@ -10,8 +10,8 @@ class QWeiboMethod : public QObject
     Q_ENUMS(WeiboAction)
 
 public:
-    explicit QWeiboMethod(QObject *parent = 0) {}
-
+    explicit QWeiboMethod(QObject *parent = 0);
+    
     enum WeiboAction {
         WBOPT_GET_STATUSES_PUBLIC_TIMELINE,//获取最新更新的公共微博消息
         WBOPT_GET_STATUSES_FRIENDS_TIMELINE,//获取当前用户所关注用户的最新微博信息 (别名: statuses/home_timeline)
@@ -164,6 +164,11 @@ public:
         WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
         WBOPT_GET_GROUP_USERS_JOINED_STATUSES
     };
+    
+    QString getWeiboActionStr(/*WeiboAction*/int action);
+    
+private:
+   // QStringList mWeiboActionList;
 };
 
 }

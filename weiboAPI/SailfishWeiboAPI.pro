@@ -28,7 +28,8 @@ SOURCES += \
     qweiboapi_global.cpp \
     QSinaWeibo.cpp \
     QWeiboPut.cpp \
-    QWeiboRequest.cpp
+    QWeiboRequest.cpp \
+    QWeiboMethod.cpp
 
     target.path = /usr/share/SailfishWeibo/lib
     INSTALLS += target

@@ -31,9 +31,10 @@
 
 namespace QSinaWeiboAPI {
 
-QWeiboRequest::QWeiboRequest():
+QWeiboRequest::QWeiboRequest(QObject *parent):
     mEditable(false)
   , mType(Get)
+  , QObject(parent)
 {
 }
 
@@ -100,11 +101,11 @@ QWeiboRequest& QWeiboRequest::operator ()(const QString& name, const QVariant& v
 
 
 
-LoginRequest::LoginRequest():
-    QWeiboRequest()
-{
-    mType = Post;
-    mApiUrl = kOAuthUrl;
-}
+//LoginRequest::LoginRequest():
+//    QWeiboRequest()
+//{
+//    mType = Post;
+//    mApiUrl = kOAuthUrl;
+//}
 
 } //namespace QWeiboAPI

@@ -29,6 +29,7 @@
 #include "include/QSinaWeibo.h"
 #include "include/QWeiboPut.h"
 #include "include/QWeiboRequest.h"
+#include "include/QWeiboRequestApiList.h"
 
 
 namespace QSinaWeiboAPI {
@@ -87,6 +88,28 @@ QString QSinaWeibo::getAccessToken() const
 
 void QSinaWeibo::createRequest(QWeiboRequest *request)
 {
+    QVariantMap map;
+    createRequest(request, map);
+}
+
+void QSinaWeibo::createRequest(QWeiboRequest *request, const QVariantMap &args)
+{
+    //自动添加access_token和uid参数
+    (*request)
+            ("access_token", mAccessToken)
+            ("uid", mUid)
+            ;
+    
+    if (!args.isEmpty()) {
+        QList<QString> keys = args.keys();
+        foreach (QString key, keys) {
+            QVariant value = args.value(key);
+            
+            qDebug()<<"add arg for key "<<key<<" value "<<value;
+            
+            (*request)(key, value);            
+        }
+    }
     mRequests.append(request);
     //TODO: better way to check login(from error code)
     if (mAccessToken.isEmpty()) {
@@ -96,6 +119,7 @@ void QSinaWeibo::createRequest(QWeiboRequest *request)
     } else {
         processNextRequest();
     }
+    
 }
 
 void QSinaWeibo::login()
@@ -123,8 +147,31 @@ void QSinaWeibo::login()
 
 void QSinaWeibo::logout()
 {
-
+    
 }
+
+void QSinaWeibo::setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const QVariantMap &args)
+{
+    qDebug()<<"=== setWeiboAction "<<action;
+    
+    QWeiboMethod method;
+    QString actionStr = method.getWeiboActionStr(action);
+    
+    qDebug()<<"=== setWeiboAction "<<action << " str is "<<actionStr;
+    qDebug()<<"=== setWeiboAction arg "<<args;
+    //WBOPT_GET_STATUSES_PUBLIC_TIMELINE
+    QStringList list = actionStr.split("_");
+    QString send = list.at(1);
+    QString calssName;
+    
+    for(int i=2; i<list.length(); i++) {
+        calssName += list.at(i);
+    }
+    
+    qDebug()<<"=== setWeiboAction calssName "<<calssName.toLower();
+    //QWeiboRequest *request = CREATE_REQUEST(calssName);
+}
+
 ////仅支持JPEG、GIF、PNG格式，图片大小小于5M
 //void QSinaWeibo::updateStatusWithPicture(const QString &status, const QString &fileName)
 //{
@@ -144,10 +191,10 @@ void QSinaWeibo::processNextRequest()
     if (mRequests.isEmpty())
         return;
     QWeiboRequest *request = mRequests.takeFirst();
-    (*request)
-            ("access_token", mAccessToken)
-            ("uid", mUid)
-            ;
+//    (*request)
+//            ("access_token", mAccessToken)
+//            ("uid", mUid)
+//            ;
     mPut->reset();
     mPut->setUrl(request->url());
     if (request->getRequestType() == QWeiboRequest::Get) {

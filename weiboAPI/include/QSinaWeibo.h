@@ -24,6 +24,7 @@
 #include <QObject>
 
 #include "qweiboapi_global.h"
+#include "QWeiboMethod.h"
 
 class QWeiboPut;
 namespace QSinaWeiboAPI {
@@ -50,8 +51,12 @@ public:
     
     //take the ownership
     void createRequest(QWeiboRequest* request);
+    void createRequest(QWeiboRequest *request, const QVariantMap &args);
     Q_INVOKABLE void login();
     Q_INVOKABLE void logout();
+    
+    Q_INVOKABLE void setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const QVariantMap &args);
+    
 //    void updateStatusWithPicture(const QString& status, const QString& fileName);
     
 signals:

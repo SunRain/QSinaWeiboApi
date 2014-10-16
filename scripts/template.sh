@@ -17,13 +17,14 @@ echo "REQUEST_API_BEGIN($API, \"$URL\")"
 }
 
 end_api() {
+API=$1
 	:<<EOF
         ;
     }
 };
-
 EOF
 echo "REQUEST_API_END()"
+echo "REQUEST_API_END_TAG($API, ${API}_name)"
 }
 
 BEGIN_PARAMETER="        (\""
