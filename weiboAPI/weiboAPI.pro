@@ -25,13 +25,17 @@ HEADERS += \
     include/qweiboapi_global.h \
     include/dptr.h \
     include/QSinaWeibo.h \
-    include/RequestApiList.h \
-    include/Request.h \
     include/QWeiboPut.h \
-    include/QWeiboMethod.h
+    include/QWeiboMethod.h \
+    include/QWeiboRequestApiList.h \
+    include/QWeiboRequest.h
 
 SOURCES += \
     qweiboapi_global.cpp \
-    Request.cpp \
     QSinaWeibo.cpp \
-    QWeiboPut.cpp
+    QWeiboPut.cpp \
+    QWeiboRequest.cpp \
+    QWeiboMethod.cpp
+
+OTHER_FILES += \
+    SailfishWeiboAPI.pro

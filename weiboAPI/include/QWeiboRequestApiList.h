@@ -8,27 +8,28 @@
 #include "QWeiboRequest.h"
 
 namespace QSinaWeiboAPI {
+class QWeiboRequestApiList {
 
-class FactoryBase
-{
-public:
-    virtual QObject* create() = 0;
-};
+    class FactoryBase
+    {
+    public:
+        virtual QObject* create() = 0;
+    };
 
-QMap<QString, FactoryBase*> factoryMap;
+    QMap<QString, FactoryBase*> factoryMap;
 
-template<class T>
-class Factory : public FactoryBase
-{
-public:
-    Factory() {
-        factoryMap.insert(T::staticMetaObject.className(), this);
-    }
-    
-    virtual QWeiboRequest* create() {
-        return new T;
-    }
-};
+    template<class T>
+    class Factory : public FactoryBase
+    {
+    public:
+        Factory() {
+            factoryMap.insert(T::staticMetaObject.className(), this);
+        }
+
+        virtual QWeiboRequest* create() {
+            return new T;
+        }
+    };
 
 //TODO: post and get use different macro
 #define REQUEST_API_BEGIN(Class, APIPATH) \
@@ -119,7 +120,7 @@ REQUEST_API_BEGIN(statuses_user_timeline, "2/statuses/user_timeline")
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
         ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 REQUEST_API_END()
-REQUEST_API_END_TAG(statuses_user_timeline)
+REQUEST_API_END_TAG(statuses_user_timeline, statuses_user_timeline_name)
 //// 2/statuses/user_timeline/ids: 获取用户发布的微博的ID
 //REQUEST_API_BEGIN(statuses_user_timeline_ids, "2/statuses/user_timeline/ids")
 //        ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -144,7 +145,7 @@ REQUEST_API_BEGIN(statuses_timeline_batch, "2/statuses/timeline_batch")
         ("base_app", 0)  //是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
         ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
 REQUEST_API_END()
-REQUEST_API_END_TAG(statuses_timeline_batch)
+REQUEST_API_END_TAG(statuses_timeline_batch, statuses_timeline_batch_name)
 // 2/statuses/repost_timeline: 返回一条原创微博的最新转发微博 
 REQUEST_API_BEGIN(statuses_repost_timeline, "2/statuses/repost_timeline")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -180,7 +181,7 @@ REQUEST_API_BEGIN(statuses_mentions, "2/statuses/mentions")
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博、2：来自微群，默认为0。
         ("filter_by_type", 0)  //原创筛选类型，0：全部微博、1：原创的微博，默认为0。
 REQUEST_API_END()
-REQUEST_API_END_TAG(statuses_mentions)
+REQUEST_API_END_TAG(statuses_mentions, statuses_mentions_name)
 // 2/statuses/mentions/ids: 获取@当前用户的最新微博的ID  
 REQUEST_API_BEGIN(statuses_mentions_ids, "2/statuses/mentions/ids")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -193,7 +194,7 @@ REQUEST_API_BEGIN(statuses_mentions_ids, "2/statuses/mentions/ids")
         ("filter_by_source", 0)  //来源筛选类型，0：全部、1：来自微博、2：来自微群，默认为0。
         ("filter_by_type", 0)  //原创筛选类型，0：全部微博、1：原创的微博，默认为0。
 REQUEST_API_END()
-REQUEST_API_END_TAG(statuses_mentions_ids)
+REQUEST_API_END_TAG(statuses_mentions_ids, statuses_mentions_ids_name)
 // 2/statuses/show: 根据ID获取单条微博信息 
 REQUEST_API_BEGIN(statuses_show, "2/statuses/show")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
@@ -1804,6 +1805,7 @@ REQUEST_API_END_TAG(Location_error2, Location_error2_name)
 //        ("feature", 0)  //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
 //        ("trim_user", 0)  //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
 //REQUEST_API_END()
+};
 }
 
 #endif

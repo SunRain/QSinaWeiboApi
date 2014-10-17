@@ -6,8 +6,7 @@
 #include <QtDebug>
 
 #include "QSinaWeibo.h"
-#include "Request.h"
-#include "RequestApiList.h"
+#include "QWeiboRequestApiList.h"
 
 using namespace QSinaWeiboAPI;
 
