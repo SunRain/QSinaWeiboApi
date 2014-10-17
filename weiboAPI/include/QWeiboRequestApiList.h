@@ -36,9 +36,10 @@ static QMap<QString, FactoryBase*> factoryMap;
     class Factory##TypeName : public FactoryBase { \
     public: \
     Factory##TypeName()	{ \
+    qDebug()<<" Factory insert " <<#TypeName; \
         factoryMap[#TypeName] = this;\
     } \
-    virtual QWeiboRequest *Create() { \
+    virtual QWeiboRequest *create() { \
         return new TypeName;\
     } \
 }__##TypeName;
@@ -77,7 +78,18 @@ static QMap<QString, FactoryBase*> factoryMap;
 
 class QWeiboRequestApiList {
 public:
-    QWeiboRequest *createRequest(const QString &className); 
+    QWeiboRequest *createRequest(const QString &className) {
+        
+        qDebug()<<" factoryMap "<<factoryMap.keys();
+        qDebug()<<" createRequest for "<<className;
+        
+        FactoryBase *base = factoryMap[className];
+        if (base == 0) {
+            qDebug()<<" createRequest NULL ";
+            return 0;
+        }
+        return base->create();
+    }
 
 public:
 
