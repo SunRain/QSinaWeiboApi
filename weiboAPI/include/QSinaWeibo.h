@@ -29,6 +29,7 @@
 class QWeiboPut;
 namespace QSinaWeiboAPI {
 class QWeiboRequest;
+//class QWeiboRequestApiList;
 class QWEIBOAPI_EXPORT QSinaWeibo : public QObject
 {
     Q_OBJECT
@@ -49,16 +50,16 @@ public:
     QString getUid() const;
     void setUid(const QString &uid);
     
-    //take the ownership
-    void createRequest(QWeiboRequest* request);
-    void createRequest(QWeiboRequest *request, const QVariantMap &args);
     Q_INVOKABLE void login();
     Q_INVOKABLE void logout();
     
     Q_INVOKABLE void setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const QVariantMap &args);
     
 //    void updateStatusWithPicture(const QString& status, const QString& fileName);
-    
+protected:
+    //take the ownership
+    void createRequest(QWeiboRequest* request);
+    void createRequest(QWeiboRequest *request, const QVariantMap &args);
 signals:
     void weiboPutFail(const QString& weiboPutFail);
     void loginSucceed(const QString &accessToken, const QString &uid);
@@ -82,6 +83,7 @@ private:
     QString mAccessToken;
     QString mUid;
     QString mStatus, mFile;
+    //QWeiboRequestApiList  *mWeiboRequestApiList;
 };
 } //namespace QWeiboAPI
 #endif // QWEIBOAPI_WEIBO_H

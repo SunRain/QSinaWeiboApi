@@ -38,6 +38,8 @@ QSinaWeibo::QSinaWeibo(QObject *parent)
     :QObject(parent)
 {
     mPut = new QWeiboPut(this);
+    //mWeiboRequestApiList = new QWeiboRequestApiList(this);
+
     //connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(ok()));
     connect(mPut, SIGNAL(fail(QString)), this, SIGNAL(weiboPutFail(QString)));
     connect(mPut, SIGNAL(fail(QString)), this, SLOT(dumpError(QString)));
@@ -150,7 +152,7 @@ void QSinaWeibo::logout()
     
 }
 
-void QSinaWeibo::setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const QVariantMap &args)
+void QSinaWeibo::setWeiboAction(int action, const QVariantMap &args)
 {
     qDebug()<<"=== setWeiboAction "<<action;
     
@@ -162,14 +164,24 @@ void QSinaWeibo::setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const Q
     //WBOPT_GET_STATUSES_PUBLIC_TIMELINE
     QStringList list = actionStr.split("_");
     QString send = list.at(1);
-    QString calssName;
-    
-    for(int i=2; i<list.length(); i++) {
-        calssName += list.at(i);
+    qDebug()<<"=== setWeiboAction list "<<list.at(0);
+    qDebug()<<"=== setWeiboAction list "<<list.at(1);
+
+    QString className = actionStr.replace(QString("%1_%2_").arg(list.at(0)).arg(list.at(1)), "");
+
+    qDebug()<<"=== setWeiboAction calssName "<<className.toLower();
+    QWeiboRequestApiList api;
+    QWeiboRequest *request = api.createRequest(className.toLower());
+    if (request == 0) {
+        qDebug()<<"=== no request ";
+        return;
     }
-    
-    qDebug()<<"=== setWeiboAction calssName "<<calssName.toLower();
-    //QWeiboRequest *request = CREATE_REQUEST(calssName);
+    if (send == "GET") {
+        request->setRequestType(QWeiboRequest::Get);
+    } else {
+        request->setRequestType(QWeiboRequest::Post);
+    }
+    createRequest(request, args);
 }
 
 ////仅支持JPEG、GIF、PNG格式，图片大小小于5M
