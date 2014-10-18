@@ -13,7 +13,7 @@ public:
     explicit QWeiboMethod(QObject *parent = 0);
     
     enum WeiboAction {
-        WBOPT_GET_STATUSES_PUBLIC_TIMELINE,//获取最新更新的公共微博消息
+        WBOPT_GET_STATUSES_PUBLIC_TIMELINE = 0,//获取最新更新的公共微博消息
         WBOPT_GET_STATUSES_FRIENDS_TIMELINE,//获取当前用户所关注用户的最新微博信息 (别名: statuses/home_timeline)
         WBOPT_GET_STATUSES_HOME_TIMELINE,//获取当前登录用户及其所关注用户的最新微博消息
         WBOPT_GET_STATUSES_USER_TIMELINE,//获取用户发布的微博信息列表

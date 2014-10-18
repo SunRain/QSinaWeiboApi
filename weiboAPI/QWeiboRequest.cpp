@@ -31,10 +31,10 @@
 
 namespace QSinaWeiboAPI {
 
-QWeiboRequest::QWeiboRequest(QObject *parent):
+QWeiboRequest::QWeiboRequest():
     mEditable(false)
   , mType(Get)
-  , QObject(parent)
+//  , QObject(parent)
 {
 }
 

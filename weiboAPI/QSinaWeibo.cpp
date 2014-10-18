@@ -105,7 +105,7 @@ void QSinaWeibo::createRequest(QWeiboRequest *request, const QVariantMap &args)
     if (!args.isEmpty()) {
         QList<QString> keys = args.keys();
         foreach (QString key, keys) {
-            QVariant value = args.value(key);
+            QVariant value = args[key];
             
             qDebug()<<"add arg for key "<<key<<" value "<<value;
             
@@ -174,6 +174,7 @@ void QSinaWeibo::setWeiboAction(int action, const QVariantMap &args)
     QWeiboRequest *request = api.createRequest(className.toLower());
     if (request == 0) {
         qDebug()<<"=== no request ";
+        emit weiboPutFail(QString("no request"));
         return;
     }
     if (send == "GET") {

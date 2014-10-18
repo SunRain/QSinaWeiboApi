@@ -36,7 +36,6 @@ static QMap<QString, FactoryBase*> factoryMap;
     class Factory##TypeName : public FactoryBase { \
     public: \
     Factory##TypeName()	{ \
-    qDebug()<<" Factory insert " <<#TypeName; \
         factoryMap[#TypeName] = this;\
     } \
     virtual QWeiboRequest *create() { \
@@ -50,7 +49,6 @@ static QMap<QString, FactoryBase*> factoryMap;
     class QWEIBOAPI_EXPORT Class : public QWeiboRequest { \
     public: \
         Class() {\
-            qDebug()<<"=== Class "<<Class::staticMetaObject.className(); \
             prepare(); \
         } \
     protected: \

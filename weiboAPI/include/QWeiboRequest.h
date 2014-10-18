@@ -36,15 +36,15 @@ static const QString kApiHost = "https://api.weibo.com/";
 static QString sAppKey = "2323547071";
 static QString sAppSecret = "16ed80cc77fea11f7f7e96eca178ada3";
 
-class QWEIBOAPI_EXPORT QWeiboRequest : public QObject
+class QWEIBOAPI_EXPORT QWeiboRequest/* : public QObject*/
 {
-    Q_OBJECT
+//    Q_OBJECT
 public:
     enum WeiboRequestType {
         Get, Post
     };
 
-    QWeiboRequest(QObject *parent = 0);
+    QWeiboRequest(/*QObject *parent = 0*/);
     virtual ~QWeiboRequest() {}
     
     WeiboRequestType getRequestType() const;
