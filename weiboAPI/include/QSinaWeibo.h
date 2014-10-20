@@ -53,7 +53,8 @@ public:
     Q_INVOKABLE void login();
     Q_INVOKABLE void logout();
     
-    Q_INVOKABLE void setWeiboAction(/*QWeiboMethod::WeiboAction*/int action, const QVariantMap &args);
+    ///TOOD: 似乎枚举类型在qml里面传递有问题，所以用int来表示WeiboAction
+    Q_INVOKABLE void setWeiboAction(int action, const QVariantMap &args);
     
 //    void updateStatusWithPicture(const QString& status, const QString& fileName);
 protected:

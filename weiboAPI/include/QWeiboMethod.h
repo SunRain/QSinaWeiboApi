@@ -165,7 +165,7 @@ public:
         WBOPT_GET_GROUP_USERS_JOINED_STATUSES
     };
     
-    QString getWeiboActionStr(/*WeiboAction*/int action);
+    QString getWeiboActionStr(int action);
     
 private:
    // QStringList mWeiboActionList;
