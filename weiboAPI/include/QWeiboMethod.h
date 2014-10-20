@@ -162,7 +162,9 @@ public:
         WBOPT_GET_GROUPS_CHAT_BLOCK,
         WBOPT_GET_GROUPS_CHAT_UNBLOCK,
         WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
-        WBOPT_GET_GROUP_USERS_JOINED_STATUSES
+        WBOPT_GET_GROUP_USERS_JOINED_STATUSES,
+
+        WBOPT_POST_OAUTH2_GET_TOKEN_INFO //查询用户access_token的授权相关信息，包括授权时间，过期时间和scope权限
     };
     
     QString getWeiboActionStr(int action);

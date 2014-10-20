@@ -40,7 +40,7 @@ class QWEIBOAPI_EXPORT QSinaWeibo : public QObject
 
 public:
     explicit QSinaWeibo(QObject *parent = 0);
-    ~QSinaWeibo();
+    virtual ~QSinaWeibo();
     void setUser(const QString& user);
     void setPassword(const QString& passwd);
     
