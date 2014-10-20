@@ -77,8 +77,6 @@ static QMap<QString, FactoryBase*> factoryMap;
 class QWeiboRequestApiList {
 public:
     QWeiboRequest *createRequest(const QString &className) {
-        
-        qDebug()<<" factoryMap "<<factoryMap.keys();
         qDebug()<<" createRequest for "<<className;
         
         FactoryBase *base = factoryMap[className];
