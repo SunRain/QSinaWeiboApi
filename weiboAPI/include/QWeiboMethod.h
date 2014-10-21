@@ -13,7 +13,9 @@ public:
     explicit QWeiboMethod(QObject *parent = 0);
     
     enum WeiboAction {
-        WBOPT_GET_STATUSES_PUBLIC_TIMELINE = 0,//获取最新更新的公共微博消息
+        WBOPT_GET_ACTION_NULL = 0,
+        
+        WBOPT_GET_STATUSES_PUBLIC_TIMELINE, //获取最新更新的公共微博消息
         WBOPT_GET_STATUSES_FRIENDS_TIMELINE,//获取当前用户所关注用户的最新微博信息 (别名: statuses/home_timeline)
         WBOPT_GET_STATUSES_HOME_TIMELINE,//获取当前登录用户及其所关注用户的最新微博消息
         WBOPT_GET_STATUSES_USER_TIMELINE,//获取用户发布的微博信息列表
@@ -162,12 +164,13 @@ public:
         WBOPT_GET_GROUPS_CHAT_BLOCK,
         WBOPT_GET_GROUPS_CHAT_UNBLOCK,
         WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
-        WBOPT_GET_GROUP_USERS_JOINED_STATUSES,
+        WBOPT_GET_GROUP_USERS_JOINED_STATUSES
 
-        WBOPT_POST_OAUTH2_GET_TOKEN_INFO //查询用户access_token的授权相关信息，包括授权时间，过期时间和scope权限
+        //WBOPT_POST_OAUTH2_GET_TOKEN_INFO //查询用户access_token的授权相关信息，包括授权时间，过期时间和scope权限
     };
     
     QString getWeiboActionStr(int action);
+    /*QWeiboMethod::WeiboAction*/int getWeiboAction(const QString &weiboActionStr);
     
 private:
    // QStringList mWeiboActionList;

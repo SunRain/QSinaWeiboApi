@@ -1804,7 +1804,7 @@ REQUEST_API_END_TAG(Location_error2, Location_error2_name)
 //REQUEST_API_END()
 //REQUEST_API_END_TAG(OAuth2_access_token)
 //// Oauth2/get_token_info: 查询用户access_token的授权相关信息
-REQUEST_API_BEGIN(oauth2_get_token_info, "Oauth2/get_token_info")
+REQUEST_API_BEGIN(oauth2_get_token_info, "oauth2/get_token_info")
         ("access_token", "")  //
 REQUEST_API_END()
 REQUEST_API_END_TAG(oauth2_get_token_info, oauth2_get_token_info_name)

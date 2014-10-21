@@ -29,6 +29,7 @@
 namespace QSinaWeiboAPI {
 
 static const QString kOAuthUrl = "https://api.weibo.com/oauth2/access_token";
+static const QString kTokenCheckUrl = "https://api.weibo.com/oauth2/get_token_info";
 static const QString kApiHost = "https://api.weibo.com/";
 //appkey, appsecret are weico for iOS
 //static QString sAppKey = "82966982";

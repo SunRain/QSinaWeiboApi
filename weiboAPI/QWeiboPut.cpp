@@ -22,6 +22,7 @@
 
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
+#include <QUrl>
 #include <QtDebug>
 
 QWeiboPut::QWeiboPut(QObject *parent)
@@ -127,7 +128,7 @@ void QWeiboPut::DoReplyError()
     //disconnect(reply, SIGNAL(finished()), this, SLOT(DoFinished()));
     //disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(DoReplyError()));
     QString err = reply->errorString();
-    emit fail(err);
+    emit fail(reply->request().url(), err);
     qWarning("Network error: %s", qPrintable(err));
     mSuccess = false;
     //qApp->exit(1);
@@ -149,19 +150,15 @@ void QWeiboPut::DoFinished()
     qDebug() << "Ok: " << mSuccess;// << "+++reply: " << QString::fromUtf8(res.constData());
     if (mSuccess) {
         // in utf8. http://open.weibo.com/wiki/%E6%8E%A5%E5%8F%A3%E9%97%AE%E9%A2%98
-        emit ok(QString::fromUtf8(res.constData()));
-    } else {
+        emit ok(reply->request().url(), QString::fromUtf8(res.constData()));
+    } /*else {
         //emit fail(reply->errorString()); //emit in DoReplyError()
-    }
+    }*/
 
     QNetworkRequest r = reply->request();
 
     foreach(QByteArray h, r.rawHeaderList())
-        qDebug("Head [%s] = %s", h.constData(), r.rawHeader(h).constData());
-
-    //qDebug("Network finished. Result: %s", res.trimmed().constData());
-    //reply->deleteLater();
-    //qApp->exit(!mSuccess);
+        qDebug("Head [%s] = %s", h.constData(), r.rawHeader(h).constData());  
 }
 
 void QWeiboPut::init()

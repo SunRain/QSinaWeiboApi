@@ -45,8 +45,8 @@ public:
     void setUrl(const QUrl& pUrl);
 
 signals:
-    void fail(const QString& error);
-    void ok(const QString& replyData);
+    void fail(const QUrl &requestedUrl, const QString& error);
+    void ok(const QUrl &requestedUrl, const QString& replyData);
 public slots:
     void abort();
 private slots:

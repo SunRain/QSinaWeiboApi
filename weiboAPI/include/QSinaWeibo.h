@@ -51,6 +51,7 @@ public:
     void setUid(const QString &uid);
     
     Q_INVOKABLE void login();
+    Q_INVOKABLE void checkToken(const QString &accessToken);
     Q_INVOKABLE void logout();
     
     ///TOOD: 似乎枚举类型在qml里面传递有问题，所以用int来表示WeiboAction
@@ -61,22 +62,28 @@ protected:
     //take the ownership
     void createRequest(QWeiboRequest* request);
     void createRequest(QWeiboRequest *request, const QVariantMap &args);
+private:
+    QString parseRequestedWeiboPutUrl(const QUrl &url);
 signals:
-    void weiboPutFail(const QString& weiboPutFail);
+    void weiboPutFail(/*QWeiboMethod::WeiboAction*/int action, const QString& weiboPutFail);
     void loginSucceed(const QString &accessToken, const QString &uid);
-    void loginFail(const QString &fail);
+    void loginFail(const QUrl &requestedUrl,const QString &fail);
+    void tokenExpired(bool tokenExpired);
     //void sendOk();
-    void weiboPutSucceed(const QString& replyData);
+    void weiboPutSucceed(/*QWeiboMethod::WeiboAction*/int action, const QString& replyData);
     void accessTokenChanged();
 
 public slots:
 
 private slots:
+    void fail(const QUrl &requestedUrl, const QString& error);
+    void ok(const QUrl &requestedUrl, const QString& replyData);
     void processNextRequest(); //process 1 request
-    void parseOAuth2ReplyData(const QString& data);
+    void parseOAuth2ReplyData(const QUrl &requestedUrl, const QString& data);
+    void parseTokenCheckReplyData(const QUrl &requestedUrl, const QString& data);
     //void sendStatusWithPicture();
-    void dumpOk(const QString& data);
-    void dumpError(const QString& weiboPutFail);
+    void dumpOk(const QUrl &requestedUrl, const QString& data);
+    void dumpError(const QUrl &requestedUrl, const QString& weiboPutFail);
 private:
     QWeiboPut *mPut;
     QList<QWeiboRequest*> mRequests; //pending requests that start when login ok
@@ -84,6 +91,9 @@ private:
     QString mAccessToken;
     QString mUid;
     QString mStatus, mFile;
+    QWeiboMethod mWeiboMethod;
+    
+    bool mTokenChecked; //ugly fix，parseTokenCheckReplyData不知为何被调用了两次
     //QWeiboRequestApiList  *mWeiboRequestApiList;
 };
 } //namespace QWeiboAPI

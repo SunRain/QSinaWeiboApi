@@ -35,18 +35,20 @@
 namespace QSinaWeiboAPI {
 
 QSinaWeibo::QSinaWeibo(QObject *parent)
-    :QObject(parent)
+    :QObject(parent),
+    mTokenChecked(false)
 {
     mPut = new QWeiboPut(this);
     //mWeiboRequestApiList = new QWeiboRequestApiList(this);
 
     //connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(ok()));
-    connect(mPut, SIGNAL(fail(QString)), this, SIGNAL(weiboPutFail(QString)));
-    connect(mPut, SIGNAL(fail(QString)), this, SLOT(dumpError(QString)));
-    connect(mPut, SIGNAL(ok(QString)), this, SIGNAL(weiboPutSucceed(QString)));
-    connect(mPut, SIGNAL(ok(QString)), this, SLOT(dumpOk(QString)));
+    connect(mPut, SIGNAL(fail(QUrl,QString)), this, SLOT(fail(QUrl,QString)));
+    connect(mPut, SIGNAL(fail(QUrl,QString)), this, SLOT(dumpError(QUrl, QString)));
+    connect(mPut, SIGNAL(ok(QUrl,QString)), this, SLOT(ok(QUrl,QString)));
+    connect(mPut, SIGNAL(ok(QUrl,QString)), this, SLOT(dumpOk(QUrl, QString)));
     connect(this, SIGNAL(loginSucceed(QString, QString)), SLOT(processNextRequest()), Qt::DirectConnection);
     //connect(this, SIGNAL(loginSucceed(QString, QString)), this, SIGNAL(loginSucceed(QString, QString)));
+    connect(this, SIGNAL(tokenExpired(bool)), SLOT(processNextRequest()), Qt::DirectConnection);
 }
 
 QSinaWeibo::~QSinaWeibo()
@@ -117,18 +119,46 @@ void QSinaWeibo::createRequest(QWeiboRequest *request, const QVariantMap &args)
     if (mAccessToken.isEmpty()) {
         qDebug("Not login.");
         //login();
-        emit weiboPutFail(QString("AccessToken empty!!"));
+        emit weiboPutFail(QWeiboMethod::WBOPT_GET_ACTION_NULL, QString("AccessToken empty!!"));
     } else {
         processNextRequest();
     }
     
 }
 
+QString QSinaWeibo::parseRequestedWeiboPutUrl(const QUrl &url)
+{
+    //    /2/statuses/friends_timeline.json
+    //    /oauth2/access_token
+    QStringList pathList = url.path().replace(".json", "").split("/");
+    QString action;
+    if (!pathList.isEmpty()) {
+        for(int i=1; i<pathList.length() -1; i++) {
+            if (pathList[i] == "2")
+                continue;
+            action += pathList[i];
+            action += "_";
+        }
+        action += pathList.last();
+    }
+    return action;
+}
+
+void QSinaWeibo::fail(const QUrl &requestedUrl, const QString &error)
+{
+    emit weiboPutFail(mWeiboMethod.getWeiboAction(parseRequestedWeiboPutUrl(requestedUrl)), error);
+}
+
+void QSinaWeibo::ok(const QUrl &requestedUrl, const QString &replyData)
+{
+    emit weiboPutSucceed(mWeiboMethod.getWeiboAction(parseRequestedWeiboPutUrl(requestedUrl)), replyData);
+}
+
 void QSinaWeibo::login()
 {
     if (mUser.isEmpty() || mPasswd.isEmpty()) {
         qWarning("user name and password can't be empty");
-        emit loginFail(QString("user name and password can't be empty"));
+        emit loginFail(QUrl(), QString("user name and password can't be empty"));
         return;
     }
     mPut->reset();
@@ -140,10 +170,29 @@ void QSinaWeibo::login()
     urlQuery.addQueryItem("username", mUser);
     urlQuery.addQueryItem("password", mPasswd);
     url.setQuery(urlQuery);
-    connect(mPut, SIGNAL(ok(QString)), SLOT(parseOAuth2ReplyData(QString)));
-    connect(mPut, SIGNAL(fail(QString)), SIGNAL(loginFail(QString)));
+    connect(mPut, SIGNAL(ok(QUrl,QString)), SLOT(parseOAuth2ReplyData(QUrl, QString)));
+    connect(mPut, SIGNAL(fail(QUrl,QString)), SIGNAL(loginFail(QUrl, QString)));
     mPut->setUrl(url);
     qDebug("begin login...");
+    mPut->post();
+}
+
+void QSinaWeibo::checkToken(const QString &accessToken)
+{
+    qDebug()<<"===== checkToken for "<<accessToken;
+    if (accessToken.isEmpty()) {
+        emit tokenExpired(true);
+        return;
+    }
+    mPut->reset();
+    QUrl url(kTokenCheckUrl);
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("access_token", accessToken);
+    url.setQuery(urlQuery);
+    connect(mPut, SIGNAL(ok(QUrl,QString)), SLOT(parseTokenCheckReplyData(QUrl,QString)));
+    connect(mPut, SIGNAL(fail(QUrl,QString)), SLOT(parseTokenCheckReplyData(QUrl,QString)));
+    mPut->setUrl(url);
+    qDebug("begin checkToken...");
     mPut->post();
 }
 
@@ -156,8 +205,8 @@ void QSinaWeibo::setWeiboAction(int action, const QVariantMap &args)
 {
     qDebug()<<"=== setWeiboAction "<<action;
     
-    QWeiboMethod method;
-    QString actionStr = method.getWeiboActionStr(action);
+    //QWeiboMethod method;
+    QString actionStr = mWeiboMethod.getWeiboActionStr(action);
     
     qDebug()<<"=== setWeiboAction "<<action << " str is "<<actionStr;
     qDebug()<<"=== setWeiboAction arg "<<args;
@@ -174,7 +223,7 @@ void QSinaWeibo::setWeiboAction(int action, const QVariantMap &args)
     QWeiboRequest *request = api.createRequest(className.toLower());
     if (request == 0) {
         qDebug()<<"=== no request ";
-        emit weiboPutFail(QString("no request"));
+        emit weiboPutFail(QWeiboMethod::WBOPT_GET_ACTION_NULL, QString("no request"));
         return;
     }
     if (send == "GET") {
@@ -218,23 +267,57 @@ void QSinaWeibo::processNextRequest()
     delete request;
 }
 
-void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
+void QSinaWeibo::parseOAuth2ReplyData(const QUrl &requestedUrl, const QString &data)
 {
+    Q_UNUSED(requestedUrl);
+
+    disconnect(this, SLOT(parseOAuth2ReplyData(QUrl, QString)));
+    disconnect(this, SIGNAL(loginFail(QUrl, QString)));
+    
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
 
     if (error.error != QJsonParseError::NoError) {
-        emit loginFail(QString("QJsonParseError %1").arg(error.errorString()));
+        emit loginFail(QUrl(), QString("QJsonParseError %1").arg(error.errorString()));
         return;
     }
     QJsonObject jsonObj = doc.object();
 
     mAccessToken = jsonObj.value("access_token").toString();
     mUid = jsonObj.value("uid").toString();
-
-    disconnect(this, SLOT(parseOAuth2ReplyData(QString)));
-    disconnect(this, SIGNAL(loginFail(QString)));
     emit loginSucceed(mAccessToken, mUid);
+}
+
+void QSinaWeibo::parseTokenCheckReplyData(const QUrl &requestedUrl, const QString &data)
+{
+    Q_UNUSED(requestedUrl);
+    
+    disconnect(this, SLOT(parseTokenCheckReplyData(QUrl, QString)));
+
+    //Ugly Fix
+    ///FIXME 槽函数被调用了两次？ 为何？
+    if (mTokenChecked) 
+        return;
+    mTokenChecked = true;
+    
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
+
+    if (error.error != QJsonParseError::NoError) {
+        emit tokenExpired(true);
+        return;
+    }
+    QJsonObject jsonObj = doc.object();
+    QJsonValue value = jsonObj.value("expire_in");
+    
+    qDebug()<<"=== parseTokenCheckReplyData in  " <<value.toDouble(-1);
+
+    
+    if (value.isUndefined() || value.toDouble(-1) < 1) {
+        emit tokenExpired(true);
+    } else {
+        emit tokenExpired(false);
+    }
 }
 
 //void QSinaWeibo::sendStatusWithPicture()
@@ -272,13 +355,15 @@ void QSinaWeibo::parseOAuth2ReplyData(const QString &data)
 //    mPut->upload();
 //}
 
-void QSinaWeibo::dumpError(const QString &error)
+void QSinaWeibo::dumpError(const QUrl &requestedUrl, const QString &error)
 {
+    Q_UNUSED(requestedUrl);
     qDebug() << ">>>>>>>" << __FUNCTION__ << error  << "<<<<<<<";
 }
 
-void QSinaWeibo::dumpOk(const QString &data)
+void QSinaWeibo::dumpOk(const QUrl &requestedUrl, const QString &data)
 {
+    Q_UNUSED(requestedUrl);
     qDebug() << ">>>>>>>" << __FUNCTION__ << data << "<<<<<<<";
 }
 
