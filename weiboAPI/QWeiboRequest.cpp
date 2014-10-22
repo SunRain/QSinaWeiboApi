@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QUrlQuery>
 #include <QImage>
+#include <QString>
 
 #include "include/QWeiboPut.h"
 #include "include/QWeiboRequest.h"
@@ -65,6 +66,7 @@ QUrl QWeiboRequest::url() const
             QString value = it.value().toString();
             if (value.isEmpty())
                 continue;
+            value = value.trimmed();
             urlQuery.addQueryItem(it.key(), value);
         }
         url.setQuery(urlQuery);
