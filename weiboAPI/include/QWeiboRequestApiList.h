@@ -531,7 +531,7 @@ REQUEST_API_BEGIN(friendships_friends, "2/friendships/friends")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("uid", 0)  //需要查询的用户UID。
         ("screen_name", "")  //需要查询的用户昵称。
-        ("count", 0)  //单页返回的记录条数，默认为50，最大不超过200。
+        ("count", 50)  //单页返回的记录条数，默认为50，最大不超过200。
         ("cursor", 0)  //返回结果的游标，下一页用返回值里的next_cursor，上一页用previous_cursor，默认为0。
         ("trim_status", 0)  //返回值中user字段中的status字段开关，0：返回完整status字段、1：status字段仅返回status_id，默认为1。
 REQUEST_API_END()
@@ -559,8 +559,8 @@ REQUEST_API_BEGIN(friendships_friends_bilateral, "2/friendships/friends/bilatera
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("uid", 0)  //需要获取双向关注列表的用户UID。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
         ("sort", 0)  //排序类型，0：按关注时间最近排序，默认为0。
 REQUEST_API_END()
 REQUEST_API_END_TAG(friendships_friends_bilateral, friendships_friends_bilateral_name)
@@ -590,7 +590,7 @@ REQUEST_API_BEGIN(friendships_followers, "2/friendships/followers")
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("uid", 0)  //需要查询的用户UID。
         ("screen_name", "")  //需要查询的用户昵称。
-        ("count", 0)  //单页返回的记录条数，默认为50，最大不超过200。
+        ("count", 50)  //单页返回的记录条数，默认为50，最大不超过200。
         ("cursor", 0)  //返回结果的游标，下一页用返回值里的next_cursor，上一页用previous_cursor，默认为0。
         ("trim_status", 0)  //返回值中user字段中的status字段开关，0：返回完整status字段、1：status字段仅返回status_id，默认为1。
 REQUEST_API_END()

@@ -363,8 +363,8 @@ void QSinaWeibo::dumpError(const QUrl &requestedUrl, const QString &error)
 
 void QSinaWeibo::dumpOk(const QUrl &requestedUrl, const QString &data)
 {
-    Q_UNUSED(requestedUrl);
-    qDebug() << ">>>>>>>" << __FUNCTION__ << data << "<<<<<<<";
+//    Q_UNUSED(requestedUrl);
+//    qDebug() << ">>>>>>>" << __FUNCTION__ << data << "<<<<<<<";
 }
 
 } //namespace QWeiboAPI
