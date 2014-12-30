@@ -765,7 +765,7 @@ REQUEST_API_END_TAG(friendships_groups_create, friendships_groups_create_name)
 REQUEST_API_BEGIN(friendships_groups_update, "2/friendships/groups/update")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("list_id", 0)  //需要更新的好友分组ID，建议使用返回值里的idstr，只能更新当前登录用户自己创建的分组。
+        ("list_id", "")  //需要更新的好友分组ID，建议使用返回值里的idstr，只能更新当前登录用户自己创建的分组。
         ("name", "")  //好友分组更新后的名称，不超过8个汉字，16个半角字符。
         ("description", "")  //好友分组更新后的描述，不超过70个汉字，140个半角字符。
         ("tags", "")  //好友分组更新后的标签，多个之间用逗号分隔，最多不超过10个，每个不超过7个汉字，14个半角字符。
