@@ -25,6 +25,7 @@
 #include <QtDebug>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QTimer>
 
 #include "include/QSinaWeibo.h"
 #include "include/QWeiboPut.h"
@@ -121,7 +122,7 @@ void QSinaWeibo::createRequest(QWeiboRequest *request, const QVariantMap &args)
         //login();
         emit weiboPutFail(QWeiboMethod::WBOPT_GET_ACTION_NULL, QString("AccessToken empty!!"));
     } else {
-        processNextRequest();
+        QTimer::singleShot(500, this, SLOT(processNextRequest()));
     }
     
 }
