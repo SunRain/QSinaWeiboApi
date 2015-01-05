@@ -867,8 +867,8 @@ REQUEST_API_END_TAG(account_end_session, account_end_session_name)
 REQUEST_API_BEGIN(favorites, "2/favorites")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
-        ("count", 0)  //单页返回的记录条数，默认为50。
-        ("page", 0)  //返回结果的页码，默认为1。
+        ("count", 50)  //单页返回的记录条数，默认为50。
+        ("page", 1)  //返回结果的页码，默认为1。
 REQUEST_API_END()
 REQUEST_API_END_TAG(favorites, favorites_name)
 // 2/favorites/ids: 获取当前用户的收藏列表的ID
