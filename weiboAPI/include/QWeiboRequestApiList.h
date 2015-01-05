@@ -1121,7 +1121,7 @@ REQUEST_API_BEGIN(search_suggestions_at_users, "2/search/suggestions/at_users")
         ("source", "")  //采用OAuth授权方式不需要此参数，其他授权方式为必填参数，数值为应用的AppKey。
         ("access_token", "")  //采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
         ("q", "")  //搜索的关键字，必须做URLencoding。
-        ("count", 0)  //返回的记录条数，默认为10，粉丝最多1000，关注最多2000。
+        ("count", 40)  //返回的记录条数，默认为10，粉丝最多1000，关注最多2000。
         ("type", 0)  //联想类型，0：关注、1：粉丝。
         ("range", 0)  //联想范围，0：只联想关注人、1：只联想关注人的备注、2：全部，默认为2。
 REQUEST_API_END()
