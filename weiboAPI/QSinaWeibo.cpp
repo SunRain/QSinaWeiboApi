@@ -206,18 +206,18 @@ void QSinaWeibo::logout()
 
 void QSinaWeibo::setWeiboAction(int action, const QVariantMap &args)
 {
-    qDebug()<<"=== setWeiboAction "<<action;
+//    qDebug()<<"=== setWeiboAction "<<action;
     
     //QWeiboMethod method;
     QString actionStr = mWeiboMethod.getWeiboActionStr(action);
     
-    qDebug()<<"=== setWeiboAction "<<action << " str is "<<actionStr;
-    qDebug()<<"=== setWeiboAction arg "<<args;
+//    qDebug()<<"=== setWeiboAction "<<action << " str is "<<actionStr;
+//    qDebug()<<"=== setWeiboAction arg "<<args;
     //WBOPT_GET_STATUSES_PUBLIC_TIMELINE
     QStringList list = actionStr.split("_");
     QString send = list.at(1);
-    qDebug()<<"=== setWeiboAction list "<<list.at(0);
-    qDebug()<<"=== setWeiboAction list "<<list.at(1);
+//    qDebug()<<"=== setWeiboAction list "<<list.at(0);
+//    qDebug()<<"=== setWeiboAction list "<<list.at(1);
 
     QString className = actionStr.replace(QString("%1_%2_").arg(list.at(0)).arg(list.at(1)), "");
 
