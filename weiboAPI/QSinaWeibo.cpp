@@ -112,7 +112,7 @@ void QSinaWeibo::createRequest(QWeiboRequest *request, const QVariantMap &args)
             
             qDebug()<<"add arg for key "<<key<<" value "<<value;
             
-            (*request)(key, value);            
+            (*request)(key, value);
         }
     }
     mRequests.append(request);
@@ -148,13 +148,13 @@ QString QSinaWeibo::parseRequestedWeiboPutUrl(const QUrl &url)
 void QSinaWeibo::fail(const QUrl &requestedUrl, const QString &error)
 {
     emit weiboPutFail(mWeiboMethod.getWeiboAction(parseRequestedWeiboPutUrl(requestedUrl)), error);
-    processNextRequest();
+    QTimer::singleShot(500, this, SLOT(processNextRequest()));
 }
 
 void QSinaWeibo::ok(const QUrl &requestedUrl, const QString &replyData)
 {
     emit weiboPutSucceed(mWeiboMethod.getWeiboAction(parseRequestedWeiboPutUrl(requestedUrl)), replyData);
-    processNextRequest();
+    QTimer::singleShot(500, this, SLOT(processNextRequest()));
 }
 
 void QSinaWeibo::login()
