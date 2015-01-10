@@ -94,6 +94,7 @@ private:
     QWeiboMethod mWeiboMethod;
     
     bool mTokenChecked; //ugly fix，parseTokenCheckReplyData不知为何被调用了两次
+    bool mLogined;
     //QWeiboRequestApiList  *mWeiboRequestApiList;
 };
 } //namespace QWeiboAPI

@@ -37,7 +37,8 @@ namespace QSinaWeiboAPI {
 
 QSinaWeibo::QSinaWeibo(QObject *parent)
     :QObject(parent),
-    mTokenChecked(false)
+    mTokenChecked(false),
+    mLogined(false)
 {
     mPut = new QWeiboPut(this);
     //mWeiboRequestApiList = new QWeiboRequestApiList(this);
@@ -73,6 +74,7 @@ void QSinaWeibo::setPassword(const QString &passwd)
 void QSinaWeibo::setAccessToken(const QString &token)
 {
     mAccessToken = token;
+    mLogined = true;
     emit accessTokenChanged();
 }
 
@@ -164,6 +166,7 @@ void QSinaWeibo::login()
         emit loginFail(QUrl(), QString("user name and password can't be empty"));
         return;
     }
+    mLogined = false;
     mPut->reset();
     QUrl url(kOAuthUrl);
     QUrlQuery urlQuery;
@@ -187,6 +190,7 @@ void QSinaWeibo::checkToken(const QString &accessToken)
         emit tokenExpired(true);
         return;
     }
+    mTokenChecked = false;
     mPut->reset();
     QUrl url(kTokenCheckUrl);
     QUrlQuery urlQuery;
@@ -276,7 +280,11 @@ void QSinaWeibo::parseOAuth2ReplyData(const QUrl &requestedUrl, const QString &d
 
     disconnect(this, SLOT(parseOAuth2ReplyData(QUrl, QString)));
     disconnect(this, SIGNAL(loginFail(QUrl, QString)));
-    
+    //Ugly Fix
+    ///FIXME disconnect没有起作用
+    if (mLogined)
+        return;
+    mLogined = true;
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit(), &error);
 
@@ -298,7 +306,7 @@ void QSinaWeibo::parseTokenCheckReplyData(const QUrl &requestedUrl, const QStrin
     disconnect(this, SLOT(parseTokenCheckReplyData(QUrl, QString)));
 
     //Ugly Fix
-    ///FIXME 槽函数被调用了两次？ 为何？
+    ///FIXME disconnect没有起作用
     if (mTokenChecked) 
         return;
     mTokenChecked = true;
