@@ -49,6 +49,8 @@ public:
 
     QString getUid() const;
     void setUid(const QString &uid);
+
+    Q_INVOKABLE QString getLoginUrl() const;
     
     Q_INVOKABLE void login();
     Q_INVOKABLE void checkToken(const QString &accessToken);

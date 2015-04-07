@@ -37,6 +37,18 @@ static const QString kApiHost = "https://api.weibo.com/";
 static QString sAppKey = "2323547071";
 static QString sAppSecret = "16ed80cc77fea11f7f7e96eca178ada3";
 
+///weico的新登陆验证方式（需要使用webview进行认证）
+static const QString kOAuth2AccessAuthorize = "https://open.weibo.cn/oauth2/authorize";
+static const QString kAppId = "211160679";
+static const QString kAppKeyHash = "1e6e33db08f9192306c4afa0a61ad56c";
+static const QString kRedirectUri = "http://oauth.weico.cc";
+static const QString kPackageName = "com.eico.weico";
+static const QString kScope = "email,direct_messages_read,direct_messages_write,friendships_groups_read,friendships_groups_write,statuses_to_me_read,follow_app_official_microblog,invitation_write";
+static const QString kWeicoApi = kOAuth2AccessAuthorize+ "?" + "client_id=" + kAppId
+        + "&response_type=token&redirect_uri=" + kRedirectUri
+        + "&key_hash=" + kAppKeyHash + "&packagename=" + kPackageName
+        + "&display=mobile" + "&scope=" + kScope;
+
 class QWEIBOAPI_EXPORT QWeiboRequest/* : public QObject*/
 {
 //    Q_OBJECT

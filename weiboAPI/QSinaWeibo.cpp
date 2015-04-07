@@ -88,6 +88,11 @@ void QSinaWeibo::setUid(const QString &uid)
     mUid = uid;
 }
 
+QString QSinaWeibo::getLoginUrl() const
+{
+    return QString(kWeicoApi);
+}
+
 QString QSinaWeibo::getAccessToken() const
 {
     return mAccessToken;
