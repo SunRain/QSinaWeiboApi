@@ -8,6 +8,7 @@ QT       += network qml quick
 
 TARGET = QSinaWeiboAPI
 TEMPLATE = lib
+CONFIG += c++11
 #CONFIG += staticlib
 #CONFIG   += console
 #CONFIG += plugin

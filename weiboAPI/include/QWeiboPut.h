@@ -1,6 +1,7 @@
 /******************************************************************************
     QPut: make post easy
     Copyright (C) 2012 Wang Bin <wbsecg1@gmail.com>
+    Copyright (C) 2015 wanggjghost <41245110@qq.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +25,7 @@
 #include <QUrl>
 
 class QNetworkAccessManager;
-
+class QNetworkReply;
 class QWeiboPut : public QObject
 {
     Q_OBJECT
@@ -51,14 +52,16 @@ public slots:
     void abort();
 private slots:
     void DoFinished();
-    void DoReplyError();
+//    void DoReplyError();
 
 private:
     void init();
 
     QNetworkAccessManager *mNetwork;
+    QNetworkReply *mReply;
     QUrl mUrl;
     bool mSuccess;
+    bool mRequestAborted;
     QByteArray mData;
     QByteArray mTextPart, mDataPart;
     QByteArray mBoundary;
