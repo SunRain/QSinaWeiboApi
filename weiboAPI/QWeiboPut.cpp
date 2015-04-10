@@ -26,6 +26,8 @@
 #include <QUrl>
 #include <QtDebug>
 
+namespace QSinaWeiboAPI {
+
 QWeiboPut::QWeiboPut(QObject *parent)
     :QObject(parent)
 {
@@ -40,6 +42,10 @@ QWeiboPut::QWeiboPut(const QUrl& pUrl, QObject *parent)
 
 QWeiboPut::~QWeiboPut()
 {
+    if (mReply) {
+        mReply->abort ();
+        mReply->deleteLater ();
+    }
 }
 
 void QWeiboPut::reset()
@@ -51,8 +57,9 @@ void QWeiboPut::reset()
     mSuccess = false;
     mRequestAborted = false;
     if (mReply) {
+        mRequestAborted = true;
         mReply->abort();
-        mReply->deleteLater();
+//        mReply->deleteLater();
     }
     mReply = 0;
 }
@@ -155,6 +162,7 @@ void QWeiboPut::setUrl(const QUrl &pUrl)
 
 void QWeiboPut::abort()
 {
+    mRequestAborted = true;
     if (mReply) {
         mReply->abort();
     }
@@ -170,6 +178,7 @@ void QWeiboPut::DoFinished()
         QString errirStr = mReply->errorString();
         mReply->deleteLater();
         mReply = 0;
+        mRequestAborted = false;
         emit fail(url, errirStr);
         qWarning("Network error: %s", qPrintable(errirStr));
         return;
@@ -214,3 +223,4 @@ void QWeiboPut::init()
     if (mBoundary.size() > 70)
         mBoundary = mBoundary.left(70);
 }
+} //QSinaWeiboAPI

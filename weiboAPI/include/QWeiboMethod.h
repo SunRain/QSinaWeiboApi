@@ -174,7 +174,7 @@ public:
     };
     
     QString getWeiboActionStr(int action);
-    /*QWeiboMethod::WeiboAction*/int getWeiboAction(const QString &weiboActionStr);
+    int getWeiboAction(const QString &weiboActionStr);
     
 private:
    // QStringList mWeiboActionList;

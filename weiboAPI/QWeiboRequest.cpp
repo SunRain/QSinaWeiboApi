@@ -93,7 +93,7 @@ QMap<QString, QVariant> QWeiboRequest::paramsters() const
 QWeiboRequest& QWeiboRequest::operator ()(const QString& name, const QVariant& value)
 {
     if (mEditable || mParameters.contains(name)) {
-        qDebug() << name << "==>" << value;
+//        qDebug() << name << "==>" << value;
         mParameters[name] = value;
     } else {
         qWarning() << "Can not set the parameter: " << name;

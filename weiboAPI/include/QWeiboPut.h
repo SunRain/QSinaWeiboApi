@@ -26,6 +26,8 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
+namespace QSinaWeiboAPI {
+
 class QWeiboPut : public QObject
 {
     Q_OBJECT
@@ -36,8 +38,9 @@ public:
 
     void reset(); //call it before a new post
     //equals setSnapshotData(pData) then start()
-    void addTextPart(const QByteArray& name, const QByteArray& body);
-    void addDataPart(const QByteArray& mine, const QByteArray& name, const QByteArray& data, const QString& fileName = QString());
+    void addTextPart(const QByteArray &name, const QByteArray &body);
+    void addDataPart(const QByteArray &mine, const QByteArray &name,
+                     const QByteArray &data, const QString &fileName = QString());
     void upload();
     void post();
     void get();
@@ -46,8 +49,8 @@ public:
     void setUrl(const QUrl& pUrl);
 
 signals:
-    void fail(const QUrl &requestedUrl, const QString& error);
-    void ok(const QUrl &requestedUrl, const QString& replyData);
+    void fail(const QUrl &requestedUrl, const QString &error);
+    void ok(const QUrl &requestedUrl, const QString &replyData);
 public slots:
     void abort();
 private slots:
@@ -66,4 +69,5 @@ private:
     QByteArray mTextPart, mDataPart;
     QByteArray mBoundary;
 };
+} //QSinaWeiboAPI
 #endif // QWEIBOPUT_H
