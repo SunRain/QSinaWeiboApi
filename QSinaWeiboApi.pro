@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = weiboAPI examples #tests
+SUBDIRS += weiboAPI examples QWeiboSDK test
 
 weiboAPI.file = weiboAPI/weiboAPI.pro
 examples.depends += weiboAPI

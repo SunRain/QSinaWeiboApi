@@ -94,7 +94,10 @@ api_url_2_name() {
     api=${api##*wiki/}
     api=${api%/en} #English version api page
     #api=${api//\//_}
-    echo "${api//\//_}"
+    #echo "${api//\//_}"
+    #friendships/friends/in_common 替换/和_为空格( ) =>打印所有并且替换首字母为大写=>删除空格
+    api="`echo ${api} | sed 's/\//\ /g'| sed 's/_/\ /g' | awk '{print $i}' | sed 's/\b[a-z]/\u&/g' | sed 's/\ //g'`"
+    echo "${api}"
 }
 
 parse_api_page() {
