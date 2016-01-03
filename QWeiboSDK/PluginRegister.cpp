@@ -158,6 +158,10 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::FriendshipsGroupsDestroy>(url, 1, 0, "FriendshipsGroupsDestroy");
     qmlRegisterType<QWeiboSDK::FriendshipsGroupsUpdate>(url, 1, 0, "FriendshipsGroupsUpdate");
     qmlRegisterType<QWeiboSDK::SearchSuggestionsAtUsers>(url, 1, 0, "SearchSuggestionsAtUsers");
+    qmlRegisterType<QWeiboSDK::CommentsShow>(url, 1, 0, "CommentsShow");
+    qmlRegisterType<QWeiboSDK::FriendshipsFriends>(url, 1, 0, "FriendshipsFriends");
+    qmlRegisterType<QWeiboSDK::FriendshipsFollowers>(url, 1, 0, "FriendshipsFollowers");
+    qmlRegisterType<QWeiboSDK::FriendshipsFriendsBilateral>(url, 1, 0, "FriendshipsFriendsBilateral");
 
 }
 
