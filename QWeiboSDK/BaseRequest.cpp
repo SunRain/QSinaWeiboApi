@@ -6,6 +6,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include <QFileInfo>
+#include <QHttpPart>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
@@ -65,6 +67,87 @@ void BaseRequest::setParameters(const QString &key, const QString &value)
     (*this)(key, value);
 }
 
+void BaseRequest::uploadImage(const QString &status, const QString &fileUrl)
+{
+    m_requestAborted = false;
+
+    QUrl url = initUrl ();
+    QString furl = fileUrl;
+    if (furl.startsWith ("file://"))
+        furl = furl.replace("file://", "");
+    QFileInfo imageInfo(furl);
+    qDebug() << "file path: " << imageInfo.filePath();
+
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+    QHttpPart textPart;
+    textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
+    textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"status\""));
+    textPart.setBody(status.toUtf8());
+
+    QHttpPart imagePart;
+    imagePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("image/" + imageInfo.suffix()));
+    imagePart.setHeader(QNetworkRequest::ContentDispositionHeader,
+                        QVariant("form-data; name=\"pic\"; filename=" + imageInfo.fileName()));
+    QFile *file = new QFile(furl);
+    bool isOpen = file->open(QIODevice::ReadOnly);
+    qDebug() << "file open? " << isOpen <<" file is exist "<<file->exists();
+
+    imagePart.setBodyDevice(file);
+    file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
+
+    multiPart->append(textPart);
+    multiPart->append(imagePart);
+
+    if (m_reply) {
+        m_requestAborted = true;
+        m_reply->abort ();
+    }
+    //post data may need a long time, we don't use timeout killer
+    if (m_timeout->isActive ())
+        m_timeout->stop ();
+
+    QNetworkRequest request(url);
+    m_reply = m_networkMgr->post (request, multiPart);
+
+    if (m_reply) {
+        multiPart->setParent (m_reply); //delete the multiPart with the reply
+        file->setParent (m_reply); //delete file with the reply
+        connect (m_reply, &QNetworkReply::finished,
+                 [&](){
+            //TODO maybe should set timeout killer when post data
+//            if (m_timeout->isActive ())
+//                m_timeout->stop ();
+
+            if (m_requestAborted) {
+                m_requestAborted = false;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                emit requestAbort ();
+                return;
+            }
+            QNetworkReply::NetworkError error = m_reply->error ();
+            bool success = (error == QNetworkReply::NoError);
+            if (!success) {
+                QString str = m_reply->errorString ();
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                emit requestFailure (str);
+            } else {
+                QByteArray qba = m_reply->readAll ();
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                emit requestSuccess (QString(qba));
+            }
+        });
+    } else {
+        multiPart->deleteLater ();
+        multiPart = nullptr;
+        file->deleteLater ();
+        file = nullptr;
+    }
+}
+
 BaseRequest &BaseRequest::operator ()(const QString &key, const QVariant &value)
 {
     if (m_Editable || m_parameters.contains (key)) {
@@ -107,10 +190,8 @@ void BaseRequest::setUrlPath(const QString &urlPath, const QString &tag)
         m_urlPath = QString("%1%2").arg (m_urlPath).arg (tag);
 }
 
-void BaseRequest::postRequest()
+QUrl BaseRequest::initUrl()
 {
-    m_requestAborted = false;
-
     //add url parameters
     QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
     QUrl url(str);
@@ -123,6 +204,14 @@ void BaseRequest::postRequest()
         }
         url.setQuery (query);
     }
+    return url;
+}
+
+void BaseRequest::postRequest()
+{
+    m_requestAborted = false;
+
+    QUrl url = initUrl ();
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
 
     QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
@@ -181,24 +270,25 @@ void BaseRequest::getRequest()
 {
     m_requestAborted = false;
 
-    //add url parameters
-    QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
-    QUrl url(str);
-    if (!m_parameters.isEmpty ()) {
-//        //TODO should add access_token and uid here ?
-//        if (m_parameters.contains ("access_token"))
-//            m_parameters.insert ("access_token", TokenProvider::instance ()->accessToken ());
-//        if (m_parameters.contains ("uid"))
-//            m_parameters.insert ("uid", TokenProvider::instance ()->uid ());
+//    //add url parameters
+//    QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
+//    QUrl url(str);
+//    if (!m_parameters.isEmpty ()) {
+////        //TODO should add access_token and uid here ?
+////        if (m_parameters.contains ("access_token"))
+////            m_parameters.insert ("access_token", TokenProvider::instance ()->accessToken ());
+////        if (m_parameters.contains ("uid"))
+////            m_parameters.insert ("uid", TokenProvider::instance ()->uid ());
 
-        QUrlQuery query;
-        QMap<QString, QString>::const_iterator it = m_parameters.constBegin ();
-        for (; it != m_parameters.constEnd (); ++it) {
-             QString value = it.value ();
-             query.addQueryItem (it.key (), value.trimmed ());
-        }
-        url.setQuery (query);
-    }
+//        QUrlQuery query;
+//        QMap<QString, QString>::const_iterator it = m_parameters.constBegin ();
+//        for (; it != m_parameters.constEnd (); ++it) {
+//             QString value = it.value ();
+//             query.addQueryItem (it.key (), value.trimmed ());
+//        }
+//        url.setQuery (query);
+//    }
+    QUrl url = initUrl ();
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
     //create request, if request exists, abort previous
     QNetworkRequest request(url);
@@ -240,4 +330,5 @@ void BaseRequest::getRequest()
         });
     }
 }
+
 } //QWeiboSDK

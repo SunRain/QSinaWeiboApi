@@ -3,6 +3,7 @@
 #include <QtQml>
 
 #include "QWeiboRequest.h"
+#include "ImageUploader.h"
 
 namespace QWeiboSDK {
 
@@ -162,6 +163,10 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::FriendshipsFriends>(url, 1, 0, "FriendshipsFriends");
     qmlRegisterType<QWeiboSDK::FriendshipsFollowers>(url, 1, 0, "FriendshipsFollowers");
     qmlRegisterType<QWeiboSDK::FriendshipsFriendsBilateral>(url, 1, 0, "FriendshipsFriendsBilateral");
+
+    qmlRegisterType<QWeiboSDK::ImageUploader>(url, 1, 0, "ImageUploader");
+    qmlRegisterType<QWeiboSDK::FriendshipsCreate>(url, 1, 0, "FriendshipsCreate");
+        qmlRegisterType<QWeiboSDK::FriendshipsDestroy>(url, 1, 0, "FriendshipsDestroy");
 
 }
 

@@ -13,5 +13,6 @@
 
 static const char *API_HOST = "https://api.weibo.com";
 static const char *TOKEN_CHECK_URL = "https://api.weibo.com";// kTokenCheckUrl
+static const char *IMAGE_UPLOAD_HOST = "https://upload.api.weibo.com";
 #endif // QWEIBOSDK_GLOBAL_H
 

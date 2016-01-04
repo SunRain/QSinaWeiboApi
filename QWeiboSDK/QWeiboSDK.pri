@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/SingletonPointer_p.h \
     $$PWD/TokenProvider.h \
     $$PWD/LoginProvider.h \
-    $$PWD/PluginRegister.h
+    $$PWD/PluginRegister.h \
+    $$PWD/ImageUploader.h
 
 SOURCES += \
     $$PWD/BaseRequest.cpp \

@@ -23,6 +23,7 @@ public:
     void initiate();
 
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
+    Q_INVOKABLE void uploadImage(const QString &status, const QString &fileUrl);
 
     BaseRequest& operator ()(const QString &key, const QVariant &value);
     BaseRequest& operator ()(const QString &key, const char *value);
@@ -32,6 +33,7 @@ public:
 protected:
     virtual void initParameters();
     void setUrlPath(const QString &urlPath, const QString &tag = QString(".json"));
+    QUrl initUrl();
 
 signals:
     void requestSuccess(const QString &replyData);
