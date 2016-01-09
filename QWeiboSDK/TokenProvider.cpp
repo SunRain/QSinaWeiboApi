@@ -136,6 +136,8 @@ void TokenProvider::setAccessToken(const QString &arg)
     if (m_accessToken == arg)
         return;
     m_accessToken = arg;
+    m_settings->setValue (KEY_TOKEN, m_accessToken);
+    m_settings->sync ();
     emit accessTokenChanged(arg);
 }
 
@@ -143,8 +145,9 @@ void TokenProvider::setUid(const QString &arg)
 {
     if (m_uid == arg)
         return;
-
     m_uid = arg;
+    m_settings->setValue (KEY_UID, m_uid);
+    m_settings->sync ();
     emit uidChanged(arg);
 }
 
@@ -170,8 +173,9 @@ void TokenProvider::setRefreshToken(const QString &refreshToken)
 {
     if (m_refreshToken == refreshToken)
         return;
-
     m_refreshToken = refreshToken;
+    m_settings->setValue (KEY_REFRESH_TOKEN, m_refreshToken);
+    m_settings->sync ();
     emit refreshTokenChanged(refreshToken);
 }
 
