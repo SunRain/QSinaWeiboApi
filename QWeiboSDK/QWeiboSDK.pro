@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += network
+QT       += network qml
 
 TARGET = QSinaWeiboSDK
 TEMPLATE = lib
