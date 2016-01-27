@@ -1,0 +1,65 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: htmlcxx
+Upstream-Contact: Maintainer: Davi de Castro Reis <davi.reis@gmail.com>,
+                  Robson Braga Araújo <braga@users.sf.net>
+Source: http://htmlcxx.sourceforge.net/
+
+Files: *
+Copyright: Davi de Castro Reis <davi.reis@gmail.com>
+           Robson Braga Araújo <braga@users.sf.net>
+License: LGPL-2
+
+Files: html/tree.h
+Copyright: 2001, Kasper Peeters <k.peeters@damtp.cam.ac.uk>
+License: GPL-2 or LGPL-2
+ The tree.hh code, used in this code, is covered by the license in the original
+ distribution at http://tree.phi-sci.com/. Only HTML::Node instances, which the
+ only instances used by htmlcxx, are available under the LGPL.
+ .
+ On Debian systems the full text of the GNU Lesser General Public License
+ version 2 can be found in the `/usr/share/common-licenses/LGPL-2' file.
+ .
+ On Debian systems the full text of the GNU General Public License version 2
+ can be found in the `/usr/share/common-licenses/GPL-2' file.
+
+Files: html/Uri.cc
+Copyright: The Apache Software Foundation
+License: Apache
+
+Files: htmlcxx.spec
+Copyright: 2005, Davi de Castro Reis <davi@akwan.com.br>
+License: LGPL-2
+
+Files: wingetopt.c
+Copyright: G. R. Blair <bobblair@bobblair.austin.ibm.com>
+           John Q. Walker II <johnq@ralvm6.vnet.ibm.com>
+License:
+ This module contains code made available by IBM
+ Corporation on an AS IS basis.  Any one receiving the
+ module is considered to be licensed under IBM copyrights
+ to use the IBM-provided source code in any way he or she
+ deems fit, including copying it, compiling it, modifying
+ it, and redistributing it, with or without
+ modifications.  No license under any IBM patents or
+ patent applications is to be implied from this copyright
+ license.
+ .
+ A user of the module should understand that IBM cannot
+ provide technical support for the module and will not be
+ responsible for any consequences of use of the program.
+ .
+ Any notices, including this one, are not to be removed
+ from the module without the prior written consent of
+ IBM.
+
+Files: debian/*
+Copyright: Ludovico Cavedon <cavedon@debian.org>
+License: LGPL-2
+
+License: LGPL-2
+ On Debian systems the full text of the GNU Lesser General Public License
+ can be found in the `/usr/share/common-licenses/LGPL-2' file.
+
+License: Apache
+ On Debian systems the full text of the Apache License can be found in the
+ `/usr/share/common-licenses/Apache-2.0' file.

@@ -1,0 +1,17 @@
+Author: Ludovico Cavedon <cavedon@debian.org>
+Description: Fix compilation with GCC 4.6
+Forwarded: yes
+
+Index: htmlcxx/html/tree.h
+===================================================================
+--- htmlcxx.orig/html/tree.h	2011-05-16 19:02:10.216000004 -0700
++++ htmlcxx/html/tree.h	2011-05-16 19:02:20.140000004 -0700
+@@ -115,7 +115,7 @@
+             typedef T*                              pointer;
+             typedef T&                              reference;
+             typedef size_t                          size_type;
+-            typedef ptrdiff_t                       difference_type;
++            typedef std::ptrdiff_t                  difference_type;
+             typedef std::bidirectional_iterator_tag iterator_category;
+ 
+             iterator_base();

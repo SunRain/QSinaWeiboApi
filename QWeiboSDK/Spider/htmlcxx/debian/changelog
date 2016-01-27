@@ -1,0 +1,104 @@
+htmlcxx (0.85-3.4) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Honest, I can do this... The symbols files need to point to the
+    correct package.
+
+ -- Stephen Kitt <skitt@debian.org>  Sun, 16 Aug 2015 15:44:49 +0200
+
+htmlcxx (0.85-3.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Doh: package renames need the corresponding Breaks/Replaces...
+
+ -- Stephen Kitt <skitt@debian.org>  Sun, 16 Aug 2015 14:27:26 +0200
+
+htmlcxx (0.85-3.2) unstable; urgency=medium
+
+  * Adjust the libcss-parser-pp0v5 symbols file for arch-specific
+    symbols.
+
+ -- Stephen Kitt <skitt@debian.org>  Sat, 15 Aug 2015 23:33:56 +0200
+
+htmlcxx (0.85-3.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Update symbols for gcc 5. This involves a transition for
+    libcss-parser-pp0 and libhtmlcxx3 (Closes: #789298).
+
+ -- Stephen Kitt <skitt@debian.org>  Fri, 07 Aug 2015 21:18:54 +0200
+
+htmlcxx (0.85-3) unstable; urgency=medium
+
+  * Use dh-autoreconf to update config.guess and config.sub (Closes: #727898).
+  * Update Standards-Version to 3.9.5.
+  * Update symbols files with more optional symbols from templates.
+  * Update Vcs filelds to canonical form.
+  * Update debian/copyright to machine-readable specification 1.0.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Sat, 08 Feb 2014 11:54:01 -0800
+
+htmlcxx (0.85-2) unstable; urgency=low
+
+  * Add missing entries in changelog for release 0.85-1.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Sun, 10 Jul 2011 21:38:41 -0700
+
+htmlcxx (0.85-1) unstable; urgency=low
+
+  * New upstream release.
+  * Remove Add-CSS-libraries-to-htmlcxx.pc.in.patch (applied upstream).
+  * Add Multi-Arch support:
+  * Depend on debhelper >= 8.1.3 and update debian/compat to 9. 
+  * Add override lintian warning about using debhelper compat 9.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Sun, 10 Jul 2011 21:38:08 -0700
+
+htmlcxx (0.84-3) unstable; urgency=low
+
+  * Add fix-gcc-4.6-ftbfs.patch to fix FTBFS with GCC 4.6 (Closes: #624886,
+    LP: #770771).
+  * Add new optional symbols to libhtmlcxx3.symbols.
+  * Bump Standards-Version to 3.9.2.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Mon, 16 May 2011 19:27:36 -0700
+
+htmlcxx (0.84-2) unstable; urgency=low
+
+  * Remove .la files (Closes: #621644).
+  * Update Standards-Version to 3.9.1.
+  * Mark new template and destructor symbols as optional.
+  * Add Add-CSS-libraries-to-htmlcxx.pc.in.patch to fix the list the libraries
+    to link against.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Mon, 16 May 2011 19:04:03 -0700
+
+htmlcxx (0.84-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update copyright file according to the new information provided by
+    upstream.
+  * Install pkgconfig .pc file.
+  * Update symbol files.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Tue, 20 Apr 2010 01:36:51 -0700
+
+htmlcxx (0.83-3) unstable; urgency=low
+
+  * Fix symbols files:
+    - mark template instantiations as optional
+    - update symbols on 32 bit archs (Closes: #574157).
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Sat, 20 Mar 2010 11:38:14 -0700
+
+htmlcxx (0.83-2) unstable; urgency=low
+
+  * Make sure the manpage is build for target binary-arch. Fixes FTBFS.
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Tue, 16 Mar 2010 09:18:06 +0100
+
+htmlcxx (0.83-1) unstable; urgency=low
+
+  * Initial release (Closes: #504222).
+
+ -- Ludovico Cavedon <cavedon@debian.org>  Thu, 11 Mar 2010 00:18:47 +0100

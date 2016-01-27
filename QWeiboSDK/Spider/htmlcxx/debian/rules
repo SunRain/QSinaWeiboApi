@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@ --with autoreconf
+
+
+DB2MAN = /usr/share/sgml/docbook/stylesheet/xsl/nwalsh/manpages/docbook.xsl
+XP     = xsltproc -''-nonet -''-param man.charmap.use.subset "0" \
+	 -''-param make.year.ranges "1" \
+	 -''-param make.single.year.ranges "1"
+
+debian/htmlcxx.1: debian/htmlcxx.xml
+	$(XP) -o debian/ $(DB2MAN) $<
+
+binary-arch: debian/htmlcxx.1
+binary: binary-arch
+
+clean:
+	rm -f debian/htmlcxx.1
+	dh clean

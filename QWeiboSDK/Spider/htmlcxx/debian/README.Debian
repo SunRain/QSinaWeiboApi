@@ -1,0 +1,2 @@
+The source code for the binary /usr/bin/htmlcxx is available as
+examples/htmlcxx.cc, and serves as an example of usage of the htmlcxx library.

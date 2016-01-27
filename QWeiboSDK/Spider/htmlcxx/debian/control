@@ -1,0 +1,133 @@
+Source: htmlcxx
+Priority: extra
+Maintainer: Ludovico Cavedon <cavedon@debian.org>
+Build-Depends: autotools-dev,
+               debhelper (>= 8.1.3),
+               dh-autoreconf,
+               docbook-xml,
+               docbook-xsl,
+               dpkg-dev (>= 1.14.8),
+               xsltproc,
+Standards-Version: 3.9.5
+Section: libs
+Homepage: http://htmlcxx.sourceforge.net/
+Vcs-Git: git://anonscm.debian.org/collab-maint/htmlcxx.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/htmlcxx.git
+
+Package: libhtmlcxx-dev
+Section: libdevel
+Architecture: any
+Depends: libcss-parser-pp0v5 (= ${binary:Version}),
+         libcss-parser0 (= ${binary:Version}),
+         libhtmlcxx3v5 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: simple HTML/CSS1 parser library for C++ (development)
+ htmlcxx is a simple non-validating CSS1 and HTML parser for C++. Although
+ there are several other html parsers available, htmlcxx has some
+ characteristics that make it unique:
+ .
+  * STL like navigation of DOM tree, using excellent tree.hh library from
+    Kasper Peeters
+  * It is possible to reproduce exactly, character by character, the original
+    document from the parse tree
+  * Bundled CSS parser
+  * Optional parsing of attributes
+  * C++ code that looks like C++ (not so true anymore)
+  * Offsets of tags/elements in the original document are stored in the nodes
+    of the DOM tree
+ .
+ The parsing politics of htmlcxx were created trying to mimic Mozilla Firefox
+ (http://www.mozilla.org) behavior. So you should expect parse trees similar to
+ those create by Firefox. However, differently from Firefox, htmlcxx does not
+ insert non-existent stuff in your html. Therefore, serializing the DOM tree
+ gives exactly the same bytes contained in the original HTML document.
+ .
+ This package contains files required for developing software that makes use of
+ htmlcxx.
+
+Package: libhtmlcxx3v5
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: libhtmlcxx3 (<< 0.85-3.1~)
+Replaces: libhtmlcxx3 (<< 0.85-3.1~)
+Description: simple HTML parser library for C++
+ htmlcxx is a simple non-validating CSS1 and HTML parser for C++. Although
+ there are several other html parsers available, htmlcxx has some
+ characteristics that make it unique:
+ .
+  * STL like navigation of DOM tree, using excellent tree.hh library from
+    Kasper Peeters
+  * It is possible to reproduce exactly, character by character, the original
+    document from the parse tree
+  * Bundled CSS parser
+  * Optional parsing of attributes
+  * C++ code that looks like C++ (not so true anymore)
+  * Offsets of tags/elements in the original document are stored in the nodes
+    of the DOM tree
+ .
+ The parsing politics of htmlcxx were created trying to mimic Mozilla Firefox
+ (http://www.mozilla.org) behavior. So you should expect parse trees similar to
+ those create by Firefox. However, differently from Firefox, htmlcxx does not
+ insert non-existent stuff in your html. Therefore, serializing the DOM tree
+ gives exactly the same bytes contained in the original HTML document.
+
+Package: libcss-parser0
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: simple CSS1 parser library for C
+ htmlcxx is a simple non-validating CSS1 and HTML parser for C++. Although
+ there are several other html parsers available, htmlcxx has some
+ characteristics that make it unique:
+ .
+  * STL like navigation of DOM tree, using excellent tree.hh library from
+    Kasper Peeters
+  * It is possible to reproduce exactly, character by character, the original
+    document from the parse tree
+  * Bundled CSS parser
+  * Optional parsing of attributes
+  * C++ code that looks like C++ (not so true anymore)
+  * Offsets of tags/elements in the original document are stored in the nodes
+    of the DOM tree
+ .
+ The parsing politics of htmlcxx were created trying to mimic Mozilla Firefox
+ (http://www.mozilla.org) behavior. So you should expect parse trees similar to
+ those create by Firefox. However, differently from Firefox, htmlcxx does not
+ insert non-existent stuff in your html. Therefore, serializing the DOM tree
+ gives exactly the same bytes contained in the original HTML document.
+ .
+ This package contains the C runtime library for CSS parsing.
+
+Package: libcss-parser-pp0v5
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: libcss-parser-pp0 (<< 0.85-3.1~)
+Replaces: libcss-parser-pp0 (<< 0.85-3.1~)
+Description: simple CSS1 parser library for C++
+ htmlcxx is a simple non-validating CSS1 and HTML parser for C++. Although
+ there are several other html parsers available, htmlcxx has some
+ characteristics that make it unique:
+ .
+  * STL like navigation of DOM tree, using excellent tree.hh library from
+    Kasper Peeters
+  * It is possible to reproduce exactly, character by character, the original
+    document from the parse tree
+  * Bundled CSS parser
+  * Optional parsing of attributes
+  * C++ code that looks like C++ (not so true anymore)
+  * Offsets of tags/elements in the original document are stored in the nodes
+    of the DOM tree
+ .
+ The parsing politics of htmlcxx were created trying to mimic Mozilla Firefox
+ (http://www.mozilla.org) behavior. So you should expect parse trees similar to
+ those create by Firefox. However, differently from Firefox, htmlcxx does not
+ insert non-existent stuff in your html. Therefore, serializing the DOM tree
+ gives exactly the same bytes contained in the original HTML document.
+ .
+ This package contains the C++ runtime library for CSS parsing.
