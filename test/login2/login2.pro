@@ -13,20 +13,16 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    LoginProvider.cpp \
-    WBNetworkAccessManager.cpp \
-    WBNetworkAccessManagerFactory.cpp \
-    CookieDataProvider.cpp
+    CookieDataProvider.cpp \
+    LoginCookieJar.cpp
 
 HEADERS  += \
-    Key.h \
-    LoginProvider.h \
-    WBNetworkAccessManager.h \
-    WBNetworkAccessManagerFactory.h \
-    CookieDataProvider.h
+    CookieDataProvider.h \
+    LoginCookieJar.h
 
 FORMS    +=
 
+include (../../QWeiboSDK/QWeiboSDK.pri)
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += openssl htmlcxx
