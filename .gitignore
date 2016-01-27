@@ -26,4 +26,5 @@ Makefile*
 *.qmlproject.user.*
 tmp/*
 Key.h
+build
 
