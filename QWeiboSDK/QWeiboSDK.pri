@@ -21,3 +21,8 @@ SOURCES += \
     $$PWD/TokenProvider.cpp \
     $$PWD/LoginProvider.cpp \
     $$PWD/PluginRegister.cpp
+
+contains (CONFIG, WITH_HACKLOGIN) {
+include (HackLogin/HackLogin.pri)
+}
+
