@@ -1,6 +1,9 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+CONFIG += c++11
+QT     += network
+
 HEADERS += \
     $$PWD/BaseRequest.h \
     $$PWD/QWeiboRequest.h \
