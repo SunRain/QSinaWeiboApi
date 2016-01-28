@@ -28,6 +28,13 @@ the DOM tree gives exactly the same bytes contained in the original HTML
 document.
 
 
+        News for version 0.85
+        =====================
+
+Fixed gcc 4.3 compiler errors, several minor bug fixes, improved distribution
+of the css library.
+
+
 	News for version 0.7.3
 	======================
 

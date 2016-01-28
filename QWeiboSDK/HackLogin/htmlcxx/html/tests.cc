@@ -229,11 +229,14 @@ int main(int argc, char **argv) {
 	myassert(ht.parse());
 	myassert(ht.string_manip());
 
-	ifstream f(argv[1]);
-	HTML::ParserSax parser;
-//	parser.parse(istreambuf_iterator<char>(f), istreambuf_iterator<char>());
-//	tree<HTML::Node> t = parser.getTree();
-//	cerr << t << endl;
+	if (argc > 1)
+	{
+		ifstream f(argv[1]);
+		HTML::ParserSax parser;
+//		parser.parse(istreambuf_iterator<char>(f), istreambuf_iterator<char>());
+//		tree<HTML::Node> t = parser.getTree();
+//		cerr << t << endl;
+	}
 	
 	TagInitTest test2;
 	test2.test();
