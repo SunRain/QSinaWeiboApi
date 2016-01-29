@@ -1,8 +1,6 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
-CONFIG += c++11
-
 HEADERS += \
     $$PWD/htmlcxx/css/css_lex.h \
     $$PWD/htmlcxx/css/css_syntax.h \
