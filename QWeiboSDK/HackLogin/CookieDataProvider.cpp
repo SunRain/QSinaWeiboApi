@@ -22,7 +22,8 @@
 using namespace htmlcxx;
 using namespace std;
 
-//#include "Key.h"
+namespace QWeiboSDK {
+namespace HackLogin {
 
 CookieDataProvider::CookieDataProvider(QObject *parent)
     : QObject(parent)
@@ -319,4 +320,7 @@ void CookieDataProvider::preLoginParse(const QByteArray &values)
         emit captchaImgUrlChanged (QUrl(m_captchaImgUrl));
     }
 }
+
+} //HackLogin
+} //QWeiboSDK
 

@@ -8,6 +8,9 @@ class QTimer;
 class QNetworkAccessManager;
 class QNetworkReply;
 
+namespace QWeiboSDK {
+namespace HackLogin {
+
 class LoginCookieJar;
 class CookieDataProvider : public QObject
 {
@@ -56,5 +59,7 @@ private:
     QString m_captcha;
     QString m_captchaImgUrl;
 };
+} //HackLogin
+} //QWeiboSDK
 
 #endif // COOKIEDATAPROVIDER_H

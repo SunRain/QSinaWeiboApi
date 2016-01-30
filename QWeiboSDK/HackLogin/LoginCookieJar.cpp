@@ -4,6 +4,9 @@
 #include <QNetworkCookie>
 #include <QUrl>
 
+namespace QWeiboSDK {
+namespace HackLogin {
+
 LoginCookieJar::LoginCookieJar(QObject *parent)
     : QNetworkCookieJar(parent)
 {
@@ -33,4 +36,7 @@ bool LoginCookieJar::setCookiesFromUrl(const QList<QNetworkCookie> &cookieList, 
     }
     return QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
 }
+
+} //HackLogin
+} //QWeiboSDK
 

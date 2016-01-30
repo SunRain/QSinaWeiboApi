@@ -6,6 +6,10 @@
 
 class QUrl;
 class QNetworkCookie;
+
+namespace QWeiboSDK {
+namespace HackLogin {
+
 class LoginCookieJar : public QNetworkCookieJar
 {
     Q_OBJECT
@@ -23,4 +27,6 @@ private:
     QUrl m_domain;
 };
 
+} //HackLogin
+} //QWeiboSDK
 #endif // LOGINCOOKIEJAR_H
