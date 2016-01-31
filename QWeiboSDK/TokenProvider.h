@@ -2,11 +2,13 @@
 #define TOKENPROVIDER_H
 
 #include <QObject>
+#include <QList>
 
 #include "global.h"
 #include "SingletonPointer.h"
 
 class QSettings;
+class QNetworkCookie;
 
 namespace QWeiboSDK {
 
@@ -20,6 +22,8 @@ class QWEIBOSDK_EXPORT TokenProvider : public QObject
     Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     Q_PROPERTY(QString passWord READ passWord WRITE setPassWord NOTIFY passWordChanged)
     Q_PROPERTY(QString expiresData READ expiresData WRITE setExpiresData NOTIFY expiresDataChanged)
+    Q_PROPERTY(QString hackLoginCookies READ hackLoginCookies NOTIFY hackLoginCookiesChanged)
+
     DECLARE_SINGLETON_POINTER(TokenProvider)
 public:
 //    explicit TokenProvider(QObject *parent = 0);
@@ -31,7 +35,9 @@ public:
     QString passWord() const;
     QString refreshToken() const;
     QString expiresData() const;
+    QString hackLoginCookies() const;
 
+    void setHackLoginCookies(const QList<QNetworkCookie> &list);
 public slots:
     void setAccessToken(const QString &arg);
     void setUid(const QString &arg);
@@ -48,6 +54,7 @@ signals:
     void tokenExpired(bool tokenExpired);
     void refreshTokenChanged(QString refreshToken);
     void expiresDataChanged(QString expiresData);
+    void hackLoginCookiesChanged(QString hackLoginCookies);
 
 private:
     QSettings *m_settings;
@@ -58,6 +65,7 @@ private:
     QString m_refreshToken;
     QString m_expiresData;
     Oauth2GetTokenInfo *m_tokenInfo;
+    QString m_hackLoginCookies;
 };
 } //QWeiboSDK
 #endif // TOKENPROVIDER_H

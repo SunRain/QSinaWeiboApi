@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QJsonObject>
 
+#include <QNetworkCookie>
+
 #include "QWeiboRequest.h"
 
 namespace QWeiboSDK {
@@ -14,6 +16,7 @@ const char *KEY_TOKEN = "QWeiboSDK/AccessToken";
 const char *KEY_UID = "QWeiboSDK/UID";
 const char *KEY_REFRESH_TOKEN = "QWeiboSDK/RefreshToken";
 const char *KEY_EXPIRES_DATA = "QWeiboSDK/ExpiresData";
+const char *KEY_HACKLOGIN_COOKIES = "QWeiboSDK/HackLoginCookies";
 
 TokenProvider::TokenProvider(QObject *parent)
     :QObject(parent)
@@ -129,6 +132,24 @@ QString TokenProvider::refreshToken() const
 QString TokenProvider::expiresData() const
 {
     return m_expiresData;
+}
+
+QString TokenProvider::hackLoginCookies() const
+{
+    return m_hackLoginCookies;
+}
+
+void TokenProvider::setHackLoginCookies(const QList<QNetworkCookie> &list)
+{
+    QStringList values;
+    foreach (QNetworkCookie c, list) {
+        QString v = QString("%1=%2").arg (c.name ().constData ()).arg (c.value ().constData ());
+        values.append (v);
+    }
+    m_hackLoginCookies = values.join (";");
+    m_settings->setValue (KEY_HACKLOGIN_COOKIES, m_hackLoginCookies);
+    m_settings->sync ();
+    emit hackLoginCookiesChanged (m_hackLoginCookies);
 }
 
 void TokenProvider::setAccessToken(const QString &arg)

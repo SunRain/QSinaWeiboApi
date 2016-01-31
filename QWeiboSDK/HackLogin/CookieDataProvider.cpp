@@ -32,6 +32,7 @@ CookieDataProvider::CookieDataProvider(QObject *parent)
     , m_timeout(new QTimer(this))
     , m_cookieJar(new LoginCookieJar(this))
     , m_requestAborted(false)
+//    , m_loginOK(false)
     , m_timerInterval(5000)
     , m_userName(QString())
     , m_passWord(QString())
@@ -198,22 +199,22 @@ void CookieDataProvider::login()
             }
             QNetworkReply::NetworkError error = m_reply->error ();
             bool success = (error == QNetworkReply::NoError);
-            qDebug()<<Q_FUNC_INFO<<"is success "<<success;
             if (!success) {
                 QString str = m_reply->errorString ();
-                qDebug()<<Q_FUNC_INFO<<"errorString "<<str;
                 m_reply->deleteLater ();
                 m_reply = nullptr;
-                emit preLoginFailure (str);
+                emit loginFailure (str);
             } else {
                 QByteArray qba = m_reply->readAll ();
                 qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
                 m_reply->deleteLater ();
                 m_reply = nullptr;
+                loginParse (qba);
             }
         });
     } else {
         qDebug()<<Q_FUNC_INFO<<"no reply";
+        emit loginFailure ("No QNetworkReply");
     }
 }
 
@@ -319,6 +320,42 @@ void CookieDataProvider::preLoginParse(const QByteArray &values)
         qDebug()<<"captchaImgUrl ["<<m_captchaImgUrl<<"]";
         emit captchaImgUrlChanged (QUrl(m_captchaImgUrl));
     }
+}
+
+//TODO need more login failure condition
+void CookieDataProvider::loginParse(const QByteArray &values)
+{
+    HTML::ParserDom parser;
+    tree<HTML::Node> dom = parser.parseTree(QString(values).toStdString ());
+
+    tree<HTML::Node>::iterator domBeg = dom.begin();
+    tree<HTML::Node>::iterator domEnd = dom.end();
+
+    bool success = true;
+    QString tmp = QString();
+    for (; domBeg != domEnd; ++domBeg) {  // 遍历文档中所有的元素
+        if (!(*domBeg).tagName ().compare ("div")) {
+            domBeg->parseAttributes();
+            QString cv = QString::fromStdString ((*domBeg).attribute ("class").second);
+            qDebug()<<Q_FUNC_INFO<<"div class value ["<<cv<<"], text is "<<QString::fromStdString ((*domBeg).text ());
+            if (cv == "me") { //captcha error
+                success = false;
+                for (; domBeg != domEnd; ++domBeg) {
+                    if (! (*domBeg).isTag ()) {
+                        tmp = QString::fromStdString ((*domBeg).text ());
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    qDebug()<<Q_FUNC_INFO<<"success "<<success<<" error text "<<tmp;
+
+    if (success)
+        emit loginSuccess ();
+    else
+        emit loginFailure (tmp);
 }
 
 } //HackLogin

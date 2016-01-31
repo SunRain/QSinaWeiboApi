@@ -4,6 +4,8 @@
 #include <QNetworkCookie>
 #include <QUrl>
 
+#include "TokenProvider.h"
+
 namespace QWeiboSDK {
 namespace HackLogin {
 
@@ -34,6 +36,7 @@ bool LoginCookieJar::setCookiesFromUrl(const QList<QNetworkCookie> &cookieList, 
     foreach (QNetworkCookie c, cookieList) {
         qDebug()<<Q_FUNC_INFO<<"cookies name="<<c.name ()<<" value="<<c.value ();
     }
+    TokenProvider::instance ()->setHackLoginCookies (cookieList);
     return QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
 }
 

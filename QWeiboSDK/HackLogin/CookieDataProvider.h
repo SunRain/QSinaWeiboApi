@@ -29,6 +29,8 @@ public:
     QString userName() const;
     QString passWord() const;
 signals:
+    void loginSuccess();
+    void loginFailure(QString str);
     void preLoginSuccess();
     void preLoginFailure(QString str);
     void captchaChanged(QString captcha);
@@ -41,12 +43,14 @@ public slots:
     void setPassWord(QString passWord);
 private:
     void preLoginParse(const QByteArray &values);
+    void loginParse(const QByteArray &values);
 private:
     QNetworkAccessManager *m_networkMgr;
     QNetworkReply *m_reply;
     QTimer *m_timeout;
     LoginCookieJar *m_cookieJar;
     bool m_requestAborted;
+//    bool m_loginOK;
     int m_timerInterval;
     QString m_userName;
     QString m_passWord;
