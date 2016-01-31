@@ -34,7 +34,7 @@ AC_HEADER_TIME
 # Checks for library functions.
 
 AC_LANG_CPLUSPLUS
-CXXFLAGS="$CXXFLAGS -DDEFAULT_CSS=\"\\\"$datadir/htmlcxx/css/default.css\\\"\""
+CXXFLAGS="$CXXFLAGS -fPIC -DDEFAULT_CSS=\"\\\"$datadir/htmlcxx/css/default.css\\\"\""
 
 AC_CONFIG_FILES([Makefile html/Makefile css/Makefile])
 AC_OUTPUT(htmlcxx.pc)

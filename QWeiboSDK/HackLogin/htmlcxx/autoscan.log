@@ -1,0 +1,141 @@
+autoscan: warning: missing AC_CHECK_FUNCS([memchr]) wanted by: 
+	html/Uri.cc:218
+	html/Uri.cc:243
+autoscan: warning: missing AC_CHECK_FUNCS([memset]) wanted by: 
+	html/Uri.cc:563
+autoscan: warning: missing AC_CHECK_FUNCS([strcasecmp]) wanted by: 
+	htmlcxx.cc:177
+	html/Node.cc:103
+	html/tld.h:333
+	html/Uri.cc:58
+	html/Uri.cc:310
+	html/ParserDom.cc:81
+autoscan: warning: missing AC_CHECK_FUNCS([strchr]) wanted by: 
+	wingetopt.c:138
+	html/utils.cc:254
+	html/utils.cc:262
+	html/utils.cc:361
+	html/utils.cc:362
+	html/Node.cc:20
+	html/Node.cc:60
+	html/Node.cc:65
+	html/Node.cc:66
+	html/Extensions.cc:30
+	html/Uri.cc:155
+autoscan: warning: missing AC_CHECK_FUNCS([strdup]) wanted by: 
+	css/css_lex.c:1215
+	css/css_lex.c:1224
+	css/css_lex.c:1233
+	css/css_lex.c:1242
+	css/css_lex.c:1251
+	css/css_lex.c:1260
+	css/css_lex.c:1269
+	css/css_lex.c:1278
+	css/css_lex.c:1287
+	css/css_lex.c:1296
+	css/css_lex.c:1305
+	css/css_lex.c:1314
+	css/css_lex.c:1347
+	css/css_lex.c:1355
+	css/css_lex.c:1389
+	css/css_lex.c:1398
+	css/css_lex.c:1410
+	css/css_lex.c:1420
+	css/css_syntax.y:157
+	css/css_lex.l:39
+	css/css_lex.l:44
+	css/css_lex.l:50
+	css/css_lex.l:55
+	css/css_lex.l:60
+	css/css_lex.l:65
+	css/css_lex.l:70
+	css/css_lex.l:75
+	css/css_lex.l:80
+	css/css_lex.l:85
+	css/css_lex.l:90
+	css/css_lex.l:95
+	css/css_lex.l:105
+	css/css_lex.l:109
+	css/css_lex.l:120
+	css/css_lex.l:125
+	css/css_lex.l:133
+	css/css_lex.l:139
+	css/css_syntax.c:1064
+autoscan: warning: missing AC_CHECK_FUNCS([strerror]) wanted by: 
+	html/CharsetConverter.cc:15
+autoscan: warning: missing AC_CHECK_FUNCS([strncasecmp]) wanted by: 
+	html/ci_string.h:30
+	html/Uri.cc:481
+autoscan: warning: missing AC_CHECK_FUNCS([strrchr]) wanted by: 
+	html/Extensions.cc:34
+	html/Extensions.cc:35
+autoscan: warning: missing AC_CHECK_FUNCS([strstr]) wanted by: 
+	html/utils.cc:368
+	html/utils.cc:369
+autoscan: warning: missing AC_CHECK_FUNCS([strtol]) wanted by: 
+	html/Uri.cc:230
+autoscan: warning: missing AC_CHECK_FUNCS([strtoul]) wanted by: 
+	html/uriTests.cc:49
+	html/Uri.cc:538
+autoscan: warning: missing AC_CHECK_HEADERS([stddef.h]) wanted by: 
+	css/css_syntax.c:454
+autoscan: warning: missing AC_CHECK_TYPES([ptrdiff_t]) wanted by: 
+	html/tree.h:110
+	html/tree.h:119
+autoscan: warning: missing AC_FUNC_MALLOC wanted by: 
+	html/debug.h:28
+	css/css_lex.c:2304
+	css/css_syntax.y:197
+	css/css_syntax.y:208
+	css/css_syntax.y:272
+	css/css_syntax.y:282
+	css/css_syntax.y:292
+	css/css_syntax.y:302
+	css/css_syntax.y:312
+	css/css_syntax.y:322
+	css/css_syntax.y:332
+	css/css_syntax.y:342
+	css/css_syntax.y:352
+	css/css_syntax.y:362
+	css/css_syntax.y:372
+	css/css_syntax.y:382
+	css/css_syntax.y:392
+	css/css_syntax.y:402
+	css/css_syntax.y:412
+	css/css_syntax.y:454
+	css/css_syntax.y:464
+	css/css_syntax.y:489
+	css/css_syntax.y:498
+	css/css_syntax.y:518
+	css/css_syntax.y:532
+	css/css_syntax.y:561
+	css/css_syntax.y:566
+	css/css_syntax.c:1113
+	css/css_syntax.c:1127
+	css/css_syntax.c:1206
+	css/css_syntax.c:1219
+	css/css_syntax.c:1232
+	css/css_syntax.c:1245
+	css/css_syntax.c:1258
+	css/css_syntax.c:1271
+	css/css_syntax.c:1284
+	css/css_syntax.c:1297
+	css/css_syntax.c:1310
+	css/css_syntax.c:1323
+	css/css_syntax.c:1336
+	css/css_syntax.c:1349
+	css/css_syntax.c:1362
+	css/css_syntax.c:1375
+	css/css_syntax.c:1388
+	css/css_syntax.c:1445
+	css/css_syntax.c:1458
+	css/css_syntax.c:1479
+	css/css_syntax.c:1491
+	css/css_syntax.c:1520
+	css/css_syntax.c:1537
+	css/css_syntax.c:1592
+	css/css_syntax.c:1600
+autoscan: warning: missing AC_FUNC_REALLOC wanted by: 
+	css/css_lex.c:2322
+autoscan: warning: missing AC_PROG_RANLIB wanted by: 
+	ltmain.sh:3772
