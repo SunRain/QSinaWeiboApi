@@ -11,24 +11,19 @@
 
 #include <QDebug>
 
-#include "WBNetworkAccessManager.h"
-#include "WBNetworkAccessManagerFactory.h"
-
 #include "CookieDataProvider.h"
+#include "PluginRegister.h"
 
 int main(int argc, char *argv[])
 {
     QScopedPointer<QGuiApplication> app (new QGuiApplication(argc, argv));
 
-    CookieDataProvider *provider = new CookieDataProvider();
+    QWeiboSDK::registerPlugins ("harbour.sailfish_sinaweibo.sunrain");
 
     QScopedPointer<QQmlApplicationEngine> engine(new QQmlApplicationEngine(app.data ()));
 
-//    QScopedPointer<WBNetworkAccessManagerFactory> factory (new WBNetworkAccessManagerFactory());
-//    engine.data ()->setNetworkAccessManagerFactory (factory.data ());
-
     QQmlContext *ctx = engine.data ()->rootContext ();
-    ctx->setContextProperty ("loginProvider", provider);
+//    ctx->setContextProperty ("loginProvider", provider);
     engine.data ()->load (QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.data ()->exec ();

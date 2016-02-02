@@ -29,8 +29,8 @@ BaseRequest::BaseRequest(QObject *parent)
     connect (m_timeout, &QTimer::timeout,
              [&](){
         m_requestAborted = true;
-        if (m_reply)
-            m_reply->abort ();
+        if (curNetworkReply ())
+            curNetworkReply ()->abort ();
     });
 }
 
@@ -99,13 +99,14 @@ void BaseRequest::uploadImage(const QString &status, const QString &fileUrl)
     multiPart->append(textPart);
     multiPart->append(imagePart);
 
-    if (m_reply) {
+    if (curNetworkReply ()) {
         m_requestAborted = true;
-        m_reply->abort ();
+        curNetworkReply ()->abort ();
     }
     //post data may need a long time, we don't use timeout killer
-    if (m_timeout->isActive ())
-        m_timeout->stop ();
+//    if (m_timeout->isActive ())
+//        m_timeout->stop ();
+    stopTimeout ();
 
     QNetworkRequest request(url);
     m_reply = m_networkMgr->post (request, multiPart);
@@ -207,6 +208,37 @@ QUrl BaseRequest::initUrl()
     return url;
 }
 
+void BaseRequest::startTimeout()
+{
+    m_timeout->start (m_timerInterval);
+}
+
+void BaseRequest::stopTimeout()
+{
+    if (m_timeout->isActive ())
+        m_timeout->stop ();
+}
+
+QNetworkAccessManager *BaseRequest::curNetworkAccessMgr()
+{
+    return m_networkMgr;
+}
+
+QNetworkReply *BaseRequest::curNetworkReply()
+{
+    return m_reply;
+}
+
+bool BaseRequest::requestAborted()
+{
+    return m_requestAborted;
+}
+
+void BaseRequest::setRequestAborted(bool shouldAborted)
+{
+    m_requestAborted = shouldAborted;
+}
+
 void BaseRequest::postRequest()
 {
     m_requestAborted = false;
@@ -223,13 +255,14 @@ void BaseRequest::postRequest()
 
     qDebug()<<Q_FUNC_INFO<<" post data ["<<data<<"] to ["<<url<<"]";
 
-    if (m_reply) {
+    if (curNetworkReply ()) {
         m_requestAborted = true;
-        m_reply->abort ();
+        curNetworkReply ()->abort ();
     }
     //post data may need a long time, we don't use timeout killer
-    if (m_timeout->isActive ())
-        m_timeout->stop ();
+//    if (m_timeout->isActive ())
+//        m_timeout->stop ();
+    stopTimeout ();
 
     //start reply and timeout watch
     m_reply = m_networkMgr->post (request, data);
@@ -292,13 +325,14 @@ void BaseRequest::getRequest()
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
     //create request, if request exists, abort previous
     QNetworkRequest request(url);
-    if (m_reply) {
+    if (curNetworkReply ()) {
         m_requestAborted = true;
-        m_reply->abort ();
+        curNetworkReply ()->abort ();
     }
     //start reply and timeout watch
     m_reply = m_networkMgr->get (request);
-    m_timeout->start (m_timerInterval);
+//    m_timeout->start (m_timerInterval);
+    startTimeout ();
 
     if (m_reply) {
         connect (m_reply, &QNetworkReply::finished,

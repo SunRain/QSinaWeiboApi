@@ -27,4 +27,4 @@ Makefile*
 tmp/*
 Key.h
 build
-
+test/build*

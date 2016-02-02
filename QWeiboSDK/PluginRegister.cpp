@@ -4,7 +4,8 @@
 
 #include "QWeiboRequest.h"
 #include "ImageUploader.h"
-#include "CookieDataProvider.h"
+#include "HackLogin/CookieDataProvider.h"
+#include "HackLogin/HackFriendshipsGroups.h"
 
 namespace QWeiboSDK {
 
@@ -170,6 +171,9 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::FriendshipsDestroy>(url, 1, 0, "FriendshipsDestroy");
 
     qmlRegisterType<QWeiboSDK::HackLogin::CookieDataProvider>(url, 1, 0, "CookieDataProvider");
+
+    qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroups>(url, 1, 0, "HackFriendshipsGroups");
+
 
 }
 

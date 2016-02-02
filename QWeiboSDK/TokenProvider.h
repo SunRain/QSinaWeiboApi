@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QHash>
 
 #include "global.h"
 #include "SingletonPointer.h"
@@ -23,6 +24,7 @@ class QWEIBOSDK_EXPORT TokenProvider : public QObject
     Q_PROPERTY(QString passWord READ passWord WRITE setPassWord NOTIFY passWordChanged)
     Q_PROPERTY(QString expiresData READ expiresData WRITE setExpiresData NOTIFY expiresDataChanged)
     Q_PROPERTY(QString hackLoginCookies READ hackLoginCookies NOTIFY hackLoginCookiesChanged)
+    Q_PROPERTY(bool useHackLogin READ useHackLogin WRITE setUseHackLogin NOTIFY useHackLoginChanged)
 
     DECLARE_SINGLETON_POINTER(TokenProvider)
 public:
@@ -36,8 +38,9 @@ public:
     QString refreshToken() const;
     QString expiresData() const;
     QString hackLoginCookies() const;
-
     void setHackLoginCookies(const QList<QNetworkCookie> &list);
+    bool useHackLogin() const;
+
 public slots:
     void setAccessToken(const QString &arg);
     void setUid(const QString &arg);
@@ -45,6 +48,7 @@ public slots:
     void setPassWord(const QString &arg);
     void setRefreshToken(const QString &refreshToken);
     void setExpiresData(const QString &expiresData);
+    void setUseHackLogin(bool useHackLogin);
 
 signals:
     void accessTokenChanged(const QString &token);
@@ -55,6 +59,7 @@ signals:
     void refreshTokenChanged(QString refreshToken);
     void expiresDataChanged(QString expiresData);
     void hackLoginCookiesChanged(QString hackLoginCookies);
+    void useHackLoginChanged(bool useHackLogin);
 
 private:
     QSettings *m_settings;
@@ -66,6 +71,8 @@ private:
     QString m_expiresData;
     Oauth2GetTokenInfo *m_tokenInfo;
     QString m_hackLoginCookies;
+    bool m_useHackLogin;
+    QHash<QString, QString> m_cookiesHash;
 };
 } //QWeiboSDK
 #endif // TOKENPROVIDER_H

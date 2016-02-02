@@ -34,14 +34,19 @@ protected:
     virtual void initParameters();
     void setUrlPath(const QString &urlPath, const QString &tag = QString(".json"));
     QUrl initUrl();
-
+    void startTimeout();
+    void stopTimeout();
+    QNetworkAccessManager *curNetworkAccessMgr();
+    virtual QNetworkReply *curNetworkReply();
+    bool requestAborted();
+    void setRequestAborted(bool shouldAborted);
 signals:
     void requestSuccess(const QString &replyData);
     void requestFailure(const QString &replyData);
     void requestAbort();
 public slots:
-    void postRequest();
-    void getRequest();
+    virtual void postRequest();
+    virtual void getRequest();
 //private slots:
 //    void requestFinished();
 private:

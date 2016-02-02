@@ -1,24 +1,13 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2014-10-12T15:33:52
-#
-#-------------------------------------------------
-
 QT       += core gui network quick qml
 
 TARGET = tst_login2
 TEMPLATE = app
 
 CONFIG += c++11
+CONFIG += WITH_HACKLOGIN
 
 SOURCES += \
-    main.cpp \
-    CookieDataProvider.cpp \
-    LoginCookieJar.cpp
-
-HEADERS  += \
-    CookieDataProvider.h \
-    LoginCookieJar.h
+    main.cpp
 
 FORMS    +=
 

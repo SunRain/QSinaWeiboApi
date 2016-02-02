@@ -20,10 +20,14 @@ HEADERS += \
     $$PWD/htmlcxx/css/css_syntax.y \
     $$PWD/htmlcxx/css/css_lex.l \
     $$PWD/LoginCookieJar.h \
-    $$PWD/CookieDataProvider.h
+    $$PWD/CookieDataProvider.h \
+    $$PWD/BaseHackRequest.h \
+    $$PWD/HackFriendshipsGroups.h
 
 SOURCES += \
     $$PWD/LoginCookieJar.cpp \
-    $$PWD/CookieDataProvider.cpp
+    $$PWD/CookieDataProvider.cpp \
+    $$PWD/BaseHackRequest.cpp \
+    $$PWD/HackFriendshipsGroups.cpp
 
 

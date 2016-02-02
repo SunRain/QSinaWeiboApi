@@ -141,15 +141,23 @@ QString TokenProvider::hackLoginCookies() const
 
 void TokenProvider::setHackLoginCookies(const QList<QNetworkCookie> &list)
 {
-    QStringList values;
     foreach (QNetworkCookie c, list) {
-        QString v = QString("%1=%2").arg (c.name ().constData ()).arg (c.value ().constData ());
+        m_cookiesHash.insert (QString(c.name ()), QString(c.value ()));
+    }
+    QStringList values;
+    foreach (QString s, m_cookiesHash.keys ()) {
+        QString v = QString("%1=%2").arg (s).arg (m_cookiesHash.value (s, QString()));
         values.append (v);
     }
     m_hackLoginCookies = values.join (";");
     m_settings->setValue (KEY_HACKLOGIN_COOKIES, m_hackLoginCookies);
     m_settings->sync ();
     emit hackLoginCookiesChanged (m_hackLoginCookies);
+}
+
+bool TokenProvider::useHackLogin() const
+{
+    return m_useHackLogin;
 }
 
 void TokenProvider::setAccessToken(const QString &arg)
@@ -207,6 +215,15 @@ void TokenProvider::setExpiresData(const QString &expiresData)
 
     m_expiresData = expiresData;
     emit expiresDataChanged(expiresData);
+}
+
+void TokenProvider::setUseHackLogin(bool useHackLogin)
+{
+    if (m_useHackLogin == useHackLogin)
+        return;
+
+    m_useHackLogin = useHackLogin;
+    emit useHackLoginChanged(useHackLogin);
 }
 
 } //QWeiboSDK
