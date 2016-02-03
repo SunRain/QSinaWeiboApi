@@ -5,27 +5,19 @@ import QtQuick.Controls 1.2
 import harbour.sailfish_sinaweibo.sunrain 1.0
 
 ApplicationWindow {
-    width: 400
+    width: 600
     height: 300
     visible: true
-//    Connections {
-//        target: loginProvider
-//        onPreLoginSuccess: {
-//            console.log("===== onPreLoginSuccess");
-//            image.source = loginProvider.captchaImgUrl;
-//        }
-//    }
-    HackFriendshipsGroups {
+    FriendshipsGroupsTimelineWrapper {
         id: friendshipsGroups
         onRequestAbort: {
-            console.log("=== friendshipsGroups onRequestAbort")
+            etLabel.text = "=== friendshipsGroups onRequestAbort";
         }
         onRequestFailure: { //replyData
-            console.log("=== friendshipsGroups onRequestFailure " +replyData);
+            retLabel.text = "=== friendshipsGroups onRequestFailure " +replyData
         }
         onRequestSuccess: {
-            console.log("=== friendshipsGroups onRequestSuccess " +replyData);
-            infoLabel.text= replyData;
+            retLabel.text = replyData;
         }
     }
 
@@ -36,21 +28,34 @@ ApplicationWindow {
             image.source = loginProvider.captchaImgUrl;
         }
         onPreLoginFailure: { //str
-            console.log("Try hack login failure on prelogin, error code is [" + str +"].");
+            retLabel.text = "Try hack login failure on prelogin, error code is [" + str +"].";
         }
         onLoginSuccess: {
-            console.log("Hack login success, start try now");
-            friendshipsGroups.getRequest();
+            retLabel.text = "Hack login success";
         }
         onLoginFailure: { //str
-            console.log("Try hack login failure [" + str +"], start manual login now");
+            retLabel.text = "Try hack login failure [" + str +"]";
         }
     }
 
-    Item {
-        anchors.fill: parent
+    Component.onCompleted: {
+        loginProvider.preLogin();
+    }
+
+    Flickable {
+        id: loginFlickable
+        width: parent.width *0.3
+        anchors {
+            top: parent.top
+            left: parent.left
+            bottom: btnFlickable.top
+        }
+        contentHeight: column.height
+
         Column {
+            id: column
             width: parent.width
+
             TextField {
                 id: userName
                 placeholderText: "userName"
@@ -74,15 +79,58 @@ ApplicationWindow {
                     loginProvider.login();
                 }
             }
-            Label {
-                id: infoLabel
-                font.pixelSize: 22
-                font.italic: true
-                color: "steelblue"
+//            Label {
+//                id: infoLabel
+//                font.pixelSize: 22
+//                font.italic: true
+//                color: "steelblue"
+//            }
+            CheckBox {
+                id: hackLoginCheck
+                checked: tokenProvider.useHackLogin
+                text: "use hacklogin"
+                onCheckedChanged: {
+                    console.log("=== onCheckedChanged " +hackLoginCheck.checked);
+                    tokenProvider.useHackLogin = hackLoginCheck.checked;
+                }
             }
         }
-        Component.onCompleted: {
-            loginProvider.preLogin();
+    }
+    Flickable {
+        id: flickable
+        anchors {
+            top: parent.top
+            left: loginFlickable.right
+            right: parent.right
+            bottom: btnFlickable.top
+        }
+        contentHeight: retLabel.height
+        Label {
+            id: retLabel
+            font.pixelSize: 16
+//            font.italic: true
+            color: "steelblue"
+            width: parent.width
+            wrapMode: Text.WrapAnywhere
+        }
+    }
+    Flickable {
+        id: btnFlickable
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        height: btnRow.height
+        contentWidth: btnRow.width
+        Row {
+            id: btnRow
+            Button {
+                text: "groups"
+                onClicked: {
+                    friendshipsGroups.getRequest();
+                }
+            }
         }
     }
 

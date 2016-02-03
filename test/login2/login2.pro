@@ -4,7 +4,7 @@ TARGET = tst_login2
 TEMPLATE = app
 
 CONFIG += c++11
-CONFIG += WITH_HACKLOGIN
+CONFIG += WITH_HACKLOGIN WITH_SDK_WRAPPER
 
 SOURCES += \
     main.cpp
@@ -18,3 +18,4 @@ unix: PKGCONFIG += openssl htmlcxx
 
 RESOURCES += \
     resource.qrc
+
