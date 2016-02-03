@@ -12,6 +12,7 @@ HEADERS += \
     $$PWD/PluginRegister.h \
     $$PWD/ImageUploader.h
 
+
 SOURCES += \
     $$PWD/BaseRequest.cpp \
     $$PWD/global.cpp \
@@ -20,6 +21,29 @@ SOURCES += \
     $$PWD/PluginRegister.cpp
 
 contains (CONFIG, WITH_HACKLOGIN) {
-include (HackLogin/HackLogin.pri)
+    DEFINES += WITH_HACKLOGIN
+    HEADERS += \
+        $$PWD/HackLogin/BaseHackRequest.h \
+        $$PWD/HackLogin/CookieDataProvider.h \
+        $$PWD/HackLogin/HackFriendshipsGroups.h \
+        $$PWD/HackLogin/LoginCookieJar.h
+
+    SOURCES += \
+        $$PWD/HackLogin/BaseHackRequest.cpp \
+        $$PWD/HackLogin/CookieDataProvider.cpp \
+        $$PWD/HackLogin/HackFriendshipsGroups.cpp \
+        $$PWD/HackLogin/LoginCookieJar.cpp
 }
+
+contains (CONFIG, WITH_SDK_WRAPPER) {
+    DEFINES += WITH_SDK_WRAPPER
+    HEADERS += \
+        $$PWD/Wrapper/FriendshipsGroupsWrapper.h \
+        $$PWD/Wrapper/BaseWrapper.h
+
+    SOURCES += \
+        $$PWD/Wrapper/FriendshipsGroupsWrapper.cpp \
+        $$PWD/Wrapper/BaseWrapper.cpp
+}
+
 

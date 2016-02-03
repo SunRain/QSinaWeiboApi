@@ -21,10 +21,10 @@ BaseHackRequest::~BaseHackRequest()
 
 }
 
-void BaseHackRequest::initParameters()
-{
-    qDebug()<<Q_FUNC_INFO;
-}
+//void BaseHackRequest::initParameters()
+//{
+//    qDebug()<<Q_FUNC_INFO;
+//}
 
 QNetworkReply *BaseHackRequest::curNetworkReply()
 {
@@ -40,7 +40,6 @@ void BaseHackRequest::getRequest()
 {
     setRequestAborted (false);
     QUrl url = initUrl ();
-    qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
 
     QNetworkRequest request(url);
 //    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -53,6 +52,11 @@ void BaseHackRequest::getRequest()
 //    request.setRawHeader ("Referer", "http://weibo.cn/");
 //    request.setRawHeader ("Connection",	"keep-alive");
     request.setRawHeader ("Cookie", TokenProvider::instance ()->hackLoginCookies ().toUtf8 ());
+
+    qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
+    foreach (QByteArray ba, request.rawHeaderList ()) {
+        qDebug()<<Q_FUNC_INFO<<"request rawheader ["<<ba<<"="<<request.rawHeader (ba)<<"]";
+    }
 
     if (curNetworkReply ()) {
         setRequestAborted (true);
@@ -95,7 +99,6 @@ void BaseHackRequest::getRequest()
                 }
                 foreach (QNetworkReply::RawHeaderPair p, m_reply->rawHeaderPairs ()) {
                     qDebug()<<Q_FUNC_INFO<<p.first<<"||"<<p.second;
-
                 }
                 m_reply->deleteLater ();
                 m_reply = nullptr;

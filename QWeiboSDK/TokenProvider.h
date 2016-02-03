@@ -39,7 +39,7 @@ public:
     QString expiresData() const;
     QString hackLoginCookies() const;
     void setHackLoginCookies(const QList<QNetworkCookie> &list);
-    bool useHackLogin() const;
+    bool useHackLogin();
 
 public slots:
     void setAccessToken(const QString &arg);

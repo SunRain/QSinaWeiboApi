@@ -29,6 +29,13 @@ TokenProvider::TokenProvider(QObject *parent)
     m_uid = m_settings->value (KEY_UID, QString()).toString ();
     m_refreshToken = m_settings->value (KEY_REFRESH_TOKEN, QString()).toString ();
     m_expiresData = m_settings->value (KEY_EXPIRES_DATA, QString()).toString ();
+    m_hackLoginCookies = m_settings->value (KEY_HACKLOGIN_COOKIES, QString()).toString ();
+    m_useHackLogin = !m_hackLoginCookies.isEmpty ();
+    //insert cookies to hashlist to avoid erase stored values in function setHackLoginCookies()
+    foreach (QString str, m_hackLoginCookies.split (";")) {
+        QStringList list = str.split ("=");
+        m_cookiesHash.insert (list.at (0), list.at (1));
+    }
 }
 
 TokenProvider::~TokenProvider()
@@ -155,7 +162,7 @@ void TokenProvider::setHackLoginCookies(const QList<QNetworkCookie> &list)
     emit hackLoginCookiesChanged (m_hackLoginCookies);
 }
 
-bool TokenProvider::useHackLogin() const
+bool TokenProvider::useHackLogin()
 {
     return m_useHackLogin;
 }

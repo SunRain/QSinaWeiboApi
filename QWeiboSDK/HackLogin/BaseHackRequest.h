@@ -17,7 +17,7 @@ public:
 
     // BaseRequest interface
 protected:
-    virtual void initParameters();
+//    virtual void initParameters();
     QNetworkReply *curNetworkReply();
 public slots:
     void postRequest();

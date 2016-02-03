@@ -3,7 +3,7 @@
 namespace QWeiboSDK {
 namespace HackLogin {
 
-HackFriendshipsGroups::HackFriendshipsGroups(QObject *parent)
+HackFriendshipsGroupsTimeline::HackFriendshipsGroupsTimeline(QObject *parent)
     : BaseHackRequest(parent)
 {
     setUrlPath ("attgroup/index", "");
