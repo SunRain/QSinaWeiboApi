@@ -11,8 +11,6 @@
 #include "htmlcxx/html/Node.h"
 
 namespace QWeiboSDK {
-class BaseRequest;
-
 namespace Wrapper {
 
 class QWEIBOSDK_EXPORT FriendshipsGroupsTimelineWrapper : public BaseWrapper
@@ -23,9 +21,6 @@ public:
 
 protected:
     QString parseContent(const QString &content);
-
-private:
-    BaseRequest *m_request;
 };
 
 } //Wrapper

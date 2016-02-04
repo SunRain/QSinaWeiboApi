@@ -18,45 +18,7 @@ using namespace std;
 FriendshipsGroupsTimelineWrapper::FriendshipsGroupsTimelineWrapper(QObject *parent)
     : BaseWrapper(parent)
 {
-    if (useHackLogin ())
-        m_request = new HackFriendshipsGroupsTimeline(this);
-    else
-        m_request = new FriendshipsGroupsTimeline(this);
-
-    setRequest (m_request);
-
-    connect (m_request, &BaseRequest::requestSuccess,
-             [&](const QString &replyData){
-        qDebug()<<Q_FUNC_INFO<<"requestSuccess";
-        emit requestSuccess (replyData);
-    });
-
-    connect (this, &BaseWrapper::useHackLoginChanged,
-             [&]() {
-        qDebug()<<Q_FUNC_INFO<<"****";
-
-        //setRequest to nullptr to call to disconnect all request connections
-        setRequest (nullptr);
-
-        if (m_request)
-            m_request->deleteLater ();
-        m_request = nullptr;
-
-        if (useHackLogin ())
-            m_request = new HackFriendshipsGroupsTimeline(this);
-        else
-            m_request = new FriendshipsGroupsTimeline(this);
-
-        setRequest (m_request);
-
-//        connect (m_request, &BaseRequest::requestSuccess,
-//                 [&](const QString &replyData){
-//            QString str = parseContent (replyData);
-//            qDebug()<<Q_FUNC_INFO<<"requestSuccess "<<str;
-//            emit requestSuccess (str);
-//        });
-    });
-
+    registerRequest<FriendshipsGroupsTimeline, HackFriendshipsGroupsTimeline>();
 }
 
 QString FriendshipsGroupsTimelineWrapper::parseContent(const QString &content)
