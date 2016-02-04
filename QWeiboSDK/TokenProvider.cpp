@@ -32,9 +32,12 @@ TokenProvider::TokenProvider(QObject *parent)
     m_hackLoginCookies = m_settings->value (KEY_HACKLOGIN_COOKIES, QString()).toString ();
     m_useHackLogin = !m_hackLoginCookies.isEmpty ();
     //insert cookies to hashlist to avoid erase stored values in function setHackLoginCookies()
-    foreach (QString str, m_hackLoginCookies.split (";")) {
-        QStringList list = str.split ("=");
-        m_cookiesHash.insert (list.at (0), list.at (1));
+    if (!m_hackLoginCookies.isEmpty ()) {
+        foreach (QString str, m_hackLoginCookies.split (";")) {
+            QStringList list = str.split ("=");
+            if (list.size () == 2)
+                m_cookiesHash.insert (list.at (0), list.at (1));
+        }
     }
 }
 
