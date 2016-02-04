@@ -178,11 +178,11 @@ void registerPlugins(const char *url)
 
 #ifdef WITH_HACKLOGIN
     qmlRegisterType<QWeiboSDK::HackLogin::CookieDataProvider>(url, 1, 0, "CookieDataProvider");
-    qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsTimeline>(url, 1, 0, "HackFriendshipsGroups");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroups>(url, 1, 0, "HackFriendshipsGroups");
 #endif
 
 #ifdef WITH_SDK_WRAPPER
-    qmlRegisterType<QWeiboSDK::Wrapper::FriendshipsGroupsTimelineWrapper>(url, 1, 0, "FriendshipsGroupsTimelineWrapper");
+    qmlRegisterType<QWeiboSDK::Wrapper::FriendshipsGroupsWrapper>(url, 1, 0, "FriendshipsGroupsWrapper");
 #endif
 
 }

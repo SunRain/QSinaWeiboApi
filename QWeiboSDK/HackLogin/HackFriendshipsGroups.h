@@ -8,11 +8,11 @@
 
 namespace QWeiboSDK {
 namespace HackLogin {
-class QWEIBOSDK_EXPORT HackFriendshipsGroupsTimeline : public BaseHackRequest
+class QWEIBOSDK_EXPORT HackFriendshipsGroups : public BaseHackRequest
 {
     Q_OBJECT
 public:
-    explicit HackFriendshipsGroupsTimeline(QObject *parent = 0);
+    explicit HackFriendshipsGroups(QObject *parent = 0);
 };
 
 #endif // HACKFRIENDSHIPSGROUPS_H

@@ -20,13 +20,13 @@ using namespace HackLogin;
 using namespace htmlcxx;
 using namespace std;
 
-FriendshipsGroupsTimelineWrapper::FriendshipsGroupsTimelineWrapper(QObject *parent)
+FriendshipsGroupsWrapper::FriendshipsGroupsWrapper(QObject *parent)
     : BaseWrapper(parent)
 {
-    registerRequest<FriendshipsGroupsTimeline, HackFriendshipsGroupsTimeline>();
+    registerRequest<FriendshipsGroups, HackFriendshipsGroups>();
 }
 
-QString FriendshipsGroupsTimelineWrapper::parseContent(const QString &content)
+QString FriendshipsGroupsWrapper::parseContent(const QString &content)
 {
     HTML::ParserDom parser;
     tree<HTML::Node> dom = parser.parseTree(content.toStdString ());

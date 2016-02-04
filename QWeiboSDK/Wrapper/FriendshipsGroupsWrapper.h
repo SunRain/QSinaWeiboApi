@@ -13,11 +13,12 @@
 namespace QWeiboSDK {
 namespace Wrapper {
 
-class QWEIBOSDK_EXPORT FriendshipsGroupsTimelineWrapper : public BaseWrapper
+////2/friendships/groups: 获取当前登陆用户好友分组列表
+class QWEIBOSDK_EXPORT FriendshipsGroupsWrapper : public BaseWrapper
 {
     Q_OBJECT
 public:
-    explicit FriendshipsGroupsTimelineWrapper(QObject *parent = 0);
+    explicit FriendshipsGroupsWrapper(QObject *parent = 0);
 
 protected:
     QString parseContent(const QString &content);
