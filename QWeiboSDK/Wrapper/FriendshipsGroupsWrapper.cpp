@@ -1,6 +1,11 @@
 #include "FriendshipsGroupsWrapper.h"
 
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QUrl>
+#include <QUrlQuery>
 
 #include "HackLogin/HackFriendshipsGroups.h"
 #include "HackLogin/BaseHackRequest.h"
@@ -23,46 +28,59 @@ FriendshipsGroupsTimelineWrapper::FriendshipsGroupsTimelineWrapper(QObject *pare
 
 QString FriendshipsGroupsTimelineWrapper::parseContent(const QString &content)
 {
-    qDebug()<<Q_FUNC_INFO<<"=======";
-
     HTML::ParserDom parser;
-    tree<HTML::Node> dom = parser.parseTree(QString(content).toStdString ());
+    tree<HTML::Node> dom = parser.parseTree(content.toStdString ());
 
     tree<HTML::Node>::iterator domBeg = dom.begin();
     tree<HTML::Node>::iterator domEnd = dom.end();
 
-    bool success = true;
     QString tmp = QString();
-//    for (; domBeg != domEnd; ++domBeg) {  // 遍历文档中所有的元素
-    while (domBeg != domEnd) {
+    QJsonArray jarray;
+    while (domBeg != domEnd) { // 遍历文档中所有的元素
         if (!(*domBeg).tagName ().compare ("a")) {
             domBeg->parseAttributes();
             QString cv = QString::fromStdString ((*domBeg).attribute ("href").second);
-//            qDebug()<<Q_FUNC_INFO<<"a value ["<<cv<<"], text is "<<QString::fromStdString ((*domBeg).text ());
-//            if (cv == "me") { //captcha error
-//                success = false;
-//                for (; domBeg != domEnd; ++domBeg) {
-//                    if (! (*domBeg).isTag ()) {
-//                        tmp = QString::fromStdString ((*domBeg).text ());
-//                        break;
-//                    }
-//                }
-//                break;
-//            }
             if (cv.contains ("attgroup/show")) {
-                qDebug()<<Q_FUNC_INFO<<"***************************";
-                qDebug()<<Q_FUNC_INFO<<"a value ["<<cv<<"], text is "<<QString::fromStdString ((*domBeg).text ());
+//                qDebug()<<Q_FUNC_INFO<<"***************************";
+//                qDebug()<<Q_FUNC_INFO<<"a value ["<<cv<<"], text is "<<QString::fromStdString ((*domBeg).text ());
                 ++domBeg;
-                if (! (*domBeg).isTag ()) {
-                    tmp = QString::fromStdString ((*domBeg).text ());
-                    qDebug()<<Q_FUNC_INFO<<"text is "<<tmp;
+
+                QUrl url = QUrl::fromEncoded ((QString("http://fake.com/%1").arg (cv))
+                                              .replace ("&amp;","&")
+                                              .toUtf8 ());
+//                qDebug()<<Q_FUNC_INFO<<"url is "<<url;
+//                qDebug()<<Q_FUNC_INFO<<"url has query "<<url.hasQuery ()
+//                       <<"  query value "<<url.query ();
+
+                QUrlQuery query(url.query ());
+                if (!query.hasQueryItem ("gid"))
                     continue;
+
+                QString gid = query.queryItemValue ("gid");
+                if (gid.isEmpty ())
+                    continue;
+
+                if (! (*domBeg).isTag ()) {
+                    tmp = QString();
+                    tmp = QString::fromStdString ((*domBeg).text ());
+                    tmp = tmp.mid (0, tmp.lastIndexOf ("["));
                 }
+                if (tmp.isEmpty ())
+                    continue;
+
+                QJsonObject obj;
+                obj.insert ("id", gid);
+                obj.insert ("idstr", gid);
+                obj.insert ("name", tmp);
+                jarray.append (obj);
+
+                continue;
             }
         }
         ++domBeg;
     }
-    return QString();
+    QJsonDocument d(jarray);
+    return d.toJson ();
 }
 
 } //Wrapper
