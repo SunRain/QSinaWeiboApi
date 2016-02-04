@@ -182,7 +182,7 @@ void registerPlugins(const char *url)
 #endif
 
 #ifdef WITH_SDK_WRAPPER
-    qmlRegisterType<QWeiboSDK::Wrapper::FriendshipsGroupsWrapper>(url, 1, 0, "FriendshipsGroupsWrapper");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperFriendshipsGroups>(url, 1, 0, "WrapperFriendshipsGroups");
 #endif
 
 }
