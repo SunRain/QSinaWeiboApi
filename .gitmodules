@@ -1,0 +1,4 @@
+[submodule "QWeiboSDK/HackLogin/htmlcxx"]
+	path = QWeiboSDK/HackLogin/htmlcxx
+	url = https://github.com/SunRain/htmlcxx.git
+	branch = master
