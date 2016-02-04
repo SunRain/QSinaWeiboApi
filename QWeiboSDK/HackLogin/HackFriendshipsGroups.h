@@ -15,7 +15,11 @@ public:
     explicit HackFriendshipsGroups(QObject *parent = 0);
 };
 
-#endif // HACKFRIENDSHIPSGROUPS_H
+
+
+
 
 } //HackLogin
 } //QWeiboSDK
+
+#endif // HACKFRIENDSHIPSGROUPS_H
