@@ -26,5 +26,5 @@ Makefile*
 *.qmlproject.user.*
 tmp/*
 Key.h
-build
 test/build*
+QWeiboSDK/HackLogin/htmlcxx-build
