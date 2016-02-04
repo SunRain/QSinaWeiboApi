@@ -22,6 +22,8 @@ SOURCES += \
 
 contains (CONFIG, WITH_HACKLOGIN) {
     DEFINES += WITH_HACKLOGIN
+    INCLUDEPATH += $$PWD/HackLogin
+    DEPENDPATH += $$PWD/HackLogin
     HEADERS += \
         $$PWD/HackLogin/BaseHackRequest.h \
         $$PWD/HackLogin/CookieDataProvider.h \
