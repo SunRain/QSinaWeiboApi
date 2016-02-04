@@ -8,13 +8,13 @@ ApplicationWindow {
     width: 600
     height: 300
     visible: true
-    FriendshipsGroupsTimelineWrapper {
-        id: friendshipsGroups
+    WrapperFriendshipsGroups {
+        id: wrapperFriendshipsGroups
         onRequestAbort: {
-            etLabel.text = "=== friendshipsGroups onRequestAbort";
+            etLabel.text = "=== wrapperFriendshipsGroups onRequestAbort";
         }
         onRequestFailure: { //replyData
-            retLabel.text = "=== friendshipsGroups onRequestFailure " +replyData
+            retLabel.text = "=== wrapperFriendshipsGroups onRequestFailure " +replyData
         }
         onRequestSuccess: {
             retLabel.text = replyData;
@@ -128,7 +128,7 @@ ApplicationWindow {
             Button {
                 text: "groups"
                 onClicked: {
-                    friendshipsGroups.getRequest();
+                    wrapperFriendshipsGroups.getRequest();
                 }
             }
         }
