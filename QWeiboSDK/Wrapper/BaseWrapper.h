@@ -22,33 +22,35 @@ protected:
 
     template <class Base, class Hack>
     void registerRequest() {
-        if (m_useHackLogin)
-            m_request = new Hack(this);
-        else
-            m_request = new Base(this);
+        if (m_request) {
+            //setRequest to nullptr to call to disconnect all request connections
+            setRequest (nullptr);
+            m_request->deleteLater ();
+        }
+        m_request = nullptr;
 
-        setRequest (m_request);
+        if (m_useHackLogin)
+            setRequest (new Hack(this));
+        else
+            setRequest (new Base(this));
 
         connect (m_tokenProvider, &TokenProvider::useHackLoginChanged,
                  [&](bool changed){
             Q_UNUSED(changed)
-            qDebug()<<Q_FUNC_INFO<<"****";
 
             m_useHackLogin = m_tokenProvider->useHackLogin ();
 
-            //setRequest to nullptr to call to disconnect all request connections
-            setRequest (nullptr);
-
-            if (m_request)
+            if (m_request) {
+                //setRequest to nullptr to call to disconnect all request connections
+                setRequest (nullptr);
                 m_request->deleteLater ();
+            }
             m_request = nullptr;
 
             if (m_useHackLogin)
-                m_request = new Hack(this);
+                setRequest (new Hack(this));
             else
-                m_request = new Base(this);
-
-            setRequest (m_request);
+                setRequest (new Base(this));
         });
     }
 

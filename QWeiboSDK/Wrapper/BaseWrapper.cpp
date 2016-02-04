@@ -36,7 +36,7 @@ void BaseWrapper::setRequest(BaseRequest *request)
     if (m_request == request)
         return;
 
-    if (m_request && m_request != request) {
+    if (m_request) {
         m_request->disconnect ();
     }
     m_request = request;
@@ -46,7 +46,6 @@ void BaseWrapper::setRequest(BaseRequest *request)
         connect (m_request, &BaseRequest::requestSuccess,
                  [&](const QString &replyData){
             QString str = parseContent (replyData);
-            qDebug()<<Q_FUNC_INFO<<">>>>>>requestSuccess "<<str;
             emit requestSuccess (str);
         });
     }
