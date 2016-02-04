@@ -13,9 +13,9 @@
 
 #include <QByteArray>
 
-#include <htmlcxx/html/tree.h>
-#include <htmlcxx/html/ParserDom.h>
-#include <htmlcxx/html/Node.h>
+#include "htmlcxx/html/tree.h"
+#include "htmlcxx/html/ParserDom.h"
+#include "htmlcxx/html/Node.h"
 
 #include "LoginCookieJar.h"
 
