@@ -20,6 +20,18 @@ ApplicationWindow {
             retLabel.text = replyData;
         }
     }
+    WrapperFriendshipsGroupsTimeline {
+        id: wrapperFriendshipsGroupsTimeline
+        onRequestAbort: {
+            etLabel.text = "=== wrapperFriendshipsGroupsTimeline onRequestAbort";
+        }
+        onRequestFailure: { //replyData
+            retLabel.text = "=== wrapperFriendshipsGroupsTimeline onRequestFailure " +replyData
+        }
+        onRequestSuccess: {
+            retLabel.text = replyData;
+        }
+    }
 
     CookieDataProvider {
         id: loginProvider
@@ -131,6 +143,20 @@ ApplicationWindow {
                     wrapperFriendshipsGroups.getRequest();
                 }
             }
+            Column {
+                TextField {
+                    id: groupGid
+                    placeholderText: "Group(gid number)"
+                }
+                Button {
+                    text: "view "
+                    onClicked: {
+                        wrapperFriendshipsGroupsTimeline.setParameters("gid", groupGid.text)
+                        wrapperFriendshipsGroupsTimeline.getRequest();
+                    }
+                }
+            }
+
         }
     }
 
