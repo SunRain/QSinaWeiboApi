@@ -127,9 +127,22 @@ QString WrapperFriendshipsGroupsTimeline::parseContent(const QString &content)
             if ((*it).tagName () == "div") {
                 if (!(*it).attribute ("id").second.empty ()
                         && (*it).attribute ("class").second == "c") {
-                    qDebug()<<Q_FUNC_INFO<<"mark for <TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
+                    qDebug()<<"mark for <TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
                            <<"] [text="<<QString::fromStdString ((*it).text ())<<"]";
                     ++it;
+
+                    qDebug()<<"Next Tag is ["<<TO_QSTR((*it).tagName ())
+                           <<"] closingText text ["<<TO_QSTR ((*it).closingText ())
+                           <<"]";
+                    if ((*it).tagName () == "div") {
+                        int start = (*it).offset ();
+                        int length = (*it).length ();
+                        qDebug()<<"Next Tag [DIV] length ["<<length
+                                <<"], offset ["<<start
+                                <<"]";
+                        QString data = content.mid (start, length);
+                        qDebug()<<"Next Tag [DIV] data <"<<data<<">";
+                    }
                  }
             }
 
@@ -137,31 +150,40 @@ QString WrapperFriendshipsGroupsTimeline::parseContent(const QString &content)
                 //<div class="pa" id="pagelist">是最后一条内容之后的页面内容，作为跳出循环的标记
                 if ((*it).attribute ("class").second == "pa"
                         && (*it).attribute ("id").second == "pagelist") {
-                    qDebug()<<Q_FUNC_INFO<<">>>>>> break inner loop <<<<";
+                    qDebug()<<">>>>>> break inner loop <<<<";
                     break;
                 }
 
                 if ((*it).tagName () == "div") {
                     if (!(*it).attribute ("id").second.empty ()
                             && (*it).attribute ("class").second == "c") {
-                        qDebug()<<Q_FUNC_INFO<<"break for <TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
+                        qDebug()<<"break for <TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
                                <<"] [text="<<QString::fromStdString ((*it).text ())<<"]";
 //                        breakFlag = true;
                         break;
                      }
                 }
-                qDebug()<<Q_FUNC_INFO<<"Tag is "<<TO_QSTR((*it).tagName ());
+                qDebug()<<"Tag is ["<<TO_QSTR((*it).tagName ())
+                       <<"] closingText text ["<<TO_QSTR ((*it).closingText ())
+                       <<"]";
 
-                qDebug()<<Q_FUNC_INFO<<"close text "<<QString::fromStdString ((*it).closingText ());
-
+                if ((*it).tagName () == "div") {
+                    int start = (*it).offset ();
+                    int length = (*it).length ();
+                    qDebug()<<"[DIV] length ["<<length
+                            <<"], offset ["<<start
+                            <<"]";
+                    QString data = content.mid (start, length);
+                    qDebug()<<"[DIV] data <"<<data<<">";
+                }
                 if ((*it).isTag ()) {
-                    qDebug()<<Q_FUNC_INFO<<"<TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
+                    qDebug()<<"<TAG> [tagname ="<<QString::fromStdString ((*it).tagName ())
                            <<"] [text="<<QString::fromStdString ((*it).text ())<<"]";
                 } else if ((*it).isComment ()){
-                    qDebug()<<Q_FUNC_INFO<<"<Comment> [tagname ="<<QString::fromStdString ((*it).tagName ())
+                    qDebug()<<"<Comment> [tagname ="<<QString::fromStdString ((*it).tagName ())
                            <<"] [text="<<QString::fromStdString ((*it).text ())<<"]";
                 } else {
-                    qDebug()<<Q_FUNC_INFO<<"<TEXT> [tagname ="<<QString::fromStdString ((*it).tagName ())
+                    qDebug()<<"<TEXT> [tagname ="<<QString::fromStdString ((*it).tagName ())
                            <<"] [text="<<QString::fromStdString ((*it).text ())<<"]";
                 }
                 ++it;
@@ -171,6 +193,8 @@ QString WrapperFriendshipsGroupsTimeline::parseContent(const QString &content)
         }
         ++it;
     }
+
+    qDebug()<<Q_FUNC_INFO<<"====  end of parser ====";
 
     return content;
 }
