@@ -1,0 +1,87 @@
+  <div class="c" id="M_DgiVf444s">
+  <!---------------------------------------------------- 非转发微博示例 -------------->
+   <div>
+    <a class="nk" href="http://weibo.cn/u/5347386499">AND-宇宙Cosmos</a>
+    <img src="http://u1.sinaimg.cn/upload/2011/07/28/5338.gif" alt="V" />
+    <img src="http://u1.sinaimg.cn/upload/h5/img/hyzs/donate_btn_s.png" alt="M" />
+    <span class="ctt">:新衣新外套新毛帽。<br />來個煥然一新好過年，耶～<br /><br />你們年前準備New了嗎?</span>
+   </div>
+   <div>
+    <a href="http://weibo.cn/mblog/pic/DgiVf444s?rl=1"><img src="http://ww2.sinaimg.cn/wap180/005PT5vljw1f0ngx5rpjkj30qo0qojx0.jpg" alt="图片" class="ib" /></a>&nbsp;
+    <a href="http://weibo.cn/mblog/oripic?id=DgiVf444s&amp;u=005PT5vljw1f0ngx5rpjkj30qo0qojx0">原图</a>&nbsp;
+    <a href="http://weibo.cn/attitude/DgiVf444s/add?uid=2889227340&amp;rl=1&amp;gid=3695053426075251&amp;st=b61817">赞[1019]</a>&nbsp;
+    <a href="http://weibo.cn/repost/DgiVf444s?uid=5347386499&amp;rl=1&amp;gid=3695053426075251">转发[24]</a>&nbsp;
+    <a href="http://weibo.cn/comment/DgiVf444s?uid=5347386499&amp;rl=1&amp;gid=3695053426075251#cmtfrm" class="cc">评论[42]</a>&nbsp;
+    <a href="http://weibo.cn/fav/addFav/DgiVf444s?rl=1&amp;st=b61817">收藏</a>
+    <!---->&nbsp;
+    <span class="ct">02月04日 18:14&nbsp;来自iPhone 5s</span>
+   </div>
+  </div>
+    
+  <!-- -------转发微博示例- ------- -->
+  <div class="c" id="M_Dgyzv2VJv">
+   <div>
+   <!-- 转发者 -->
+    <a class="nk" href="http://weibo.cn/u/2645249603">广州边锋谢俊辉</a> <!-- 用户信息页面 -->
+    <img src="http://u1.sinaimg.cn/upload/2011/07/28/5338.gif" alt="V" /> <!-- 新浪vip图标 -->
+    <img src="http://u1.sinaimg.cn/upload/h5/img/hyzs/donate_btn_s.png" alt="M" /> <!-- 新浪皇冠图标 -->
+	<!-- 原微博内容，需去掉 转发 二字，原微博点赞评论等数据 -->
+    <span class="cmt">&nbsp;转发了&nbsp;<a href="http://weibo.cn/678605246">草根足球记录员</a><img src="http://u1.sinaimg.cn/upload/2011/07/28/5338.gif" alt="V" />&nbsp;的微博:</span>
+    <span class="ctt">徐新入选国家队的真正原因。</span>&nbsp;[
+    <a href="http://weibo.cn/mblog/picAll/Dgq8OpeTg?rl=2">组图共3张</a>]
+   </div>
+   <div>
+    <a href="http://weibo.cn/mblog/pic/Dgq8OpeTg?rl=1"><img src="http://ww1.sinaimg.cn/wap180/45f15ef3gw1f0ocs9kkzxj20fh0jgmzk.jpg" alt="图片" class="ib" /></a>&nbsp;
+    <a href="http://weibo.cn/mblog/oripic?id=Dgq8OpeTg&amp;u=45f15ef3gw1f0ocs9kkzxj20fh0jgmzk">原图</a>&nbsp;
+    <span class="cmt">赞[168]</span>&nbsp;
+    <span class="cmt">原文转发[195]</span>&nbsp;
+    <a href="http://weibo.cn/comment/Dgq8OpeTg?rl=1#cmtfrm" class="cc">原文评论[86]</a>
+    <!---->
+   </div>
+   <div>
+   <!-- 转发内容 以及点赞、评论等数据-->
+    <span class="cmt">转发理由:</span>转世！&nbsp;&nbsp;
+    <a href="http://weibo.cn/attitude/Dgyzv2VJv/add?uid=2889227340&amp;rl=1&amp;gid=3695053426075251&amp;st=b61817">赞[2]</a>&nbsp;
+    <a href="http://weibo.cn/repost/Dgyzv2VJv?uid=2645249603&amp;rl=1&amp;gid=3695053426075251">转发[4]</a>&nbsp;
+    <a href="http://weibo.cn/comment/Dgyzv2VJv?uid=2645249603&amp;rl=1&amp;gid=3695053426075251#cmtfrm" class="cc">评论[1]</a>&nbsp;
+    <a href="http://weibo.cn/fav/addFav/Dgyzv2VJv?rl=1&amp;st=b61817">收藏</a>
+    <!---->&nbsp;
+	<!-- 转发内容者的转发时间 -->
+    <span class="ct">2分钟前&nbsp;来自iPhone 6 Plus</span>
+   </div>
+  </div>
+  
+  <!-- -------多人转发微博示例- ------- -->
+  <div class="c" id="M_DfySoagaz">
+   <div>
+   <!-- 转发者 -->
+    <a class="nk" href="http://weibo.cn/u/2645249603">广州边锋谢俊辉</a>
+    <img src="http://u1.sinaimg.cn/upload/2011/07/28/5338.gif" alt="V" />
+    <img src="http://u1.sinaimg.cn/upload/h5/img/hyzs/donate_btn_s.png" alt="M" />
+	<!-- 原微博内容，需去掉 转发 二字，原微博点赞评论等数据 -->
+    <span class="cmt">&nbsp;转发了&nbsp;<a href="http://weibo.cn/goalhi4u">虎扑足球</a><img src="http://u1.sinaimg.cn/upload/2011/07/28/5337.gif" alt="V" /><img src="http://u1.sinaimg.cn/upload/h5/img/hyzs/donate_btn_s.png" alt="M" />&nbsp;的微博:</span>
+    <span class="ctt">【湖南卫视将登上西班牙人队胸前广告】西班牙人官方宣布，球队大股东星辉控股集团已经与湖南卫视达成协议，球队将在本周末对阵皇马的比赛中穿上印有湖南卫视宣传广告的球衣。从西班牙人官方发布的图片来看，湖南卫视的著名选秀节目《超级女声》将成为西班牙人队的胸前广告出现在伯纳乌球场。</span>
+   </div>
+   <div>
+    <a href="http://weibo.cn/mblog/pic/DfuopfRiZ?rl=1"><img src="http://ww3.sinaimg.cn/wap180/653d411egw1f0h9ubxj4tj20hf0c9wf9.jpg" alt="图片" class="ib" /></a>&nbsp;
+    <a href="http://weibo.cn/mblog/oripic?id=DfuopfRiZ&amp;u=653d411egw1f0h9ubxj4tj20hf0c9wf9">原图</a>&nbsp;
+    <span class="cmt">赞[885]</span>&nbsp;
+    <span class="cmt">原文转发[7613]</span>&nbsp;
+    <a href="http://weibo.cn/comment/DfuopfRiZ?rl=1#cmtfrm" class="cc">原文评论[2112]</a>
+    <!---->
+   </div>
+   <div>
+   <!-- 转发内容 以及点赞、评论等数据-->
+    <span class="cmt">转发理由:</span>可怕，中国财团快要毁灭足球界了 //
+    <a href="/n/%E8%8B%B1%E8%B6%85%E5%90%84%E7%A7%8D%E9%BB%91">@英超各种黑</a>:excuse me？？ //
+    <a href="/n/CampNou%E7%9A%84%E7%83%9F%E7%81%AB">@CampNou的烟火</a>:哈哈哈哈哈哈哈哈//
+    <a href="/n/%E5%B0%8F%E9%9A%90%E5%90%8C%E5%AD%A6">@小隐同学</a>:。。。。雷劈了简直 //
+    <a href="/n/%E7%BF%A0%E5%96%9C%E5%96%9C%E5%96%9C">@翠喜喜喜</a>:。。。。超级表妹[doge]&nbsp;&nbsp;
+    <a href="http://weibo.cn/attitude/DfySoagaz/add?uid=2889227340&amp;rl=1&amp;gid=3695053426075251&amp;st=b61817">赞[51]</a>&nbsp;
+    <a href="http://weibo.cn/repost/DfySoagaz?uid=2645249603&amp;rl=1&amp;gid=3695053426075251">转发[1367]</a>&nbsp;
+    <a href="http://weibo.cn/comment/DfySoagaz?uid=2645249603&amp;rl=1&amp;gid=3695053426075251#cmtfrm" class="cc">评论[48]</a>&nbsp;
+    <a href="http://weibo.cn/fav/addFav/DfySoagaz?rl=1&amp;st=b61817">收藏</a>
+    <!---->&nbsp;
+    <span class="ct">01月30日 21:00&nbsp;来自iPhone 6 Plus</span>
+   </div>
+  </div>
