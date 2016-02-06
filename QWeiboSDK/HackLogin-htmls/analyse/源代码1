@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="gb2312">
+		<link rel="dns-prefetch" href="http://h5.sinaimg.cn">
+		<link rel="dns-prefetch" href="http://u1.sinaimg.cn">
+		<link rel="dns-prefetch" href="http://ww1.sinaimg.cn">
+		<link rel="dns-prefetch" href="http://ww2.sinaimg.cn">
+		<link rel="dns-prefetch" href="http://ww3.sinaimg.cn">
+		<link rel="dns-prefetch" href="http://ww4.sinaimg.cn">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link rel="apple-touch-icon" href="http://u1.sinaimg.cn/upload/h5/img/apple-touch-icon.png">
+		<title>欢迎登录 - 新浪微博</title>
+		<meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+		<link rel="stylesheet" href="/css/weibo/signin/login.css?id=201406091907">
+	</head>
+	<body>
+		<div class="welcome-wrapper">
+			<a id="J-call-app" href="javascript:;" class="label">体验微博客户端&gt;&gt;</a>
+            <input id="J-download-app" type="hidden" name="storeurl" value="">
+			<div class="action">
+				<a href="http://m.weibo.cn/reg/index?vt=4&res=wel&wm=3349&backURL=http%3A%2F%2Fm.weibo.cn%2F" class="btn btnRed">注册</a>
+				<a href="https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F" class="btn btnWhite">登录</a>
+			</div>
+			<a id="QQ-login" href="https://passport.weibo.com/othersitebind/authorize?site=qq&entry=mweibo&res=wel&callback=http%3A%2F%2Fm.weibo.cn%2F" class="btn btnQQ"><i class="icon"></i>使用QQ号码登录</a>
+		</div>
+		<script>
+			if ('0' == '1') {
+				document.getElementById('J-call-app').style.display='none';
+				document.getElementById('QQ-login').style.display='none';
+			}
+		</script>
+		<script>
+			(function(){
+				var ua = navigator.userAgent.toLowerCase();
+				var t;
+			    var config = {
+			        /*scheme:必须*/
+			        scheme_IOS: 'sinaweibo://home',
+			        scheme_Adr: 'sinaweibo://splash',
+			        download_url: document.getElementById('J-download-app').value,
+			        timeout: 600
+			    };
+
+				function openclient() {
+				    var startTime = Date.now();
+
+
+				    var ifr = document.createElement('iframe');
+				    //ifr.src = 'sinaweibo://sendweibo';
+				    ifr.src = ua.indexOf('os') > 0 ? config.scheme_IOS : config.scheme_Adr;
+				    ifr.style.display = 'none';
+				    document.body.appendChild(ifr);
+				    var t = setTimeout(function() {
+				        var endTime = Date.now();
+				        if (!startTime || endTime - startTime < config.timeout + 200) { //如果装了app并跳到客户端后，endTime - startTime 一定> timeout + 200
+				        window.location = config.download_url;
+
+				        }
+				    }, config.timeout);
+
+				    window.onblur = function() {
+				        clearTimeout(t);
+				    }
+				}
+				window.addEventListener("DOMContentLoaded", function(){
+					document.getElementById("J-call-app").addEventListener('click',openclient,false);
+
+				}, false);
+			})()
+		</script>
+	</body>
+</html> 

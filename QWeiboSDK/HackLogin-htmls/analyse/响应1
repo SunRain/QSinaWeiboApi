@@ -1,0 +1,29 @@
+执行时间：0.056120157241821
+
+HTTP/1.1 302 Moved Temporarily
+
+Server: Tengine
+
+Date: Sat, 06 Feb 2016 12:06:12 GMT
+
+Content-Type: text/html
+
+Transfer-Encoding: chunked
+
+Connection: close
+
+X-Powered-By: PHP/5.4.41
+
+X-Log-Uid: 
+
+Set-Cookie: _T_WM=bb9bbef608f1be6d8dcbb2c4f5c6ce1e; expires=Mon, 07-Mar-2016 12:06:12 GMT; path=/; domain=.weibo.cn; httponly
+
+Location: http://m.weibo.cn/login?ns=1&backURL=http%3A%2F%2Fm.weibo.cn%2F%3Fatool_timestamp%3D1454760372&backTitle=%CE%A2%B2%A9&vt=4&
+
+PROC_NODE: web299.mweibo.bx.sinanode.com
+
+SINA-LB:aGEuMjA1LmcxLnlmLmxiLnNpbmFub2RlLmNvbQ==
+
+SINA-TS:NjY5M2RlY2UgMCAxIDEgMTAgNAo=
+
+

@@ -1,0 +1,101 @@
+[1]访问m.weibo.cn 得到  【响应1】 得到cookie  _T_WM
+
+[2]自动跳转到https://passport.weibo.cn/signin/welcome?entry=mweibo&r=http%3A%2F%2Fm.weibo.cn%2F&wm=3349&vt=4
+其页面源代码为 【源代码1】
+
+其中可以发现登陆页面地址为
+https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F
+TODO：登陆地址参数是否为硬编码？
+
+[3]访问地址[get] https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F
+TODO：访问此地址需要添加cookies？ （目前测试似乎不需要）
+得到 【源代码2】
+其中js
+---- https://passport.weibo.cn/js/signin/weibologin.js?v=20160120
+var ENTRY = 'mweibo';
+	var PRELOGIN = '//login.sina.com.cn/sso/prelogin.php?checkpin=1&entry=' + ENTRY;
+	var LOGIN = '//passport.weibo.cn/sso/login';
+	var VERIFY_IMAGE = '//passport.weibo.cn/captcha/image';
+	var STAT_URL = '//passport.weibo.cn/stat/s';
+
+PRELOGIN + '&su=' + utf8_to_b64(username),//注意username需要转换编码
+	function utf8_to_b64(str){
+		return win.btoa(win.encodeURIComponent(trim(str)));
+	}
+		function trim(str){
+		return (!str) ? '' : str.toString().replace(/^\s+|\s+$/g, '');
+	}
+[3-1]	
+其中需要prelogin 为 https://login.sina.com.cn/sso/prelogin.php?checkpin=1&entry=mweibo&su=#######=&callback=jsonpcallback1454764734570
+su值为上面转换的用户名
+jsonpcallback######中的数字似乎是一个时间参数，跟踪代码如下（看代码似乎是一个随机数字？）
+	w.jsonp = function(obj){
+		var jsonpName = obj.jsonp || 'callback';
+		var jsonpCallback = _siteId('jsonpcallback');
+		var jsonpErrorCallback = _siteId('jsonperror');
+		var jsonpParams = jsonpName + '=' + jsonpCallback;
+		}
+	function _siteId(prefix){
+		var id = (new Date()).getTime() + Math.floor(Math.random() * 100000);
+		return prefix ? prefix + '' + id : id;
+	}
+	
+通过prelogin可以倒带一个json 【json数据1】
+
+【源代码2】中，点击登陆按钮，调用js
+doLogin: 位于【weibologin.js】
+
+[4] [post]地址https://passport.weibo.cn/sso/login
+表单参数
+username:"#####"  //username为明文
+password:"####" //password为明文
+savestate:"1"
+ec:"0"
+pagerefer:"https://passport.weibo.cn/signin/welcome?entry=mweibo&r=http%3A%2F%2Fm.weibo.cn%2F&wm=3349&vt=4"
+entry:"mweibo"
+wentry:""
+loginfrom:""
+client_id:""
+code:""
+qq:""
+hff:""
+hfp:""
+
+分析请求头如下
+Host:"passport.weibo.cn"
+User-Agent:"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
+Accept:"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+Accept-Language:"en-US,zh-CN;q=0.8,zh;q=0.5,en;q=0.3"
+Accept-Encoding:"gzip, deflate, br"
+Content-Type:"application/x-www-form-urlencoded"
+Referer:"https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F"
+Content-Length:"258"
+Cookie:"###################"
+Connection:"keep-alive"
+
+成功返回
+{
+    "retcode": 20000000, 
+    "msg": "", 
+    "data": {
+        "crossdomainlist": {
+            "weibo.com": "//passport.weibo.com/sso/crossdomain?entry=mweibo&action=login&proj=1&ticket=#############", 
+            "sina.com.cn": "//login.sina.com.cn/sso/crossdomain?entry=mweibo&action=login&proj=1&ticket=###############", 
+            "weibo.cn": "//passport.sina.cn/sso/crossdomain?entry=mweibo&action=login&ticket=#################"
+        }, 
+        "loginresulturl": "", 
+        "uid": "###########"
+    }
+}
+
+
+[5] [get]http://m.weibo.cn/
+需要cookies值
+SSOLoginState:"" passport.weibo.com 中 SUS中包含
+                形式为 SID-xxxxx -SSOLoginState_value-GZ-xxx-xxxx
+SUB:"" 由 //passport.weibo.com/得到
+SUHB:"" 目前没找到
+_T_WM:"" 步骤1可得到
+
+测试似乎只需要
+_T_WM和SUB
