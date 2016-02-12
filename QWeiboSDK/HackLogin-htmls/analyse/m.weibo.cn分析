@@ -40,6 +40,21 @@ jsonpcallback######中的数字似乎是一个时间参数，跟踪代码如下�
 		return prefix ? prefix + '' + id : id;
 	}
 	
+	username=#####
+	&password=####
+	&savestate=1
+	&pincode=####
+	&pcid=#################
+	&ec=0
+	&pagerefer=https%3A%2F%2Fpassport.weibo.cn%2Fsignin%2Fwelcome%3Fentry%3Dmweibo%26r%3Dhttp%253A%252F%252Fm.weibo.cn%252F%26wm%3D3349%26vt%3D4
+	&entry=mweibo
+	&wentry=
+	&loginfrom=
+	&client_id=
+	&code=
+	&qq=
+	&hff=
+	&hfp=
 通过prelogin可以倒带一个json 【json数据1】
 
 【源代码2】中，点击登陆按钮，调用js
@@ -60,6 +75,10 @@ code:""
 qq:""
 hff:""
 hfp:""
+当需要验证码的时候，添加如下参数
+pincode:"nbwkd"
+pcid:"" //由getVerifyImage返回值里面得到
+
 
 分析请求头如下
 Host:"passport.weibo.cn"
@@ -72,6 +91,22 @@ Referer:"https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=h
 Content-Length:"258"
 Cookie:"###################"
 Connection:"keep-alive"
+
+    验证码情况
+		getVerifyImage: function(){
+			var that = this;
+			ajax({
+				url: VERIFY_IMAGE, ////passport.weibo.cn/captcha/image
+				type: 'get',
+				onsuccess: function(ret){
+					var result = parseJSON(ret);
+					if(result.retcode == 20000000){
+						that.verifyImage.src = result.data.image;
+						that.verifyImage.setAttribute('data-pcid', result.data.pcid);
+					}
+				}
+			});
+		},
 
 成功返回
 {
@@ -99,3 +134,9 @@ _T_WM:"" 步骤1可得到
 
 测试似乎只需要
 _T_WM和SUB
+
+
+TODO:
+g需要cookies地址
+gsid_CTandWM:?
+M_WEIBOCN_PARAMS: ?

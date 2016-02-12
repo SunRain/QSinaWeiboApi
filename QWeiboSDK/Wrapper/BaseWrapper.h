@@ -7,8 +7,11 @@
 #include "BaseRequest.h"
 
 namespace QWeiboSDK {
-namespace Wrapper {
 
+namespace HackLogin {
+class HackRequestCookieJar;
+}
+namespace Wrapper {
 class QWEIBOSDK_EXPORT BaseWrapper : public QObject
 {
     Q_OBJECT
@@ -16,8 +19,13 @@ public:
     BaseWrapper(QObject *parent = 0);
     virtual ~BaseWrapper();
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
+    void appendExtraRequestCookie(HackLogin::HackRequestCookieJar *cookieJar);
 
 protected:
+    inline bool useHackLogin() const {
+        return m_useHackLogin;
+    }
+    virtual QString convertParameterKey(const QString &key);
     virtual QString parseContent(const QString &content);
 
     template <class Base, class Hack>
@@ -47,10 +55,13 @@ protected:
             }
             m_request = nullptr;
 
-            if (m_useHackLogin)
+            if (m_useHackLogin) {
                 setRequest (new Hack(this));
-            else
+                if (m_cookieJar)
+                    appendExtraRequestCookie (m_cookieJar);
+            } else {
                 setRequest (new Base(this));
+            }
         });
     }
 
@@ -68,6 +79,7 @@ private:
 private:
     BaseRequest *m_request;
     TokenProvider *m_tokenProvider;
+    HackLogin::HackRequestCookieJar *m_cookieJar;
     bool m_useHackLogin;
 };
 

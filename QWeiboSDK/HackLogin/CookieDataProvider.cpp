@@ -4,10 +4,12 @@
 
 #include <QTimer>
 
+#include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#include <QJsonDocument>
 #include <QUrl>
 #include <QUrlQuery>
 
@@ -17,7 +19,9 @@
 #include "htmlcxx/html/ParserDom.h"
 #include "htmlcxx/html/Node.h"
 
+
 #include "LoginCookieJar.h"
+#include "TokenProvider.h"
 
 using namespace htmlcxx;
 using namespace std;
@@ -44,6 +48,7 @@ CookieDataProvider::CookieDataProvider(QObject *parent)
     , m_capId(QString())
     , m_captcha(QString())
     , m_captchaImgUrl(QString())
+    , m_pcid(QString())
 {
     m_networkMgr->setCookieJar (m_cookieJar);
     m_timeout->setSingleShot (true);
@@ -70,36 +75,30 @@ CookieDataProvider::~CookieDataProvider()
 
 void CookieDataProvider::preLogin()
 {
+   preLogin1 ();
+}
+
+void CookieDataProvider::preLogin1()
+{
     m_requestAborted = false;
 
-    QUrl url("http://login.weibo.cn/login/");
+    QUrl url(QString("http://m.weibo.cn"));
     QNetworkRequest request(url);
-//    request.setRawHeader ("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:43.0) Gecko/20100101 Firefox/43.0");
     request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
-//            post.setHeader("Referer", CommonConst.loginUrl);
-//    request.setRawHeader("Origin", "http://m.weibo.cn");
-//    request.setRawHeader("Cache-Control", "max-age=0");
-//    request.setRawHeader("Accept",
-//        "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-//    request.setRawHeader("Accept-Encoding", "gzip,deflate,sdch");
-//    request.setRawHeader("Accept-Language", "en-US,en;q=0.8");
-//    request.setRawHeader("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
-//    request.setRawHeader("Accept-Encoding", "gzip,deflate,sdch");
-//    request.setRawHeader("Referer", "http://m.weibo.cn/login");
-    request.setRawHeader("Referer", "");
 
     QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
 
-    qDebug()<<Q_FUNC_INFO<<"post "<<url;
+    qDebug()<<Q_FUNC_INFO<<"post to url ["<<url<<"] with data ["<<data<<"]";
 
     if (m_reply) {
         m_requestAborted = true;
         m_reply->abort ();
     }
     m_reply = m_networkMgr->post (request, data);
+
     m_timeout->start (m_timerInterval);
 
     if (m_reply) {
@@ -121,22 +120,282 @@ void CookieDataProvider::preLogin()
                 QString str = m_reply->errorString ();
                 m_reply->deleteLater ();
                 m_reply = nullptr;
-                emit preLoginFailure (str);
+                qDebug()<<Q_FUNC_INFO<<"error str "<<str;
+                emit loginFailure (str);
             } else {
                 QByteArray qba = m_reply->readAll ();
+//                qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
                 m_reply->deleteLater ();
                 m_reply = nullptr;
-                preLoginParse (qba);
-                if (m_rand.isEmpty () || m_headerPassWord.isEmpty () || m_vk.isEmpty ()
-                        || m_backTitle.isEmpty () || m_submit.isEmpty () || m_capId.isEmpty ()) {
-                    emit preLoginFailure ("some parameter empty!!");
-                } else {
-                    emit preLoginSuccess ();
-                }
+                preLogin2 ();
             }
         });
     } else {
-        emit preLoginFailure ("no network reply");
+        qDebug()<<Q_FUNC_INFO<<"no reply";
+        emit loginFailure ("No QNetworkReply");
+    }
+}
+
+void CookieDataProvider::preLogin2()
+{
+    m_requestAborted = false;
+
+    QUrl url(QString("https://passport.weibo.cn/signin/welcome"));
+    QNetworkRequest request(url);
+    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
+//    https://passport.weibo.cn/signin/welcome?entry=mweibo&r=http%3A%2F%2Fm.weibo.cn%2F&wm=3349&vt=4
+    QUrlQuery query;
+    query.addQueryItem ("entry", "mweibo");
+    query.addQueryItem ("r", "http://m.weibo.cn/");
+    query.addQueryItem ("wm", "3349");
+    query.addQueryItem ("vt", "4");
+    url.setQuery (query);
+
+    qDebug()<<Q_FUNC_INFO<<"get url ["<<url;
+
+    if (m_reply) {
+        m_requestAborted = true;
+        m_reply->abort ();
+    }
+    m_reply = m_networkMgr->get (request);
+
+    m_timeout->start (m_timerInterval);
+
+    if (m_reply) {
+        QObject::connect (m_reply, &QNetworkReply::finished,
+                 [&](){
+            if (m_timeout->isActive ())
+                m_timeout->stop ();
+
+            if (m_requestAborted) {
+                m_requestAborted = false;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"network request aborted previous";
+                return;
+            }
+            QNetworkReply::NetworkError error = m_reply->error ();
+            bool success = (error == QNetworkReply::NoError);
+            if (!success) {
+                QString str = m_reply->errorString ();
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"error str "<<str;
+                emit loginFailure (str);
+            } else {
+                QByteArray qba = m_reply->readAll ();
+//                qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                preLogin3 ();
+            }
+        });
+    } else {
+        qDebug()<<Q_FUNC_INFO<<"no reply";
+        emit loginFailure ("No QNetworkReply");
+    }
+}
+
+void CookieDataProvider::preLogin3()
+{
+    m_requestAborted = false;
+
+    QUrl url(QString("https://passport.weibo.cn/signin/login"));
+    QNetworkRequest request(url);
+    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
+//    https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F
+    QUrlQuery query;
+    query.addQueryItem ("entry", "mweibo");
+    query.addQueryItem ("r", "http://m.weibo.cn/");
+    query.addQueryItem ("wm", "3349");
+    query.addQueryItem ("res", "wel");
+    url.setQuery (query);
+
+    qDebug()<<Q_FUNC_INFO<<"get url ["<<url;
+
+    if (m_reply) {
+        m_requestAborted = true;
+        m_reply->abort ();
+    }
+    m_reply = m_networkMgr->get (request);
+
+    m_timeout->start (m_timerInterval);
+
+    if (m_reply) {
+        QObject::connect (m_reply, &QNetworkReply::finished,
+                 [&](){
+            if (m_timeout->isActive ())
+                m_timeout->stop ();
+
+            if (m_requestAborted) {
+                m_requestAborted = false;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"network request aborted previous";
+                return;
+            }
+            QNetworkReply::NetworkError error = m_reply->error ();
+            bool success = (error == QNetworkReply::NoError);
+            if (!success) {
+                QString str = m_reply->errorString ();
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"error str "<<str;
+                emit loginFailure (str);
+            } else {
+                QByteArray qba = m_reply->readAll ();
+//                qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+//                emit preLoginSuccess ();
+                preCaptchaImage ();
+            }
+        });
+    } else {
+        qDebug()<<Q_FUNC_INFO<<"no reply";
+        emit loginFailure ("No QNetworkReply");
+    }
+}
+
+//void CookieDataProvider::login2_pre()
+//{
+//    m_requestAborted = false;
+
+//    QUrl url(QString("https://login.sina.com.cn/sso/prelogin.php"));
+//    QNetworkRequest request(url);
+//    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
+//    request.setRawHeader("Referer", "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F");
+//    request.setRawHeader("Cookie", TokenProvider::instance ()->hackLoginCookies ().toLatin1 ());
+
+//    QUrlQuery query;
+//    query.addQueryItem ("checkpin", "1");
+//    query.addQueryItem ("entry", "mweibo");
+//    query.addQueryItem ("su", m_userName.toLatin1 ().toBase64 (QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
+//    query.addQueryItem ("callback", "jsonpcallback1454764734570");
+//    url.setQuery (query);
+
+//    qDebug()<<Q_FUNC_INFO<<"get url ["<<url;
+
+//    if (m_reply) {
+//        m_requestAborted = true;
+//        m_reply->abort ();
+//    }
+//    m_reply = m_networkMgr->get (request);
+
+//    m_timeout->start (m_timerInterval);
+
+//    if (m_reply) {
+//        QObject::connect (m_reply, &QNetworkReply::finished,
+//                 [&](){
+//            if (m_timeout->isActive ())
+//                m_timeout->stop ();
+
+//            if (m_requestAborted) {
+//                m_requestAborted = false;
+//                m_reply->deleteLater ();
+//                m_reply = nullptr;
+//                qDebug()<<Q_FUNC_INFO<<"network request aborted previous";
+//                return;
+//            }
+//            QNetworkReply::NetworkError error = m_reply->error ();
+//            bool success = (error == QNetworkReply::NoError);
+//            if (!success) {
+//                QString str = m_reply->errorString ();
+//                m_reply->deleteLater ();
+//                m_reply = nullptr;
+//                qDebug()<<Q_FUNC_INFO<<"error str "<<str;
+//                emit loginFailure (str);
+//            } else {
+//                QByteArray qba = m_reply->readAll ();
+//                qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
+//                m_reply->deleteLater ();
+//                m_reply = nullptr;
+//            }
+//        });
+//    } else {
+//        qDebug()<<Q_FUNC_INFO<<"no reply";
+//        emit loginFailure ("No QNetworkReply");
+//    }
+//}
+
+void CookieDataProvider::preCaptchaImage()
+{
+    m_requestAborted = false;
+
+    QUrl url(QString("https://passport.weibo.cn/captcha/image"));
+    QNetworkRequest request(url);
+    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
+    request.setRawHeader("Referer", "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F");
+    request.setRawHeader("Cookie", TokenProvider::instance ()->hackLoginCookies ().toLatin1 ());
+
+//    QUrlQuery query;
+//    query.addQueryItem ("checkpin", "1");
+//    query.addQueryItem ("entry", "mweibo");
+//    query.addQueryItem ("su", m_userName.toLatin1 ().toBase64 (QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
+//    query.addQueryItem ("callback", "jsonpcallback1454764734570");
+//    url.setQuery (query);
+
+    qDebug()<<Q_FUNC_INFO<<"get url ["<<url;
+
+    if (m_reply) {
+        m_requestAborted = true;
+        m_reply->abort ();
+    }
+    m_reply = m_networkMgr->get (request);
+
+    m_timeout->start (m_timerInterval);
+
+    if (m_reply) {
+        QObject::connect (m_reply, &QNetworkReply::finished,
+                 [&](){
+            if (m_timeout->isActive ())
+                m_timeout->stop ();
+
+            if (m_requestAborted) {
+                m_requestAborted = false;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"network request aborted previous";
+                return;
+            }
+            QNetworkReply::NetworkError error = m_reply->error ();
+            bool success = (error == QNetworkReply::NoError);
+            if (!success) {
+                QString str = m_reply->errorString ();
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+                qDebug()<<Q_FUNC_INFO<<"error str "<<str;
+                emit loginFailure (str);
+            } else {
+                QByteArray qba = m_reply->readAll ();
+//                qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
+                m_reply->deleteLater ();
+                m_reply = nullptr;
+
+                QJsonParseError error;
+                QJsonDocument doc = QJsonDocument::fromJson (qba, &error);
+                if (error.error != QJsonParseError::NoError) {
+                    qDebug()<<Q_FUNC_INFO<<"Parse json error => "<<error.errorString ();
+                    return;
+                }
+                QJsonObject obj = doc.object ();
+                QJsonValue v = obj.value ("data");
+                obj = v.toObject ();
+                m_pcid = obj.value ("pcid").toString ();
+                QString tmpImgUrl = obj.value ("image").toString ();
+                qDebug()<<Q_FUNC_INFO<<"pcid is "<<m_pcid;
+                qDebug()<<Q_FUNC_INFO<<"Image data url is "<<QUrl(m_captchaImgUrl);
+                if (m_captchaImgUrl != tmpImgUrl) {
+                    m_captchaImgUrl = tmpImgUrl;
+                    qDebug()<<"captchaImgUrl ["<<m_captchaImgUrl<<"]";
+                    emit captchaImgUrlChanged (QUrl(m_captchaImgUrl));
+                }
+                emit preLoginSuccess ();
+            }
+        });
+    } else {
+        qDebug()<<Q_FUNC_INFO<<"no reply";
+        emit loginFailure ("No QNetworkReply");
     }
 }
 
@@ -144,11 +403,11 @@ void CookieDataProvider::login()
 {
     m_requestAborted = false;
 
-    QUrl url(QString("http://login.weibo.cn/login/%1").arg (m_rand));
+    QUrl url(QString("https://passport.weibo.cn/sso/login"));
     QNetworkRequest request(url);
-//    request.setRawHeader ("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:43.0) Gecko/20100101 Firefox/43.0");
     request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9) Gecko/20100101 Firefox/43.0");
-//            post.setHeader("Referer", CommonConst.loginUrl);
+    request.setRawHeader("Host", "passport.weibo.cn");
+    //            post.setHeader("Referer", CommonConst.loginUrl);
 //    request.setRawHeader("Origin", "http://m.weibo.cn");
 //    request.setRawHeader("Cache-Control", "max-age=0");
 //    request.setRawHeader("Accept",
@@ -158,18 +417,26 @@ void CookieDataProvider::login()
 //    request.setRawHeader("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
 //    request.setRawHeader("Accept-Encoding", "gzip,deflate,sdch");
 //    request.setRawHeader("Referer", "http://m.weibo.cn/login");
-    request.setRawHeader("Referer", "");
+    request.setRawHeader("Referer", "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F");
+    request.setRawHeader("Cookie", TokenProvider::instance ()->hackLoginCookies ().toLatin1 ());
 
     QByteArray data;
-    data.append (QString("mobile=%1").arg (m_userName));
-    data.append (QString("&%1=%2").arg (m_headerPassWord).arg (m_passWord));
-    data.append (QString("&remember=on&backURL=http://weibo.cn/"));
-    data.append (QString("&backTitle=%1").arg (m_backTitle));
-    data.append (QString("&vk=%1").arg (m_vk));
-    data.append (QString("&submit=%1").arg (m_submit));
-//    data.append (QString("&encoding=utf-8"));
-    data.append (QString("&capId=%1").arg (m_capId));
-    data.append (QString("&code=%1").arg (m_captcha));
+    data.append (QString("username=%1").arg (m_userName));
+    data.append (QString("&password=%1").arg (m_passWord));
+    data.append (QString("&savestate=1"));
+    data.append (QString("&ec=0"));
+    data.append (QString("&pagerefer=https://passport.weibo.cn/signin/welcome?entry=mweibo&r=http%3A%2F%2Fm.weibo.cn%2F&wm=3349&vt=4"));
+    data.append (QString("&entry=mweibo"));
+    data.append (QString("&wentry="));
+    data.append (QString("&loginfrom="));
+    data.append (QString("&client_id="));
+    data.append (QString("&code="));
+    data.append (QString("&qq="));
+    data.append (QString("&hff="));
+    data.append (QString("&hfp="));
+    data.append (QString("&pincode=%1").arg (m_captcha));
+    data.append (QString("&pcid=%1").arg (m_pcid));
+
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
@@ -209,7 +476,29 @@ void CookieDataProvider::login()
                 qDebug()<<Q_FUNC_INFO<<"ret "<<qba;
                 m_reply->deleteLater ();
                 m_reply = nullptr;
-                loginParse (qba);
+
+                QJsonParseError error;
+                QJsonDocument doc = QJsonDocument::fromJson (qba, &error);
+                if (error.error != QJsonParseError::NoError) {
+                    qDebug()<<Q_FUNC_INFO<<"Parse json error => "<<error.errorString ();
+                    emit loginFailure (error.errorString ());
+                    return;
+                }
+                QJsonObject obj = doc.object ();
+                int retcode = obj.value ("retcode").toInt (-1);
+                if (retcode != 20000000) {
+                    emit loginFailure (QString("retcode = %1").arg (retcode));
+                    return;
+                }
+                QJsonValue v = obj.value ("data");
+                obj = v.toObject ();
+                QString uid = obj.value ("uid").toString ();
+                if (uid.isEmpty ()) {
+                    emit loginFailure ("UID is empty");
+                    return;
+                }
+                TokenProvider::instance ()->setHackLoginUid (uid);
+                emit loginSuccess ();
             }
         });
     } else {
@@ -258,104 +547,6 @@ void CookieDataProvider::setPassWord(QString passWord)
 
     m_passWord = passWord;
     emit passWordChanged(passWord);
-}
-
-void CookieDataProvider::preLoginParse(const QByteArray &values)
-{
-    HTML::ParserDom parser;
-    tree<HTML::Node> dom = parser.parseTree(QString(values).toStdString ());
-
-    tree<HTML::Node>::iterator domBeg = dom.begin();
-    tree<HTML::Node>::iterator domEnd = dom.end();
-
-    QString tmpImgUrl = QString();
-    for (; domBeg != domEnd; ++domBeg) {  // 遍历文档中所有的元素
-//        qDebug()<<"================================";
-//        qDebug()<<"TagName ["<< QString::fromStdString ((*domBeg).tagName ())<<"]"
-//               <<" is tag ["<<(*domBeg).isTag ()<<"]";
-
-        if (!(*domBeg).tagName ().compare ("form")) {
-            domBeg->parseAttributes();
-            m_rand = QString::fromStdString ((*domBeg).attribute ("action").second);
-            qDebug()<<"form value second ["<<m_rand<<"]";
-        }
-        else if (!(*domBeg).tagName ().compare ("a")) {
-            domBeg->parseAttributes();
-//            qDebug()<<"a value ["<< QString::fromStdString ((*domBeg).attribute ("href").second)<<"]";
-        }
-        else if (!(*domBeg).tagName ().compare ("img")) {
-            domBeg->parseAttributes();
-            QString value = QString::fromStdString ((*domBeg).attribute ("src").second);
-            if (value.contains ("captcha"))
-                tmpImgUrl = value;
-        }
-        else if (!(*domBeg).tagName ().compare ("input")) {
-            domBeg->parseAttributes();
-            if (!(*domBeg).attribute ("type").second.compare ("password")) {
-                m_headerPassWord = QString::fromStdString ((*domBeg).attribute ("name").second);
-                qDebug()<<"a password value ["<<m_headerPassWord<<"]";
-            }
-            else if (!(*domBeg).attribute ("type").second.compare ("hidden")) {
-                QString name = QString::fromStdString ((*domBeg).attribute ("name").second);
-                QString value = QString::fromStdString ((*domBeg).attribute ("value").second);
-                qDebug()<<"a hidden name ["<< name<<"]"<<" value ["<<value<<"]";
-                if (name == QString("vk"))
-                    m_vk = value;
-                else if (name == QString("backTitle"))
-                    m_backTitle = value;
-                else if (name == QString("capId"))
-                    m_capId = value;
-            }
-            else if (!(*domBeg).attribute ("type").second.compare ("submit")) {
-                QString name = QString::fromStdString ((*domBeg).attribute ("name").second);
-                QString value = QString::fromStdString ((*domBeg).attribute ("value").second);
-                if (name == QString("submit"))
-                    m_submit = value;
-                qDebug()<<"a hidden name ["<< name<<"]"<<" value ["<<value<<"]";
-            }
-        }
-    }
-    if (m_captchaImgUrl != tmpImgUrl) {
-        m_captchaImgUrl = tmpImgUrl;
-        qDebug()<<"captchaImgUrl ["<<m_captchaImgUrl<<"]";
-        emit captchaImgUrlChanged (QUrl(m_captchaImgUrl));
-    }
-}
-
-//TODO need more login failure condition
-void CookieDataProvider::loginParse(const QByteArray &values)
-{
-    HTML::ParserDom parser;
-    tree<HTML::Node> dom = parser.parseTree(QString(values).toStdString ());
-
-    tree<HTML::Node>::iterator domBeg = dom.begin();
-    tree<HTML::Node>::iterator domEnd = dom.end();
-
-    bool success = true;
-    QString tmp = QString();
-    for (; domBeg != domEnd; ++domBeg) {  // 遍历文档中所有的元素
-        if (!(*domBeg).tagName ().compare ("div")) {
-            domBeg->parseAttributes();
-            QString cv = QString::fromStdString ((*domBeg).attribute ("class").second);
-            qDebug()<<Q_FUNC_INFO<<"div class value ["<<cv<<"], text is "<<QString::fromStdString ((*domBeg).text ());
-            if (cv == "me") { //captcha error
-                success = false;
-                for (; domBeg != domEnd; ++domBeg) {
-                    if (! (*domBeg).isTag ()) {
-                        tmp = QString::fromStdString ((*domBeg).text ());
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-    }
-    qDebug()<<Q_FUNC_INFO<<"success "<<success<<" error text "<<tmp;
-
-    if (success)
-        emit loginSuccess ();
-    else
-        emit loginFailure (tmp);
 }
 
 } //HackLogin

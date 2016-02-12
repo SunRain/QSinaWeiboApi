@@ -21,6 +21,7 @@ BaseRequest::BaseRequest(QObject *parent)
     ,m_requestAborted(false)
     ,m_timerInterval(5000)
     ,m_baseUrl(QString(API_HOST))
+    ,m_urlPath(QString())
     ,m_networkMgr(new QNetworkAccessManager(this))
     ,m_reply(nullptr)
     ,m_timeout(new QTimer(this))
@@ -186,15 +187,20 @@ void BaseRequest::initParameters()
 
 void BaseRequest::setUrlPath(const QString &urlPath, const QString &tag)
 {
-    m_urlPath = urlPath;
-    if (!tag.isEmpty ())
-        m_urlPath = QString("%1%2").arg (m_urlPath).arg (tag);
+    if (!urlPath.isEmpty ()) {
+        m_urlPath = urlPath;
+        if (!tag.isEmpty ())
+            m_urlPath = QString("%1%2").arg (m_urlPath).arg (tag);
+    }
 }
 
 QUrl BaseRequest::initUrl()
 {
     //add url parameters
-    QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
+//    QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
+    QString str = m_baseUrl;
+    if (!m_urlPath.isEmpty ())
+        str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
     QUrl url(str);
     if (!m_parameters.isEmpty ()) {
         QUrlQuery query;

@@ -14,6 +14,14 @@ class QWEIBOSDK_EXPORT HackFriendshipsGroups : public BaseHackRequest
     Q_OBJECT
 public:
     explicit HackFriendshipsGroups(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ;
+    }
 };
 
 //2/friendships/groups/timeline: 获取某一好友分组的微博列表
@@ -28,9 +36,11 @@ protected:
     void initParameters() {
         //gid=3718227991570528&rl=0
         (*this)
+//        ("cookie", "")
+//        ("title", "")
         ("gid", "")
-        ("rl", "0")
-        ("page", 1)
+        ("page", "1")
+        ("format", "cards")
         ;
     }
 };

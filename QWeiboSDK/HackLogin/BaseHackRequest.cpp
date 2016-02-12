@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#include "HackRequestCookieJar.h"
 #include "TokenProvider.h"
 
 namespace QWeiboSDK {
@@ -12,6 +13,7 @@ namespace HackLogin {
 BaseHackRequest::BaseHackRequest(QObject *parent)
     : BaseRequest(parent)
     , m_reply(nullptr)
+    , m_cookieJar(nullptr)
 {
     setBaseUrl (QString(HACK_LOGIN_HOST));
 }
@@ -21,10 +23,14 @@ BaseHackRequest::~BaseHackRequest()
 
 }
 
-//void BaseHackRequest::initParameters()
-//{
-//    qDebug()<<Q_FUNC_INFO;
-//}
+void BaseHackRequest::appendExtraRequestCookie(HackRequestCookieJar *cookieJar)
+{
+    if (m_cookieJar != cookieJar)
+        m_cookieJar = cookieJar;
+    if (m_cookieJar) {
+        curNetworkAccessMgr ()->setCookieJar (m_cookieJar);
+    }
+}
 
 QNetworkReply *BaseHackRequest::curNetworkReply()
 {
@@ -51,7 +57,16 @@ void BaseHackRequest::getRequest()
 //    request.setRawHeader ("Accept-Encoding", "gzip, deflate");
 //    request.setRawHeader ("Referer", "http://weibo.cn/");
 //    request.setRawHeader ("Connection",	"keep-alive");
-    request.setRawHeader ("Cookie", TokenProvider::instance ()->hackLoginCookies ().toUtf8 ());
+    QString cookies = TokenProvider::instance ()->hackLoginCookies ();
+    if (m_cookieJar) {
+        QString extra = m_cookieJar->cookies ();
+        if (!extra.isEmpty ()) {
+            if (!cookies.endsWith (";"))
+                cookies.append (";");
+            cookies.append (extra);
+        }
+    }
+    request.setRawHeader ("Cookie", cookies.toUtf8 ());
 
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
     foreach (QByteArray ba, request.rawHeaderList ()) {

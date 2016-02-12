@@ -7,8 +7,12 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include "htmlcxx/html/tree.h"
+#include "htmlcxx/html/ParserDom.h"
+#include "htmlcxx/html/Node.h"
+
 #include "HackLogin/HackFriendshipsGroups.h"
-#include "HackLogin/BaseHackRequest.h"
+#include "HackLogin/HackRequestCookieJar.h"
 
 #include "QWeiboRequest.h"
 #include "TokenProvider.h"
@@ -30,6 +34,50 @@ WrapperFriendshipsGroups::WrapperFriendshipsGroups(QObject *parent)
 
 QString WrapperFriendshipsGroups::parseContent(const QString &content)
 {
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson (content.toUtf8 (), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qDebug()<<Q_FUNC_INFO<<"Parse main json content error";
+        return QString();
+    }
+    if (doc.isArray ()) {
+        QJsonArray array = doc.array ();
+        qDebug()<<Q_FUNC_INFO<<"isArray, with length "<<array.size ();
+        //FIXME  current only 2 arrary in result, so use hard coded value
+        QJsonObject obj = array.at (1).toObject ();
+        array = obj.value ("card_group").toArray ();
+        qDebug()<<Q_FUNC_INFO<<"value size is "<<array.size ();
+        QJsonArray retArray;
+        for (int i=0; i<array.size (); ++i) {
+            QJsonObject tmp = array.at (i).toObject ();
+            QString scheme = tmp.value ("scheme").toString ();
+            QString name = tmp.value ("desc1").toString ();
+            QUrl url = QUrl::fromEncoded ((QString("http://fake.com%1").arg (scheme))
+                                          .replace ("&amp;","&")
+                                          .toUtf8 ());
+            QUrlQuery query(url.query ());
+            if (!query.hasQueryItem ("cookie"))
+                continue;
+            QString gid = query.queryItemValue ("cookie");
+            if (gid.isEmpty ())
+                continue;
+            //0_group_3695053426075251
+            QStringList list = gid.split ("_");
+            gid = list.at (2);
+            QJsonObject o;
+            o.insert ("id", gid);
+            o.insert ("idstr", gid);
+            o.insert ("name", name);
+            retArray.append (o);
+        }
+        QJsonObject ret;
+        ret.insert ("lists",retArray);
+        QJsonDocument d(ret);
+        return d.toJson ();
+    }
+    return QString();
+
+#if 0
     HTML::ParserDom parser;
     tree<HTML::Node> dom = parser.parseTree(content.toStdString ());
 
@@ -83,6 +131,7 @@ QString WrapperFriendshipsGroups::parseContent(const QString &content)
     }
     QJsonDocument d(jarray);
     return d.toJson ();
+#endif
 }
 
 WrapperFriendshipsGroupsTimeline::WrapperFriendshipsGroupsTimeline(QObject *parent)
@@ -93,6 +142,98 @@ WrapperFriendshipsGroupsTimeline::WrapperFriendshipsGroupsTimeline(QObject *pare
 
 QString WrapperFriendshipsGroupsTimeline::parseContent(const QString &content)
 {
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson (content.toUtf8 (), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qDebug()<<Q_FUNC_INFO<<"Parse main json content error ["<<error.errorString ()<<"]";
+        return QString();
+    }
+    qDebug()<<"doc isObject ["<<doc.isObject ()
+           <<"] isArray ["<<doc.isArray ()<<"]";
+    if (doc.isNull () || doc.isEmpty ()) {
+        qDebug()<<Q_FUNC_INFO<<"Parse main json content, result isNull or isEmpty";
+        return QString();
+    }
+    if (doc.isArray ()) {
+        qDebug()<<Q_FUNC_INFO<<">>>>>>>>>>> array <<<<<<<<<<<<";
+        QJsonArray array = doc.array ();
+        qDebug()<<Q_FUNC_INFO<<"array length "<<array.size ();
+
+        QJsonArray retArray;
+        foreach (QJsonValue v, array) {
+            QJsonObject mainObj = v.toObject ();
+            if (mainObj.isEmpty ()) {
+                qDebug()<<Q_FUNC_INFO<<"main object is empty!!";
+                return QString();
+            }
+            QJsonValue mainValue = mainObj.value ("card_group");
+            if (mainValue.isUndefined () || mainValue.isNull ()) {
+                qDebug()<<Q_FUNC_INFO<<"InValid main json value";
+                return QString();
+            }
+            if (mainValue.isArray ()) {
+                QJsonArray mainArray = mainValue.toArray ();
+                if (mainArray.isEmpty ()) {
+                    qDebug()<<Q_FUNC_INFO<<"main Array is empty!!!";
+                    return QString();
+                }
+
+                foreach (QJsonValue value, mainArray) {
+                    QJsonObject tmp = value.toObject ();
+                    if (tmp.isEmpty ())
+                        continue;
+                    QJsonValue v = tmp.value ("mblog");
+                    if (v.isUndefined () || v.isNull ())
+                        continue;
+                    if (!v.isObject ())
+                        continue;
+                    QJsonObject o = v.toObject ();
+                    if (o.isEmpty ())
+                        continue;
+                    retArray.append (o);
+                }
+            }
+        }
+        qDebug()<<Q_FUNC_INFO<<"ret array size "<<retArray.size ();
+        QJsonObject ret;
+        ret.insert ("statuses",retArray);
+        QJsonDocument d(ret);
+        return d.toJson ();
+//        QJsonArray array = doc.array ();
+//        qDebug()<<Q_FUNC_INFO<<"isArray, with length "<<array.size ();
+//        //FIXME  current only 2 arrary in result, so use hard coded value
+//        QJsonObject obj = array.at (1).toObject ();
+//        array = obj.value ("card_group").toArray ();
+//        qDebug()<<Q_FUNC_INFO<<"value size is "<<array.size ();
+//        QJsonArray rets;
+//        for (int i=0; i<array.size (); ++i) {
+//            QJsonObject tmp = array.at (i).toObject ();
+//            QString scheme = tmp.value ("scheme").toString ();
+//            QString name = tmp.value ("desc1").toString ();
+//            QUrl url = QUrl::fromEncoded ((QString("http://fake.com%1").arg (scheme))
+//                                          .replace ("&amp;","&")
+//                                          .toUtf8 ());
+//            QUrlQuery query(url.query ());
+//            if (!query.hasQueryItem ("cookie"))
+//                continue;
+//            QString gid = query.queryItemValue ("cookie");
+//            if (gid.isEmpty ())
+//                continue;
+//            //0_group_3695053426075251
+//            QStringList list = gid.split ("_");
+//            gid = list.at (2);
+//            QJsonObject o;
+//            o.insert ("id", gid);
+//            o.insert ("idstr", gid);
+//            o.insert ("name", name);
+//            rets.append (o);
+//        }
+//        QJsonDocument d(rets);
+//        return d.toJson ();
+    }
+    return QString();
+
+#if 0
     qDebug()<<Q_FUNC_INFO<<"=================";
 
     HTML::ParserDom parser;
@@ -197,6 +338,16 @@ QString WrapperFriendshipsGroupsTimeline::parseContent(const QString &content)
     qDebug()<<Q_FUNC_INFO<<"====  end of parser ====";
 
     return content;
+#endif
+}
+
+QString WrapperFriendshipsGroupsTimeline::convertParameterKey(const QString &key)
+{
+    if (TokenProvider::instance ()->useHackLogin ()) {
+        if (key == "list_id")
+            return "gid";
+    }
+    return key;
 }
 
 

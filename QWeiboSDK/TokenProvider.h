@@ -25,6 +25,7 @@ class QWEIBOSDK_EXPORT TokenProvider : public QObject
     Q_PROPERTY(QString expiresData READ expiresData WRITE setExpiresData NOTIFY expiresDataChanged)
     Q_PROPERTY(QString hackLoginCookies READ hackLoginCookies NOTIFY hackLoginCookiesChanged)
     Q_PROPERTY(bool useHackLogin READ useHackLogin WRITE setUseHackLogin NOTIFY useHackLoginChanged)
+    Q_PROPERTY(QString hackLoginUid READ hackLoginUid WRITE setHackLoginUid NOTIFY hackLoginUidChanged)
 
     DECLARE_SINGLETON_POINTER(TokenProvider)
 public:
@@ -40,6 +41,7 @@ public:
     QString hackLoginCookies() const;
     void setHackLoginCookies(const QList<QNetworkCookie> &list);
     bool useHackLogin();
+    QString hackLoginUid() const;
 
 public slots:
     void setAccessToken(const QString &arg);
@@ -49,6 +51,7 @@ public slots:
     void setRefreshToken(const QString &refreshToken);
     void setExpiresData(const QString &expiresData);
     void setUseHackLogin(bool useHackLogin);
+    void setHackLoginUid(QString hackLoginUid);
 
 signals:
     void accessTokenChanged(const QString &token);
@@ -60,6 +63,7 @@ signals:
     void expiresDataChanged(QString expiresData);
     void hackLoginCookiesChanged(QString hackLoginCookies);
     void useHackLoginChanged(bool useHackLogin);
+    void hackLoginUidChanged(QString hackLoginUid);
 
 private:
     QSettings *m_settings;
@@ -73,6 +77,7 @@ private:
     QString m_hackLoginCookies;
     bool m_useHackLogin;
     QHash<QString, QString> m_cookiesHash;
+    QString m_hackLoginUid;
 };
 } //QWeiboSDK
 #endif // TOKENPROVIDER_H

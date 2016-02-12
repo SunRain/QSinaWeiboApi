@@ -28,6 +28,7 @@ public:
     QUrl captchaImgUrl() const;
     QString userName() const;
     QString passWord() const;
+
 signals:
     void loginSuccess();
     void loginFailure(QString str);
@@ -37,13 +38,16 @@ signals:
     void captchaImgUrlChanged(QUrl captchaImgUrl);
     void userNameChanged(QString userName);
     void passWordChanged(QString passWord);
+
 public slots:
     void setCaptcha(QString captcha);
     void setUserName(QString userName);
     void setPassWord(QString passWord);
 private:
-    void preLoginParse(const QByteArray &values);
-    void loginParse(const QByteArray &values);
+    void preLogin1();
+    void preLogin2();
+    void preLogin3();
+    void preCaptchaImage();
 private:
     QNetworkAccessManager *m_networkMgr;
     QNetworkReply *m_reply;
@@ -62,6 +66,8 @@ private:
     QString m_capId;
     QString m_captcha;
     QString m_captchaImgUrl;
+//    QString m_captchaImgData;
+    QString m_pcid;
 };
 } //HackLogin
 } //QWeiboSDK

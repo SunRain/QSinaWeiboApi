@@ -17,6 +17,7 @@ const char *KEY_UID = "QWeiboSDK/UID";
 const char *KEY_REFRESH_TOKEN = "QWeiboSDK/RefreshToken";
 const char *KEY_EXPIRES_DATA = "QWeiboSDK/ExpiresData";
 const char *KEY_HACKLOGIN_COOKIES = "QWeiboSDK/HackLoginCookies";
+const char *KEY_HACKLOGIN_UID = "QWeiboSDK/HackLoginUID";
 
 TokenProvider::TokenProvider(QObject *parent)
     :QObject(parent)
@@ -31,6 +32,8 @@ TokenProvider::TokenProvider(QObject *parent)
     m_expiresData = m_settings->value (KEY_EXPIRES_DATA, QString()).toString ();
     m_hackLoginCookies = m_settings->value (KEY_HACKLOGIN_COOKIES, QString()).toString ();
     m_useHackLogin = !m_hackLoginCookies.isEmpty ();
+    m_hackLoginUid = m_settings->value (KEY_HACKLOGIN_UID, QString()).toString ();
+
     //insert cookies to hashlist to avoid erase stored values in function setHackLoginCookies()
     if (!m_hackLoginCookies.isEmpty ()) {
         foreach (QString str, m_hackLoginCookies.split (";")) {
@@ -170,6 +173,11 @@ bool TokenProvider::useHackLogin()
     return m_useHackLogin;
 }
 
+QString TokenProvider::hackLoginUid() const
+{
+    return m_hackLoginUid;
+}
+
 void TokenProvider::setAccessToken(const QString &arg)
 {
     if (m_accessToken == arg)
@@ -234,6 +242,17 @@ void TokenProvider::setUseHackLogin(bool useHackLogin)
 
     m_useHackLogin = useHackLogin;
     emit useHackLoginChanged(useHackLogin);
+}
+
+void TokenProvider::setHackLoginUid(QString hackLoginUid)
+{
+    if (m_hackLoginUid == hackLoginUid)
+        return;
+
+    m_hackLoginUid = hackLoginUid;
+    m_settings->setValue (KEY_HACKLOGIN_UID, m_hackLoginUid);
+    m_settings->sync ();
+    emit hackLoginUidChanged(hackLoginUid);
 }
 
 } //QWeiboSDK

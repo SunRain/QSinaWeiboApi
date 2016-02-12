@@ -6,10 +6,6 @@
 #include "global.h"
 #include "BaseWrapper.h"
 
-#include "htmlcxx/html/tree.h"
-#include "htmlcxx/html/ParserDom.h"
-#include "htmlcxx/html/Node.h"
-
 namespace QWeiboSDK {
 namespace Wrapper {
 
@@ -34,6 +30,7 @@ public:
     // BaseWrapper interface
 protected:
     QString parseContent(const QString &content);
+    QString convertParameterKey(const QString &key);
 };
 
 } //Wrapper

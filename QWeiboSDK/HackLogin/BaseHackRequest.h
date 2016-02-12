@@ -8,12 +8,15 @@
 
 namespace QWeiboSDK {
 namespace HackLogin {
+class HackRequestCookieJar;
 class QWEIBOSDK_EXPORT BaseHackRequest : public BaseRequest
 {
     Q_OBJECT
 public:
     explicit BaseHackRequest(QObject *parent = 0);
     virtual ~BaseHackRequest();
+
+    void appendExtraRequestCookie(HackRequestCookieJar *cookieJar);
 
     // BaseRequest interface
 protected:
@@ -25,6 +28,7 @@ public slots:
 
 private:
     QNetworkReply *m_reply;
+    HackRequestCookieJar *m_cookieJar;
 };
 } //HackLogin
 } //QWeiboSDK
