@@ -33,6 +33,26 @@ protected:
     QString convertParameterKey(const QString &key);
 };
 
+//创建分组 post
+class QWEIBOSDK_EXPORT WrapperFriendshipsGroupsCreate : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperFriendshipsGroupsCreate(QObject *parent = 0);
+};
+
+//删除分组 get
+class QWEIBOSDK_EXPORT WrapperFriendshipsGroupsDestroy : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperFriendshipsGroupsDestroy(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString convertParameterKey(const QString &key);
+};
+
 } //Wrapper
 } //QWeiboSDK
 #endif // FRIENDSHIPSGROUPSWRAPPER_H

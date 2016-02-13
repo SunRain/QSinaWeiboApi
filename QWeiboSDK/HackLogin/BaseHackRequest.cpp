@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#include "CookieJarBaseHackRequest.h"
 #include "HackRequestCookieJar.h"
 #include "TokenProvider.h"
 
@@ -16,6 +17,7 @@ BaseHackRequest::BaseHackRequest(QObject *parent)
     , m_cookieJar(nullptr)
 {
     setBaseUrl (QString(HACK_LOGIN_HOST));
+    appendExtraRequestCookie (new CookieJarBaseHackRequest(this));
 }
 
 BaseHackRequest::~BaseHackRequest()
@@ -60,7 +62,7 @@ void BaseHackRequest::getRequest()
     QString cookies = TokenProvider::instance ()->hackLoginCookies ();
     if (m_cookieJar) {
         QString extra = m_cookieJar->cookies ();
-        if (!extra.isEmpty ()) {
+        if (!extra.isEmpty () && extra != cookies) {
             if (!cookies.endsWith (";"))
                 cookies.append (";");
             cookies.append (extra);
@@ -87,10 +89,15 @@ void BaseHackRequest::getRequest()
                  [&](){
             stopTimeout ();
 
+            if (m_reply)
+                m_reply->disconnect ();
+
             if (requestAborted ()) {
                 setRequestAborted (false);
-                m_reply->deleteLater ();
-                m_reply = nullptr;
+                if (m_reply) {
+                    m_reply->deleteLater ();
+                    m_reply = nullptr;
+                }
                 emit requestAbort ();
                 return;
             }
@@ -104,10 +111,6 @@ void BaseHackRequest::getRequest()
                 emit requestFailure (str);
             } else {
                 QByteArray qba = m_reply->readAll ();
-                qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
-                qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
-//                qDebug()<<Q_FUNC_INFO<<m_reply->rawHeaderList ();
-//                qDebug()<<Q_FUNC_INFO<<m_reply->rawHeaderPairs ();
                 foreach (QByteArray ar, m_reply->rawHeaderList ()) {
                     qDebug()<<Q_FUNC_INFO<<ar;
 
@@ -117,6 +120,10 @@ void BaseHackRequest::getRequest()
                 }
                 m_reply->deleteLater ();
                 m_reply = nullptr;
+
+                qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
+                qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
+
                 emit requestSuccess (QString(qba));
             }
         });

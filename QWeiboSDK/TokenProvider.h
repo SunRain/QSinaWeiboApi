@@ -40,6 +40,7 @@ public:
     QString expiresData() const;
     QString hackLoginCookies() const;
     void setHackLoginCookies(const QList<QNetworkCookie> &list);
+    void updateHackLoginCookies(const QList<QNetworkCookie> &list);
     bool useHackLogin();
     QString hackLoginUid() const;
 

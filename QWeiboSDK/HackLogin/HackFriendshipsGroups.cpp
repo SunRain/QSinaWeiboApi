@@ -19,5 +19,20 @@ HackFriendshipsGroupsTimeline::HackFriendshipsGroupsTimeline(QObject *parent)
     initiate ();
 }
 
+HackFriendshipsGroupsCreate::HackFriendshipsGroupsCreate(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("attGroupsDeal/createAndAddGroup", "");
+    initiate ();
+}
+
+HackFriendshipsGroupsDestroy::HackFriendshipsGroupsDestroy(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setBaseUrl ("http://weibo.cn");
+    setUrlPath ("attgroup/destroy", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK

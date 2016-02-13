@@ -45,7 +45,41 @@ protected:
     }
 };
 
+//创建分组 post http://m.weibo.cn/attGroupsDeal/createAndAddGroup &uid=0000000000&gname=foo2
+class QWEIBOSDK_EXPORT HackFriendshipsGroupsCreate : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackFriendshipsGroupsCreate(QObject *parent = 0);
 
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        //gid=3718227991570528&rl=0
+        (*this)
+        ("uid", "0000000000")
+        ("gname", "")
+        ;
+    }
+};
+
+//删除分组 get http://weibo.cn/attgroup/destroy?save=1&gid=3941862396198197
+class QWEIBOSDK_EXPORT HackFriendshipsGroupsDestroy : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackFriendshipsGroupsDestroy(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        //gid=3718227991570528&rl=0
+        (*this)
+        ("save", "1") //必须为1，是确认删除的对话框选择项
+        ("gid", "") //group id
+        ;
+    }
+};
 } //HackLogin
 } //QWeiboSDK
 

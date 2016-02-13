@@ -72,9 +72,8 @@ void BaseWrapper::setRequest(BaseRequest *request)
 
 QString BaseWrapper::parseContent(const QString &content)
 {
-    Q_UNUSED(content)
-    qDebug()<<Q_FUNC_INFO<<">>>>>> parseContent <<<<<<";
-    return QString();
+    qDebug()<<Q_FUNC_INFO<<">>>>>> use default parseContent <<<<<<";
+    return content;
 }
 
 void BaseWrapper::postRequest()

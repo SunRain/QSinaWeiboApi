@@ -16,15 +16,15 @@ class HackRequestCookieJar : public QNetworkCookieJar
 public:
     explicit HackRequestCookieJar(QObject *parent = 0);
 
-    QString cookies();
+    virtual QString cookies();
 
-    // QNetworkCookieJar interface
-public:
-    QList<QNetworkCookie> cookiesForUrl(const QUrl &url) const;
-    bool setCookiesFromUrl(const QList<QNetworkCookie> &cookieList, const QUrl &url);
+//    // QNetworkCookieJar interface
+//public:
+//    QList<QNetworkCookie> cookiesForUrl(const QUrl &url) const;
+//    bool setCookiesFromUrl(const QList<QNetworkCookie> &cookieList, const QUrl &url);
 
-private:
-    QHash<QString, QString> m_cookiesHash;
+//private:
+//    QHash<QString, QString> m_cookiesHash;
 };
 } //HackLogin
 } //QWeiboSDK

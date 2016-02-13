@@ -350,6 +350,29 @@ QString WrapperFriendshipsGroupsTimeline::convertParameterKey(const QString &key
     return key;
 }
 
+WrapperFriendshipsGroupsCreate::WrapperFriendshipsGroupsCreate(QObject *parent)
+    : BaseWrapper(parent)
+{
+    qWarning()<<Q_FUNC_INFO<<"Current only support HackFriendshipsGroupsCreate";
+    registerRequest<HackFriendshipsGroupsCreate, HackFriendshipsGroupsCreate>();
+}
+
+WrapperFriendshipsGroupsDestroy::WrapperFriendshipsGroupsDestroy(QObject *parent)
+    : BaseWrapper(parent)
+{
+    registerRequest<FriendshipsGroupsDestroy, HackFriendshipsGroupsDestroy>();
+}
+
+QString WrapperFriendshipsGroupsDestroy::convertParameterKey(const QString &key)
+{
+    if (TokenProvider::instance ()->useHackLogin ()) {
+        if (key == "list_id")
+            return "gid";
+    }
+    return key;
+}
+
+
 
 
 

@@ -168,6 +168,20 @@ void TokenProvider::setHackLoginCookies(const QList<QNetworkCookie> &list)
     emit hackLoginCookiesChanged (m_hackLoginCookies);
 }
 
+void TokenProvider::updateHackLoginCookies(const QList<QNetworkCookie> &list)
+{
+    bool needUpdate = false;
+    foreach (QNetworkCookie c, list) {
+        QString pre = m_cookiesHash.value (QString(c.name ()), QString());
+        if (pre != QString(c.value ())) {
+            needUpdate = true;
+            break;
+        }
+    }
+    if (needUpdate)
+        setHackLoginCookies (list);
+}
+
 bool TokenProvider::useHackLogin()
 {
     return m_useHackLogin;

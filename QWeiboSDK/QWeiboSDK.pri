@@ -10,17 +10,14 @@ HEADERS += \
     $$PWD/TokenProvider.h \
     $$PWD/LoginProvider.h \
     $$PWD/PluginRegister.h \
-    $$PWD/ImageUploader.h \
-    $$PWD/HackLogin/HackRequestCookieJar.h
-
+    $$PWD/ImageUploader.h
 
 SOURCES += \
     $$PWD/BaseRequest.cpp \
     $$PWD/global.cpp \
     $$PWD/TokenProvider.cpp \
     $$PWD/LoginProvider.cpp \
-    $$PWD/PluginRegister.cpp \
-    $$PWD/HackLogin/HackRequestCookieJar.cpp
+    $$PWD/PluginRegister.cpp
 
 contains (CONFIG, WITH_HACKLOGIN) {
     DEFINES += WITH_HACKLOGIN
@@ -30,13 +27,20 @@ contains (CONFIG, WITH_HACKLOGIN) {
         $$PWD/HackLogin/BaseHackRequest.h \
         $$PWD/HackLogin/CookieDataProvider.h \
         $$PWD/HackLogin/HackFriendshipsGroups.h \
-        $$PWD/HackLogin/LoginCookieJar.h
+        $$PWD/HackLogin/LoginCookieJar.h \
+        $$PWD/HackLogin/HackRequestCookieJar.h \
+        $$PWD/HackLogin/HackRemind.h \
+        $$PWD/HackLogin/CookieJarBaseHackRequest.h
+
 
     SOURCES += \
         $$PWD/HackLogin/BaseHackRequest.cpp \
         $$PWD/HackLogin/CookieDataProvider.cpp \
         $$PWD/HackLogin/HackFriendshipsGroups.cpp \
-        $$PWD/HackLogin/LoginCookieJar.cpp
+        $$PWD/HackLogin/LoginCookieJar.cpp \
+        $$PWD/HackLogin/HackRequestCookieJar.cpp \
+        $$PWD/HackLogin/HackRemind.cpp \
+        $$PWD/HackLogin/CookieJarBaseHackRequest.cpp
 }
 
 contains (CONFIG, WITH_SDK_WRAPPER) {
