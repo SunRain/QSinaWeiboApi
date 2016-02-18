@@ -6,11 +6,11 @@
 #include <QJsonDocument>
 #include <QUrl>
 #include <QUrlQuery>
-
+#if 0
 #include "htmlcxx/html/tree.h"
 #include "htmlcxx/html/ParserDom.h"
 #include "htmlcxx/html/Node.h"
-
+#endif
 #include "HackLogin/HackFriendshipsGroups.h"
 #include "HackLogin/HackRequestCookieJar.h"
 
@@ -21,7 +21,9 @@ namespace QWeiboSDK {
 namespace Wrapper {
 
 using namespace HackLogin;
+#if 0
 using namespace htmlcxx;
+#endif
 using namespace std;
 
 #define TO_QSTR(x) QString::fromStdString (x)
