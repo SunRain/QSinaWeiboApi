@@ -18,6 +18,7 @@ BaseHackRequest::BaseHackRequest(QObject *parent)
 {
     setBaseUrl (QString(HACK_LOGIN_HOST));
     appendExtraRequestCookie (new CookieJarBaseHackRequest(this));
+    setTimerInterval (10000);
 }
 
 BaseHackRequest::~BaseHackRequest()
@@ -69,6 +70,7 @@ void BaseHackRequest::getRequest()
         }
     }
     request.setRawHeader ("Cookie", cookies.toUtf8 ());
+    request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
 
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
     foreach (QByteArray ba, request.rawHeaderList ()) {

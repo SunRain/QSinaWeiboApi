@@ -5,10 +5,12 @@
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QStandardPaths>
 
 #include <QFileInfo>
 #include <QHttpPart>
 #include <QNetworkAccessManager>
+#include <QNetworkDiskCache>
 #include <QNetworkReply>
 
 #include "TokenProvider.h"
@@ -24,9 +26,14 @@ BaseRequest::BaseRequest(QObject *parent)
     ,m_urlPath(QString())
     ,m_networkMgr(new QNetworkAccessManager(this))
     ,m_reply(nullptr)
+    ,m_diskCache(new QNetworkDiskCache(m_networkMgr))
     ,m_timeout(new QTimer(this))
 {
     m_timeout->setSingleShot (true);
+    m_diskCache->setMaximumCacheSize (300*1024*1024);
+    m_diskCache->setCacheDirectory (QString("%1/api_request")
+                                    .arg (QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    m_networkMgr->setCache (m_diskCache);
     connect (m_timeout, &QTimer::timeout,
              [&](){
         m_requestAborted = true;
@@ -331,6 +338,7 @@ void BaseRequest::getRequest()
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
     //create request, if request exists, abort previous
     QNetworkRequest request(url);
+    request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
     if (curNetworkReply ()) {
         m_requestAborted = true;
         curNetworkReply ()->abort ();

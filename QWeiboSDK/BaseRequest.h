@@ -9,6 +9,7 @@
 class QTimer;
 class QNetworkAccessManager;
 class QNetworkReply;
+class QNetworkDiskCache;
 namespace QWeiboSDK {
 
 class QWEIBOSDK_EXPORT BaseRequest : public QObject
@@ -58,6 +59,7 @@ private:
     QMap<QString, QString> m_parameters;
     QNetworkAccessManager *m_networkMgr;
     QNetworkReply *m_reply;
+    QNetworkDiskCache *m_diskCache;
     QTimer *m_timeout;
 };
 } //QWeiboSDK

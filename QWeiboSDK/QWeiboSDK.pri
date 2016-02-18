@@ -30,7 +30,8 @@ contains (CONFIG, WITH_HACKLOGIN) {
         $$PWD/HackLogin/LoginCookieJar.h \
         $$PWD/HackLogin/HackRequestCookieJar.h \
         $$PWD/HackLogin/HackRemind.h \
-        $$PWD/HackLogin/CookieJarBaseHackRequest.h
+        $$PWD/HackLogin/CookieJarBaseHackRequest.h \
+        $$PWD/HackLogin/HackUsersInfo.h
 
 
     SOURCES += \
@@ -40,7 +41,8 @@ contains (CONFIG, WITH_HACKLOGIN) {
         $$PWD/HackLogin/LoginCookieJar.cpp \
         $$PWD/HackLogin/HackRequestCookieJar.cpp \
         $$PWD/HackLogin/HackRemind.cpp \
-        $$PWD/HackLogin/CookieJarBaseHackRequest.cpp
+        $$PWD/HackLogin/CookieJarBaseHackRequest.cpp \
+        $$PWD/HackLogin/HackUsersInfo.cpp
 }
 
 contains (CONFIG, WITH_SDK_WRAPPER) {
