@@ -133,6 +133,7 @@ void BaseRequest::uploadImage(const QString &status, const QString &fileUrl)
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestAbort ();
+                emit requestResult (BaseRequest::RET_ABORT, QString());
                 return;
             }
             QNetworkReply::NetworkError error = m_reply->error ();
@@ -142,11 +143,13 @@ void BaseRequest::uploadImage(const QString &status, const QString &fileUrl)
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
+                emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestSuccess (QString(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
         });
     } else {
@@ -293,6 +296,7 @@ void BaseRequest::postRequest()
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestAbort ();
+                emit requestResult (BaseRequest::RET_ABORT, QString());
                 return;
             }
             QNetworkReply::NetworkError error = m_reply->error ();
@@ -302,11 +306,13 @@ void BaseRequest::postRequest()
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
+                emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestSuccess (QString(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
         });
     }
@@ -360,6 +366,7 @@ void BaseRequest::getRequest()
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestAbort ();
+                emit requestResult (BaseRequest::RET_ABORT, QString());
                 return;
             }
             QNetworkReply::NetworkError error = m_reply->error ();
@@ -369,11 +376,13 @@ void BaseRequest::getRequest()
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
+                emit requestResult (BaseRequest::RET_SUCCESS, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestSuccess (QString(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
         });
     }

@@ -15,7 +15,14 @@ namespace QWeiboSDK {
 class QWEIBOSDK_EXPORT BaseRequest : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(RequestRet)
 public:
+    enum RequestRet {
+        RET_ABORT = 0x0,
+        RET_SUCCESS,
+        RET_FAILURE
+    };
+
     explicit BaseRequest(QObject *parent = 0);
     virtual ~BaseRequest();
 
@@ -45,6 +52,7 @@ signals:
     void requestSuccess(const QString &replyData);
     void requestFailure(const QString &replyData);
     void requestAbort();
+    void requestResult(RequestRet ret, const QString &replyData);
 public slots:
     virtual void postRequest();
     virtual void getRequest();

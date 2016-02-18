@@ -69,7 +69,7 @@ signals:
     void requestSuccess(const QString &replyData);
     void requestFailure(const QString &replyData);
     void requestAbort();
-
+    void requestResult(BaseRequest::RequestRet ret, const QString &replyData);
 public slots:
     void postRequest();
     void getRequest();

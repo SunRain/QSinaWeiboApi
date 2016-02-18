@@ -101,6 +101,7 @@ void BaseHackRequest::getRequest()
                     m_reply = nullptr;
                 }
                 emit requestAbort ();
+                emit requestResult (BaseRequest::RET_ABORT, QString());
                 return;
             }
             QNetworkReply::NetworkError error = m_reply->error ();
@@ -111,6 +112,7 @@ void BaseHackRequest::getRequest()
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
+                emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
                 foreach (QByteArray ar, m_reply->rawHeaderList ()) {
@@ -127,6 +129,7 @@ void BaseHackRequest::getRequest()
                 qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
 
                 emit requestSuccess (QString(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
         });
     }

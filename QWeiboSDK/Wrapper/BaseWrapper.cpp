@@ -62,10 +62,12 @@ void BaseWrapper::setRequest(BaseRequest *request)
     if (m_request) {
         connect (m_request, &BaseRequest::requestAbort, this, &BaseWrapper::requestAbort);
         connect (m_request, &BaseRequest::requestFailure, this, &BaseWrapper::requestFailure);
+        connect (m_request, &BaseRequest::requestResult, this, &BaseWrapper::requestResult);
         connect (m_request, &BaseRequest::requestSuccess,
                  [&](const QString &replyData){
             QString str = parseContent (replyData);
             emit requestSuccess (str);
+            emit requestResult (BaseRequest::RET_SUCCESS, str);
         });
     }
 }
