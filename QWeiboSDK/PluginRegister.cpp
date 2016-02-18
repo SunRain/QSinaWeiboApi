@@ -8,6 +8,7 @@
 #include "HackLogin/CookieDataProvider.h"
 #include "HackLogin/HackFriendshipsGroups.h"
 #include "HackLogin/HackUsersInfo.h"
+#include "HackLogin/HackRemind.h"
 #endif
 
 #ifdef WITH_SDK_WRAPPER
@@ -177,6 +178,8 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::FriendshipsCreate>(url, 1, 0, "FriendshipsCreate");
     qmlRegisterType<QWeiboSDK::FriendshipsDestroy>(url, 1, 0, "FriendshipsDestroy");
 
+    qmlRegisterType<QWeiboSDK::BaseRequest>(url, 1, 0, "BaseRequest");
+
 #ifdef WITH_HACKLOGIN
     qmlRegisterType<QWeiboSDK::HackLogin::CookieDataProvider>(url, 1, 0, "CookieDataProvider");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroups>(url, 1, 0, "HackFriendshipsGroups");
@@ -184,6 +187,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsCreate>(url, 1, 0, "HackFriendshipsGroupsCreate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsDestroy>(url, 1, 0, "HackFriendshipsGroupsDestroy");
     qmlRegisterType<QWeiboSDK::HackLogin::HackUsersInfo>(url, 1, 0, "HackUsersInfo");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackRemindUnreadCount>(url, 1, 0, "HackRemindUnreadCount");
 
 #endif
 
