@@ -10,11 +10,11 @@ namespace QWeiboSDK {
 namespace HackLogin {
 
 //get http://m.weibo.cn/home/me?format=cards
-class QWEIBOSDK_EXPORT HackUsersInfo : public BaseHackRequest
+class QWEIBOSDK_EXPORT HackUsersInfoMe : public BaseHackRequest
 {
     Q_OBJECT
 public:
-    explicit HackUsersInfo(QObject *parent = 0);
+    explicit HackUsersInfoMe(QObject *parent = 0);
 
     // BaseRequest interface
 protected:

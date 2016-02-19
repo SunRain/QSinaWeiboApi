@@ -186,7 +186,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsTimeline>(url, 1, 0, "HackFriendshipsGroupsTimeline");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsCreate>(url, 1, 0, "HackFriendshipsGroupsCreate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroupsDestroy>(url, 1, 0, "HackFriendshipsGroupsDestroy");
-    qmlRegisterType<QWeiboSDK::HackLogin::HackUsersInfo>(url, 1, 0, "HackUsersInfo");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackUsersInfoMe>(url, 1, 0, "HackUsersInfoMe");
     qmlRegisterType<QWeiboSDK::HackLogin::HackRemindUnreadCount>(url, 1, 0, "HackRemindUnreadCount");
 
 #endif

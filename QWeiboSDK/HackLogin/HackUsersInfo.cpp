@@ -4,7 +4,7 @@
 namespace QWeiboSDK {
 namespace HackLogin {
 
-HackUsersInfo::HackUsersInfo(QObject *parent)
+HackUsersInfoMe::HackUsersInfoMe(QObject *parent)
     : BaseHackRequest(parent)
 {
     //get http://m.weibo.cn/home/me?format=cards
