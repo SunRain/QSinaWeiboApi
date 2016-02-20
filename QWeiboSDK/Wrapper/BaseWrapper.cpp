@@ -25,6 +25,12 @@ BaseWrapper::~BaseWrapper()
         m_request->deleteLater ();
 }
 
+void BaseWrapper::appendPostDataParameters(const QString &key, const QString &value)
+{
+    if (m_request)
+        m_request->appendPostDataParameters (key, value);
+}
+
 void BaseWrapper::setParameters(const QString &key, const QString &value)
 {
     if (!m_request) {

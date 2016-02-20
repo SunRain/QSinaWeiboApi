@@ -18,6 +18,7 @@ class QWEIBOSDK_EXPORT BaseWrapper : public QObject
 public:
     explicit BaseWrapper(QObject *parent = 0);
     virtual ~BaseWrapper();
+    Q_INVOKABLE void appendPostDataParameters(const QString &key, const QString &value);
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
     void appendExtraRequestCookie(HackLogin::HackRequestCookieJar *cookieJar);
     ///
