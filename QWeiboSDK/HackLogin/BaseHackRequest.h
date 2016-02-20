@@ -18,6 +18,12 @@ public:
 
     void appendExtraRequestCookie(HackRequestCookieJar *cookieJar);
 
+    ///
+    /// \brief reset base url to newUrl
+    /// \param newUrl
+    ///
+    void resetBaseUrl(const QString &newUrl);
+
     // BaseRequest interface
 protected:
 //    virtual void initParameters();

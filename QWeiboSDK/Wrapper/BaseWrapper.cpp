@@ -31,7 +31,12 @@ void BaseWrapper::setParameters(const QString &key, const QString &value)
         qWarning()<<Q_FUNC_INFO<<"BaseRequest is nullptr, can't set parameters!!!!";
         return;
     }
-    m_request->setParameters (convertParameterKey (key), value);
+    QString s = convertParameterKey (key);
+    if (!s.isEmpty ())
+        m_request->setParameters (convertParameterKey (key), value);
+    else
+        qDebug()<<Q_FUNC_INFO<<QString(">>>>>> ignore empty key with value [%1=%2] <<<<<<")
+                  .arg (key).arg (value);
 }
 
 void BaseWrapper::appendExtraRequestCookie(HackRequestCookieJar *cookieJar)
@@ -43,6 +48,28 @@ void BaseWrapper::appendExtraRequestCookie(HackRequestCookieJar *cookieJar)
         if (r)
             r->appendExtraRequestCookie (cookieJar);
     }
+}
+
+void BaseWrapper::resetBaseUrl(const QString &newUrl)
+{
+    if (newUrl.isEmpty ()) {
+        qWarning()<<Q_FUNC_INFO<<"Invalid empty new url";
+        return;
+    }
+    if (!m_request) {
+        qWarning()<<Q_FUNC_INFO<<"BaseRequest is nullptr, can't set parameters!!!!";
+        return;
+    }
+    if (!m_useHackLogin) {
+        qWarning()<<Q_FUNC_INFO<<"resetBaseUrl only support hack login, current use oauth login";
+        return;
+    }
+    BaseHackRequest *req = qobject_cast<BaseHackRequest*>(m_request);
+    if (!req) {
+        qWarning()<<Q_FUNC_INFO<<"covert to BaseHackRequest error";
+        return;
+    }
+    req->resetBaseUrl (newUrl);
 }
 
 QString BaseWrapper::convertParameterKey(const QString &key)

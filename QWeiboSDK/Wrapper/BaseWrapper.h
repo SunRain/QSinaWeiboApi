@@ -16,11 +16,15 @@ class QWEIBOSDK_EXPORT BaseWrapper : public QObject
 {
     Q_OBJECT
 public:
-    BaseWrapper(QObject *parent = 0);
+    explicit BaseWrapper(QObject *parent = 0);
     virtual ~BaseWrapper();
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
     void appendExtraRequestCookie(HackLogin::HackRequestCookieJar *cookieJar);
-
+    ///
+    /// \brief reset base url to newUrl
+    /// \param newUrl
+    ///
+    Q_INVOKABLE void resetBaseUrl(const QString &newUrl);
 protected:
     inline bool useHackLogin() const {
         return m_useHackLogin;
