@@ -9,7 +9,7 @@
 namespace QWeiboSDK {
 namespace HackLogin {
 
-//post http://m.weibo.cn/mblogDeal/addFavMblog
+//post http://m.weibo.cn/mblogDeal/addFavMblog?id=
 class QWEIBOSDK_EXPORT HackFavoritesCreate : public BaseHackRequest
 {
     Q_OBJECT
@@ -19,9 +19,9 @@ public:
     // BaseRequest interface
 protected:
     void initParameters() {
-        (*this)
-        ("id", "") //weibo id
-        ;
+//        (*this)
+//        ("id", "") //weibo id
+//        ;
     }
 };
 

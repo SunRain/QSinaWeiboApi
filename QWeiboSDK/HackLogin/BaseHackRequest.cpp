@@ -53,12 +53,19 @@ void BaseHackRequest::postRequest()
 {
     setRequestAborted (false);
     QUrl url = initUrl ();
-    QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
+//    QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
 
     QNetworkRequest request(url);
+    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100101 Firefox/44.0");
+    QByteArray data;
+    foreach (QString k, postDataParameters ().keys ()) {
+        data.append (QString("%1=%2&").arg (k).arg (postDataParameters ().value (k)));
+    }
+    if (data.endsWith ("&"))
+        data = data.left (data.length ()-1);
+
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
-    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100101 Firefox/44.0");
 
     QString cookies = TokenProvider::instance ()->hackLoginCookies ();
     if (m_cookieJar) {

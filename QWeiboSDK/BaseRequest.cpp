@@ -70,6 +70,13 @@ void BaseRequest::initiate()
 
 }
 
+void BaseRequest::appendPostDataParameters(const QString &key, const QString &value)
+{
+    if (key.isEmpty ())
+        return;
+    m_postDataParameters.insert (key, value);
+}
+
 void BaseRequest::setParameters(const QString &key, const QString &value)
 {
     (*this)(key, value);
@@ -262,7 +269,13 @@ void BaseRequest::postRequest()
     QUrl url = initUrl ();
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
 
-    QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
+//    QByteArray data(url.query(QUrl::FullyEncoded).toLatin1());
+    QByteArray data;
+    foreach (QString k, m_postDataParameters.keys ()) {
+        data.append (QString("%1=%2&").arg (k).arg (m_postDataParameters.value (k)));
+    }
+    if (data.endsWith ("&"))
+        data = data.left (data.length ()-1);
 
     //create request, if request exists, abort previous
     QNetworkRequest request(url);

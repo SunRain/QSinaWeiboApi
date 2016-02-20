@@ -30,6 +30,10 @@ public:
 
     void initiate();
 
+    Q_INVOKABLE void appendPostDataParameters(const QString &key, const QString &value);
+    inline QMap<QString, QString> postDataParameters() const {
+        return m_postDataParameters;
+    }
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
     Q_INVOKABLE void uploadImage(const QString &status, const QString &fileUrl);
 
@@ -65,6 +69,7 @@ private:
     QString m_urlPath;
     QString m_baseUrl;
     QMap<QString, QString> m_parameters;
+    QMap<QString, QString> m_postDataParameters;
     QNetworkAccessManager *m_networkMgr;
     QNetworkReply *m_reply;
     QNetworkDiskCache *m_diskCache;
