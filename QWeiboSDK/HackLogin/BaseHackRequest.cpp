@@ -118,13 +118,13 @@ void BaseHackRequest::postRequest()
                 emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
-//                foreach (QByteArray ar, m_reply->rawHeaderList ()) {
-//                    qDebug()<<Q_FUNC_INFO<<ar;
+                foreach (QByteArray ar, m_reply->rawHeaderList ()) {
+                    qDebug()<<Q_FUNC_INFO<<ar;
 
-//                }
-//                foreach (QNetworkReply::RawHeaderPair p, m_reply->rawHeaderPairs ()) {
-//                    qDebug()<<Q_FUNC_INFO<<p.first<<"||"<<p.second;
-//                }
+                }
+                foreach (QNetworkReply::RawHeaderPair p, m_reply->rawHeaderPairs ()) {
+                    qDebug()<<Q_FUNC_INFO<<p.first<<"||"<<p.second;
+                }
                 m_reply->deleteLater ();
                 m_reply = nullptr;
 

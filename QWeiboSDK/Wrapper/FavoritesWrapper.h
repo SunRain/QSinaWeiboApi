@@ -17,7 +17,7 @@ public:
     explicit WrapperFavoritesCreate(QObject *parent = 0);
 };
 
-class WrapperFavoritesList : public BaseWrapper
+class QWEIBOSDK_EXPORT WrapperFavoritesList : public BaseWrapper
 {
     Q_OBJECT
 public:

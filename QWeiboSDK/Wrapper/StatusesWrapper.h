@@ -21,6 +21,41 @@ protected:
     QString parseContent(const QString &content);
 };
 
+class QWEIBOSDK_EXPORT WrapperStatusesRepostTimeline : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperStatusesRepostTimeline(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString parseContent(const QString &content);
+};
+
+//post
+class QWEIBOSDK_EXPORT WrapperStatusesUpdate : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperStatusesUpdate(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString convertParameterKey(const QString &key);
+};
+
+//post
+class QWEIBOSDK_EXPORT WrapperStatusesRepost : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperStatusesRepost(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString convertParameterKey(const QString &key);
+};
+
 } //Wrapper
 } //QWeiboSDK
 #endif // STATUSESWRAPPER_H

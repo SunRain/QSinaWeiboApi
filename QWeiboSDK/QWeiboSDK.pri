@@ -14,7 +14,11 @@ HEADERS += \
     $$PWD/HackLogin/HackStatuses.h \
     $$PWD/Wrapper/StatusesWrapper.h \
     $$PWD/HackLogin/HackFavorites.h \
-    $$PWD/Wrapper/FavoritesWrapper.h
+    $$PWD/Wrapper/FavoritesWrapper.h \
+    $$PWD/HackLogin/HackComments.h \
+    $$PWD/Wrapper/CommentsWrapper.h \
+    $$PWD/HackLogin/HackSearch.h \
+    $$PWD/Wrapper/SearchWrapper.h
 
 SOURCES += \
     $$PWD/BaseRequest.cpp \
@@ -25,7 +29,11 @@ SOURCES += \
     $$PWD/HackLogin/HackStatuses.cpp \
     $$PWD/Wrapper/StatusesWrapper.cpp \
     $$PWD/HackLogin/HackFavorites.cpp \
-    $$PWD/Wrapper/FavoritesWrapper.cpp
+    $$PWD/Wrapper/FavoritesWrapper.cpp \
+    $$PWD/HackLogin/HackComments.cpp \
+    $$PWD/Wrapper/CommentsWrapper.cpp \
+    $$PWD/HackLogin/HackSearch.cpp \
+    $$PWD/Wrapper/SearchWrapper.cpp
 
 contains (CONFIG, WITH_HACKLOGIN) {
     DEFINES += WITH_HACKLOGIN

@@ -11,12 +11,16 @@
 #include "HackLogin/HackRemind.h"
 #include "HackLogin/HackStatuses.h"
 #include "HackLogin/HackFavorites.h"
+#include "HackLogin/HackComments.h"
+#include "HackLogin/HackSearch.h"
 #endif
 
 #ifdef WITH_SDK_WRAPPER
 #include "Wrapper/FriendshipsGroupsWrapper.h"
 #include "Wrapper/StatusesWrapper.h"
 #include "Wrapper/FavoritesWrapper.h"
+#include "Wrapper/CommentsWrapper.h"
+#include "Wrapper/SearchWrapper.h"
 #endif
 
 namespace QWeiboSDK {
@@ -195,6 +199,14 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesFriendsTimeline>(url, 1, 0, "HackStatusesFriendsTimeline");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFavoritesCreate>(url, 1, 0, "HackFavoritesCreate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFavoritesList>(url, 1, 0, "HackFavoritesList");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesRepostTimeline>(url, 1, 0, "HackStatusesRepostTimeline");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsShow>(url, 1, 0, "HackCommentsShow");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackSearchSuggestionsAtUsers>(url, 1, 0, "HackSearchSuggestionsAtUsers");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackSearchSuggestionsAtUsersList>(url, 1, 0, "HackSearchSuggestionsAtUsersList");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsReply>(url, 1, 0, "HackCommentsReply");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesUpdate>(url, 1, 0, "HackStatusesUpdate");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesRepost>(url, 1, 0, "HackStatusesRepost");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsCreate>(url, 1, 0, "HackCommentsCreate");
 
 #endif
 
@@ -206,6 +218,14 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesFriendsTimeline>(url, 1, 0, "WrapperStatusesFriendsTimeline");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFavoritesCreate>(url, 1, 0, "WrapperFavoritesCreate");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFavoritesList>(url, 1, 0, "WrapperFavoritesList");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsShow>(url, 1, 0, "WrapperCommentsShow");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesRepostTimeline>(url, 1, 0, "WrapperStatusesRepostTimeline");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperSearchSuggestionsAtUsers>(url, 1, 0, "WrapperSearchSuggestionsAtUsers");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperSearchSuggestionsAtUsersList>(url, 1, 0, "WrapperSearchSuggestionsAtUsersList");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsReply>(url, 1, 0, "WrapperCommentsReply");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesUpdate>(url, 1, 0, "WrapperStatusesUpdate");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesRepost>(url, 1, 0, "WrapperStatusesRepost");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsCreate>(url, 1, 0, "WrapperCommentsCreate");
 
 #endif
 

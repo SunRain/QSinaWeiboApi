@@ -9,5 +9,26 @@ HackStatusesFriendsTimeline::HackStatusesFriendsTimeline(QObject *parent)
     initiate ();
 }
 
+HackStatusesRepostTimeline::HackStatusesRepostTimeline(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("single/rcList", "");
+    initiate ();
+}
+
+HackStatusesUpdate::HackStatusesUpdate(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("mblogDeal/addAMblog", "");
+    initiate ();
+}
+
+HackStatusesRepost::HackStatusesRepost(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("mblogDeal/rtMblog", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK
