@@ -56,6 +56,17 @@ protected:
     QString convertParameterKey(const QString &key);
 };
 
+class QWEIBOSDK_EXPORT WrapperStatusesMentions : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperStatusesMentions(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString parseContent(const QString &content);
+};
+
 } //Wrapper
 } //QWeiboSDK
 #endif // STATUSESWRAPPER_H

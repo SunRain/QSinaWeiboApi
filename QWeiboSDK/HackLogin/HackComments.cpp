@@ -24,6 +24,20 @@ HackCommentsCreate::HackCommentsCreate(QObject *parent)
     initiate ();
 }
 
+HackCommentsMentions::HackCommentsMentions(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msg/atMeCmt", "");
+    initiate ();
+}
+
+HackCommentsTimeline::HackCommentsTimeline(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msg/cmts", "");
+    initiate ();
+}
+
 
 } //HackLogin
 } //QWeiboSDK

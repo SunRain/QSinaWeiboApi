@@ -30,5 +30,12 @@ HackStatusesRepost::HackStatusesRepost(QObject *parent)
     initiate ();
 }
 
+HackStatusesMentions::HackStatusesMentions(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msg/atme", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK

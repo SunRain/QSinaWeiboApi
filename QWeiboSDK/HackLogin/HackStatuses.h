@@ -90,6 +90,26 @@ protected:
     }
 };
 
+// 2/statuses/mentions: 获取@当前用户的最新微博
+//get http://m.weibo.cn/msg/atme?subtype=allWB
+class QWEIBOSDK_EXPORT HackStatusesMentions : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackStatusesMentions(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ("subtype", "allWB")
+        ("page", "1")
+        ;
+    }
+};
+
+
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKSTATUSES_H

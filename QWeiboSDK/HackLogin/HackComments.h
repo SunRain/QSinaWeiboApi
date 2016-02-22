@@ -79,6 +79,44 @@ protected:
         ;
     }
 };
+
+//2/comments/mentions: 获取@到我的评论
+//get http://m.weibo.cn/msg/atMeCmt?subtype=allPL&format=cards&page=1
+class QWEIBOSDK_EXPORT HackCommentsMentions : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackCommentsMentions(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ("subtype", "allPL")
+        ("page", "1")
+        ;
+    }
+};
+
+//2/comments/timeline: 获取用户发送及收到的评论列表
+//get http://m.weibo.cn/msg/cmts?subtype=allPL&format=cards&page=1
+class QWEIBOSDK_EXPORT HackCommentsTimeline : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackCommentsTimeline(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ("subtype", "allPL")
+        ("page", "1")
+        ;
+    }
+};
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKCOMMENTS_H

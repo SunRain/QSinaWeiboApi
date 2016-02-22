@@ -207,6 +207,9 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesUpdate>(url, 1, 0, "HackStatusesUpdate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesRepost>(url, 1, 0, "HackStatusesRepost");
     qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsCreate>(url, 1, 0, "HackCommentsCreate");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesMentions>(url, 1, 0, "HackStatusesMentions");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsMentions>(url, 1, 0, "HackCommentsMentions");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackCommentsTimeline>(url, 1, 0, "HackCommentsTimeline");
 
 #endif
 
@@ -226,6 +229,9 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesUpdate>(url, 1, 0, "WrapperStatusesUpdate");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesRepost>(url, 1, 0, "WrapperStatusesRepost");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsCreate>(url, 1, 0, "WrapperCommentsCreate");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesMentions>(url, 1, 0, "WrapperStatusesMentions");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsMentions>(url, 1, 0, "WrapperCommentsMentions");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperCommentsTimeline>(url, 1, 0, "WrapperCommentsTimeline");
 
 #endif
 
