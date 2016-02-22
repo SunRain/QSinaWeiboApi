@@ -172,6 +172,7 @@ QString WrapperStatusesRepost::convertParameterKey(const QString &key)
         if (key == "status")
             return "content";
     }
+    return key;
 }
 
 WrapperStatusesMentions::WrapperStatusesMentions(QObject *parent)
