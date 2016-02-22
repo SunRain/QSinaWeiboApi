@@ -11,7 +11,7 @@ HackSearchSuggestionsAtUsersList::HackSearchSuggestionsAtUsersList(QObject *pare
 }
 
 HackSearchSuggestionsAtUsers::HackSearchSuggestionsAtUsers(QObject *parent)
-    : HackSearchSuggestionsAtUsers(parent)
+    : BaseHackRequest(parent)
 {
     setUrlPath ("attention/getAttentionList", "");
     initiate ();
