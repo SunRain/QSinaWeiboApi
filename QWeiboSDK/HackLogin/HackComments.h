@@ -117,6 +117,7 @@ protected:
         ;
     }
 };
+
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKCOMMENTS_H

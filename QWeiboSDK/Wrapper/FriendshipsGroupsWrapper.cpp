@@ -374,45 +374,5 @@ QString WrapperFriendshipsGroupsDestroy::convertParameterKey(const QString &key)
     return key;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 } //Wrapper
 } //QWeiboSDK
