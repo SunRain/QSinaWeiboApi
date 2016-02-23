@@ -15,16 +15,19 @@
 
 #include <QByteArray>
 
+#if 0
 #include "htmlcxx/html/tree.h"
 #include "htmlcxx/html/ParserDom.h"
 #include "htmlcxx/html/Node.h"
-
+#endif
 
 #include "LoginCookieJar.h"
 #include "TokenProvider.h"
 
+#if 0
 using namespace htmlcxx;
 using namespace std;
+#endif
 
 namespace QWeiboSDK {
 namespace HackLogin {
