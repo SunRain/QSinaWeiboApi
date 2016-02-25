@@ -22,7 +22,7 @@ public:
     /// \brief reset base url to newUrl
     /// \param newUrl
     ///
-    void resetBaseUrl(const QString &newUrl);
+    Q_INVOKABLE void resetBaseUrl(const QString &newUrl);
 
     // BaseRequest interface
 protected:

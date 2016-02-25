@@ -25,6 +25,24 @@ protected:
     }
 };
 
+//get http://m.weibo.cn/u/1494848464?format=cards
+//need use resetBaseUrl()
+class QWEIBOSDK_EXPORT HackUsersInfo : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackUsersInfo(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ;
+    }
+};
+
+
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKUSERSINFO_H

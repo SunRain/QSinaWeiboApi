@@ -12,5 +12,12 @@ HackUsersInfoMe::HackUsersInfoMe(QObject *parent)
     initiate ();
 }
 
+HackUsersInfo::HackUsersInfo(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("u/", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK
