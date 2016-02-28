@@ -35,7 +35,6 @@ public:
         return m_postDataParameters;
     }
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
-    Q_INVOKABLE void uploadImage(const QString &status, const QString &fileUrl);
 
     BaseRequest& operator ()(const QString &key, const QVariant &value);
     BaseRequest& operator ()(const QString &key, const char *value);

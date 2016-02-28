@@ -190,6 +190,9 @@ void registerPlugins(const char *url)
 
     qmlRegisterType<QWeiboSDK::BaseRequest>(url, 1, 0, "BaseRequest");
 
+    qmlRegisterType<QWeiboSDK::ImageUploader>(url, 1, 0, "ImageUploader");
+
+
 #ifdef WITH_HACKLOGIN
     qmlRegisterType<QWeiboSDK::HackLogin::CookieDataProvider>(url, 1, 0, "CookieDataProvider");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsGroups>(url, 1, 0, "HackFriendshipsGroups");

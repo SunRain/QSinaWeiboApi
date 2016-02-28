@@ -4,19 +4,16 @@
 #include <QObject>
 #include "BaseRequest.h"
 
+class QNetworkReply;
 namespace QWeiboSDK {
 
 class QWEIBOSDK_EXPORT ImageUploader : public BaseRequest
 {
     Q_OBJECT
 public:
-    explicit ImageUploader(QObject *parent = 0)
-        : BaseRequest(parent) {
-        setBaseUrl (QString(IMAGE_UPLOAD_HOST));
-        setUrlPath ("2/statuses/upload");
-        initiate ();
-    }
-    virtual ~ImageUploader() {}
+    explicit ImageUploader(QObject *parent = 0);
+    Q_INVOKABLE void sendWeiboWithImage(const QString &content, const QString &fileUrl);
+//    virtual ~ImageUploader() {}
 
     // BaseRequest interface
 protected:
@@ -25,6 +22,10 @@ protected:
         ("access_token", "")
         ;
     }
+    QNetworkReply *curNetworkReply();
+
+private:
+    QNetworkReply *m_reply;
 };
 
 } //QWeiboSDK

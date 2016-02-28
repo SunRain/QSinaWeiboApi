@@ -17,7 +17,8 @@ SOURCES += \
     $$PWD/global.cpp \
     $$PWD/TokenProvider.cpp \
     $$PWD/LoginProvider.cpp \
-    $$PWD/PluginRegister.cpp
+    $$PWD/PluginRegister.cpp \
+    $$PWD/ImageUploader.cpp
 
 contains (CONFIG, WITH_HACKLOGIN) {
     DEFINES += WITH_HACKLOGIN
