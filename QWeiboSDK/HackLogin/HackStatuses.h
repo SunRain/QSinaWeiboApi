@@ -64,6 +64,8 @@ protected:
         (*this)
         ("content", "") //要发布的微博文本内容，必须做URLencode，内容不超过140个汉字。
         ("visible", "0") //微博的可见性，0：所有人能看，1：仅自己可见，2：密友可见，3：指定分组可见，默认为0。
+        ("picId", "") //picids from uploaded images, multi picids should be seperated by ,
+        //ac361c4cjw1f1fgdqivguj20hs0dct9v,ac361c4cjw1f1fgeqsgvxj20900g5gmi"
         ("st", "") //unknow seems ok if empty
         ;
     }

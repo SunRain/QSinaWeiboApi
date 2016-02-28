@@ -30,6 +30,9 @@ protected:
     inline bool useHackLogin() const {
         return m_useHackLogin;
     }
+    inline BaseRequest *request () {
+        return m_request;
+    }
     virtual QString convertParameterKey(const QString &key);
     virtual QString parseContent(const QString &content);
 

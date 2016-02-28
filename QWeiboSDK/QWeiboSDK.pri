@@ -10,7 +10,9 @@ HEADERS += \
     $$PWD/TokenProvider.h \
     $$PWD/LoginProvider.h \
     $$PWD/PluginRegister.h \
-    $$PWD/ImageUploader.h
+    $$PWD/ImageUploader.h \
+    $$PWD/HackLogin/HackImageUploader.h \
+    $$PWD/Wrapper/ImageUploaderWrapper.h
 
 SOURCES += \
     $$PWD/BaseRequest.cpp \
@@ -18,7 +20,9 @@ SOURCES += \
     $$PWD/TokenProvider.cpp \
     $$PWD/LoginProvider.cpp \
     $$PWD/PluginRegister.cpp \
-    $$PWD/ImageUploader.cpp
+    $$PWD/ImageUploader.cpp \
+    $$PWD/HackLogin/HackImageUploader.cpp \
+    $$PWD/Wrapper/ImageUploaderWrapper.cpp
 
 contains (CONFIG, WITH_HACKLOGIN) {
     DEFINES += WITH_HACKLOGIN

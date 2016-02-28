@@ -1,23 +1,29 @@
-#include "ImageUploader.h"
+#include "HackImageUploader.h"
 
 #include <QFileInfo>
 #include <QDebug>
 #include <QHttpPart>
 #include <QNetworkReply>
 
-namespace QWeiboSDK {
+#include "CookieJarBaseHackRequest.h"
+#include "HackRequestCookieJar.h"
+#include "TokenProvider.h"
 
-ImageUploader::ImageUploader(QObject *parent)
-    : BaseRequest(parent)
+namespace QWeiboSDK {
+namespace HackLogin {
+
+HackImageUploader::HackImageUploader(QObject *parent)
+    : BaseHackRequest(parent)
     , m_reply(nullptr)
+    , m_cookieJar(new CookieJarBaseHackRequest(this))
 {
-    setBaseUrl (QString(IMAGE_UPLOAD_HOST));
-    setUrlPath ("2/statuses/upload");
+    setUrlPath ("mblogDeal/addPic", "");
+    curNetworkAccessMgr ()->setCookieJar (m_cookieJar);
     initiate ();
     setTimerInterval (10000);
 }
 
-void ImageUploader::sendWeiboWithImage(const QString &content, const QString &fileUrl)
+void HackImageUploader::uploadImage(const QString &fileUrl)
 {
     setRequestAborted (false);
     QUrl url = initUrl ();
@@ -40,13 +46,13 @@ void ImageUploader::sendWeiboWithImage(const QString &content, const QString &fi
     imagePart.setBodyDevice(file);
     file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
 
-    if (!content.isEmpty ()) {
-        QHttpPart textPart;
-        textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
-        textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"status\""));
-        textPart.setBody(content.toUtf8());
-        multiPart->append(textPart);
-    }
+//    if (!content.isEmpty ()) {
+//        QHttpPart textPart;
+//        textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
+//        textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"status\""));
+//        textPart.setBody(content.toUtf8());
+//        multiPart->append(textPart);
+//    }
     multiPart->append(imagePart);
 
     if (curNetworkReply ()) {
@@ -60,6 +66,34 @@ void ImageUploader::sendWeiboWithImage(const QString &content, const QString &fi
     stopTimeout ();
 
     QNetworkRequest request(url);
+    request.setRawHeader ("User-Agent", "Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100101 Firefox/44.0");
+    QByteArray data;
+    foreach (QString k, postDataParameters ().keys ()) {
+        data.append (QString("%1=%2&").arg (k).arg (postDataParameters ().value (k)));
+    }
+    if (data.endsWith ("&"))
+        data = data.left (data.length ()-1);
+
+//    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+//    request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
+
+    QString cookies = TokenProvider::instance ()->hackLoginCookies ();
+    if (m_cookieJar) {
+        QString extra = m_cookieJar->cookies ();
+        if (!extra.isEmpty () && extra != cookies) {
+            if (!cookies.endsWith (";"))
+                cookies.append (";");
+            cookies.append (extra);
+        }
+    }
+    request.setRawHeader ("Cookie", cookies.toUtf8 ());
+//    request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
+
+    qDebug()<<Q_FUNC_INFO<<"post request for url: "<<url;
+    foreach (QByteArray ba, request.rawHeaderList ()) {
+        qDebug()<<Q_FUNC_INFO<<"request rawheader ["<<ba<<"="<<request.rawHeader (ba)<<"]";
+    }
+
     m_reply = curNetworkAccessMgr ()->post (request, multiPart);
 
     if (m_reply) {
@@ -104,9 +138,20 @@ void ImageUploader::sendWeiboWithImage(const QString &content, const QString &fi
     }
 }
 
-QNetworkReply *ImageUploader::curNetworkReply()
+QNetworkReply *HackImageUploader::curNetworkReply()
 {
     return m_reply;
 }
 
+void HackImageUploader::postRequest()
+{
+    qDebug()<<Q_FUNC_INFO<<">>>>>>>>> UN-USED-FUNCTION <<<<<<<<<";
+}
+
+void HackImageUploader::getRequest()
+{
+    qDebug()<<Q_FUNC_INFO<<">>>>>>>>> UN-USED-FUNCTION <<<<<<<<<";
+}
+
+} //HackLogin
 } //QWeiboSDK

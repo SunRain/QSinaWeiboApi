@@ -14,6 +14,7 @@
 #include "HackLogin/HackComments.h"
 #include "HackLogin/HackSearch.h"
 #include "HackLogin/HackFriendships.h"
+#include "HackLogin/HackImageUploader.h"
 #endif
 
 #ifdef WITH_SDK_WRAPPER
@@ -23,6 +24,7 @@
 #include "Wrapper/CommentsWrapper.h"
 #include "Wrapper/SearchWrapper.h"
 #include "Wrapper/FriendshipsWrapper.h"
+#include "Wrapper/ImageUploaderWrapper.h"
 #endif
 
 namespace QWeiboSDK {
@@ -219,6 +221,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesUserTimeline>(url, 1, 0, "HackStatusesUserTimeline");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsCreate>(url, 1, 0, "HackFriendshipsCreate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsDestroy>(url, 1, 0, "HackFriendshipsDestroy");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackImageUploader>(url, 1, 0, "HackImageUploader");
 
 #endif
 
@@ -244,6 +247,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperStatusesUserTimeline>(url, 1, 0, "WrapperStatusesUserTimeline");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFriendshipsCreate>(url, 1, 0, "WrapperFriendshipsCreate");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFriendshipsDestroy>(url, 1, 0, "WrapperFriendshipsDestroy");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperImageUploader>(url, 1, 0, "WrapperImageUploader");
 
 #endif
 
