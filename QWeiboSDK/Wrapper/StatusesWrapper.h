@@ -67,6 +67,18 @@ protected:
     QString parseContent(const QString &content);
 };
 
+class QWEIBOSDK_EXPORT WrapperStatusesUserTimeline : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperStatusesUserTimeline(QObject *parent = 0);
+
+    // BaseWrapper interface
+protected:
+    QString parseContent(const QString &content);
+};
+
+
 } //Wrapper
 } //QWeiboSDK
 #endif // STATUSESWRAPPER_H

@@ -15,7 +15,7 @@ HackUsersInfoMe::HackUsersInfoMe(QObject *parent)
 HackUsersInfo::HackUsersInfo(QObject *parent)
     : BaseHackRequest(parent)
 {
-    setUrlPath ("u/", "");
+//    setUrlPath ("u/", "");
     initiate ();
 }
 

@@ -109,6 +109,33 @@ protected:
     }
 };
 
+/*get
+ http://m.weibo.cn/page/tpl?
+    containerid=1005051494848464_-_WEIBO_SECOND_PROFILE_WEIBO
+    &itemid=&title=%E5%85%A8%E9%83%A8%E5%BE%AE%E5%8D%9A&format=cards
+    &page=1
+ ======================
+ containerid should be from http://m.weibo.cn/u/1494848464 => sub object
+ ==> itemid": "1005051850988623_-_WEIBO_INDEX_PROFILE_APPS",
+ ==> containerid is 1005051850988623
+*/
+class QWEIBOSDK_EXPORT HackStatusesUserTimeline : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackStatusesUserTimeline(QObject *parent = 0);
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ("containerid", "")
+        ("itemid", "") //ok if empty
+        ("title", "%E5%85%A8%E9%83%A8%E5%BE%AE%E5%8D%9A")
+        ("page", "1")
+        ;
+    }
+};
 
 } //HackLogin
 } //QWeiboSDK

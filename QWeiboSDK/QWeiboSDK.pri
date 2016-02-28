@@ -35,7 +35,8 @@ contains (CONFIG, WITH_HACKLOGIN) {
         $$PWD/HackLogin/HackFavorites.h \
         $$PWD/HackLogin/HackComments.h \
         $$PWD/HackLogin/HackSearch.h \
-        $$PWD/HackLogin/HackStatuses.h
+        $$PWD/HackLogin/HackStatuses.h \
+        $$PWD/HackLogin/HackFriendships.h
 
     SOURCES += \
         $$PWD/HackLogin/BaseHackRequest.cpp \
@@ -49,7 +50,8 @@ contains (CONFIG, WITH_HACKLOGIN) {
         $$PWD/HackLogin/HackStatuses.cpp \
         $$PWD/HackLogin/HackFavorites.cpp \
         $$PWD/HackLogin/HackComments.cpp \
-        $$PWD/HackLogin/HackSearch.cpp
+        $$PWD/HackLogin/HackSearch.cpp \
+        $$PWD/HackLogin/HackFriendships.cpp
 }
 
 contains (CONFIG, WITH_SDK_WRAPPER) {
@@ -60,7 +62,8 @@ contains (CONFIG, WITH_SDK_WRAPPER) {
         $$PWD/Wrapper/StatusesWrapper.h \
         $$PWD/Wrapper/FavoritesWrapper.h \
         $$PWD/Wrapper/CommentsWrapper.h \
-        $$PWD/Wrapper/SearchWrapper.h
+        $$PWD/Wrapper/SearchWrapper.h \
+        $$PWD/Wrapper/FriendshipsWrapper.h
 
     SOURCES += \
         $$PWD/Wrapper/FriendshipsGroupsWrapper.cpp \
@@ -68,7 +71,9 @@ contains (CONFIG, WITH_SDK_WRAPPER) {
         $$PWD/Wrapper/StatusesWrapper.cpp \
         $$PWD/Wrapper/FavoritesWrapper.cpp \
         $$PWD/Wrapper/CommentsWrapper.cpp \
-        $$PWD/Wrapper/SearchWrapper.cpp
+        $$PWD/Wrapper/SearchWrapper.cpp \
+        $$PWD/Wrapper/FriendshipsWrapper.cpp
+
 }
 
 

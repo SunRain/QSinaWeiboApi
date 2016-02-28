@@ -44,6 +44,11 @@ void BaseHackRequest::resetBaseUrl(const QString &newUrl)
     setBaseUrl (newUrl);
 }
 
+void BaseHackRequest::resetUrlPath(const QString &urlPath, const QString &tag)
+{
+    setUrlPath (urlPath, tag);
+}
+
 QNetworkReply *BaseHackRequest::curNetworkReply()
 {
     return m_reply;
@@ -78,6 +83,11 @@ void BaseHackRequest::postRequest()
     }
     request.setRawHeader ("Cookie", cookies.toUtf8 ());
     request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
+
+    qDebug()<<Q_FUNC_INFO<<"post request for url: "<<url;
+    foreach (QByteArray ba, request.rawHeaderList ()) {
+        qDebug()<<Q_FUNC_INFO<<"request rawheader ["<<ba<<"="<<request.rawHeader (ba)<<"]";
+    }
 
     if (curNetworkReply ()) {
         setRequestAborted (true);

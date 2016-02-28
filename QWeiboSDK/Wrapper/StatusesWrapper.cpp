@@ -236,5 +236,70 @@ QString WrapperStatusesMentions::parseContent(const QString &content)
     return QString();
 }
 
+WrapperStatusesUserTimeline::WrapperStatusesUserTimeline(QObject *parent)
+    : BaseWrapper(parent)
+{
+    registerRequest<StatusesUserTimeline, HackStatusesUserTimeline>();
+}
+
+QString WrapperStatusesUserTimeline::parseContent(const QString &content)
+{
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson (content.toUtf8 (), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qDebug()<<Q_FUNC_INFO<<"Parse main json content error ["<<error.errorString ()<<"]";
+        return QString();
+    }
+    qDebug()<<"doc isObject ["<<doc.isObject ()
+           <<"] isArray ["<<doc.isArray ()<<"]";
+    if (doc.isNull () || doc.isEmpty ()) {
+        qDebug()<<Q_FUNC_INFO<<"Parse main json content, result isNull or isEmpty";
+        return QString();
+    }
+    if (doc.isArray ()) {
+        qDebug()<<Q_FUNC_INFO<<">>>>>>>>>>> array <<<<<<<<<<<<";
+        QJsonArray array = doc.array ();
+        qDebug()<<Q_FUNC_INFO<<"array length "<<array.size ();
+
+        QJsonArray retArray;
+        foreach (QJsonValue v, array) {
+            QJsonObject mainObj = v.toObject ();
+            if (mainObj.isEmpty ()) {
+                qDebug()<<Q_FUNC_INFO<<"main object is empty!!";
+                continue;
+            }
+            QJsonValue mainValue = mainObj.value ("card_group");
+            if (mainValue.isUndefined () || mainValue.isNull ()) {
+                qDebug()<<Q_FUNC_INFO<<"InValid main json value";
+                continue;
+            }
+            if (mainValue.isArray ()) {
+                QJsonArray mainArray = mainValue.toArray ();
+                if (mainArray.isEmpty ()) {
+                    qDebug()<<Q_FUNC_INFO<<"main Array is empty!!!";
+                    continue;
+                }
+                foreach (QJsonValue value, mainArray) {
+                    QJsonObject tmp = value.toObject ();
+                    if (tmp.isEmpty ())
+                        continue;
+                    if (!tmp.contains ("mblog"))
+                        continue;
+                    QJsonObject o = tmp.value ("mblog").toObject ();
+                    if (o.isEmpty ())
+                        continue;
+                    retArray.append (o);
+                }
+            }
+        }
+        qDebug()<<Q_FUNC_INFO<<"ret array size "<<retArray.size ();
+        QJsonObject ret;
+        ret.insert ("statuses",retArray);
+        QJsonDocument d(ret);
+        return d.toJson ();
+    }
+    return QString();
+}
+
 } //Wrapper
 } //QWeiboSDK

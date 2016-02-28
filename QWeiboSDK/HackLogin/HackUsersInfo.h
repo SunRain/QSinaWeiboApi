@@ -26,7 +26,7 @@ protected:
 };
 
 //get http://m.weibo.cn/u/1494848464?format=cards
-//need use resetBaseUrl()
+//need use resetUrlPath()
 class QWEIBOSDK_EXPORT HackUsersInfo : public BaseHackRequest
 {
     Q_OBJECT

@@ -23,6 +23,7 @@ public:
     /// \param newUrl
     ///
     Q_INVOKABLE void resetBaseUrl(const QString &newUrl);
+    Q_INVOKABLE void resetUrlPath(const QString &urlPath, const QString &tag = QString(""));
 
     // BaseRequest interface
 protected:

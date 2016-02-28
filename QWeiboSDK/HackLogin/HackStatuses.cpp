@@ -37,5 +37,12 @@ HackStatusesMentions::HackStatusesMentions(QObject *parent)
     initiate ();
 }
 
+HackStatusesUserTimeline::HackStatusesUserTimeline(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("page/tpl", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK
