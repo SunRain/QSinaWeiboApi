@@ -185,15 +185,10 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::FriendshipsFriends>(url, 1, 0, "FriendshipsFriends");
     qmlRegisterType<QWeiboSDK::FriendshipsFollowers>(url, 1, 0, "FriendshipsFollowers");
     qmlRegisterType<QWeiboSDK::FriendshipsFriendsBilateral>(url, 1, 0, "FriendshipsFriendsBilateral");
-
     qmlRegisterType<QWeiboSDK::ImageUploader>(url, 1, 0, "ImageUploader");
     qmlRegisterType<QWeiboSDK::FriendshipsCreate>(url, 1, 0, "FriendshipsCreate");
     qmlRegisterType<QWeiboSDK::FriendshipsDestroy>(url, 1, 0, "FriendshipsDestroy");
-
     qmlRegisterType<QWeiboSDK::BaseRequest>(url, 1, 0, "BaseRequest");
-
-    qmlRegisterType<QWeiboSDK::ImageUploader>(url, 1, 0, "ImageUploader");
-
 
 #ifdef WITH_HACKLOGIN
     qmlRegisterType<QWeiboSDK::HackLogin::CookieDataProvider>(url, 1, 0, "CookieDataProvider");
@@ -222,6 +217,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsCreate>(url, 1, 0, "HackFriendshipsCreate");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFriendshipsDestroy>(url, 1, 0, "HackFriendshipsDestroy");
     qmlRegisterType<QWeiboSDK::HackLogin::HackImageUploader>(url, 1, 0, "HackImageUploader");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackFavoritesDestroy>(url, 1, 0, "HackFavoritesDestroy");
 
 #endif
 
@@ -248,6 +244,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFriendshipsCreate>(url, 1, 0, "WrapperFriendshipsCreate");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperFriendshipsDestroy>(url, 1, 0, "WrapperFriendshipsDestroy");
     qmlRegisterType<QWeiboSDK::Wrapper::WrapperImageUploader>(url, 1, 0, "WrapperImageUploader");
+    qmlRegisterType<QWeiboSDK::Wrapper::WrapperFavoritesDestroy>(url, 1, 0, "WrapperFavoritesDestroy");
 
 #endif
 

@@ -127,6 +127,12 @@ QString WrapperFavoritesList::parseContent(const QString &content)
     return QString();
 }
 
+WrapperFavoritesDestroy::WrapperFavoritesDestroy(QObject *parent)
+     : BaseWrapper(parent)
+{
+    registerRequest<FavoritesDestroy, HackFavoritesDestroy>();
+}
+
 } //Wrapper
 } //QWeiboSDK
 

@@ -18,5 +18,12 @@ HackFavoritesList::HackFavoritesList(QObject *parent)
     initiate ();
 }
 
+HackFavoritesDestroy::HackFavoritesDestroy(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("mblogDeal/delFavMblog", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK

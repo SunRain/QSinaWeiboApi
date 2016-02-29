@@ -25,6 +25,9 @@ public:
     Q_INVOKABLE void resetBaseUrl(const QString &newUrl);
     Q_INVOKABLE void resetUrlPath(const QString &urlPath, const QString &tag = QString(""));
 
+protected:
+    virtual QHash<QByteArray, QByteArray> extraRawtHeaders();
+
     // BaseRequest interface
 protected:
 //    virtual void initParameters();

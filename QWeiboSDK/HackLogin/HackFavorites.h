@@ -1,6 +1,7 @@
 #ifndef HACKFAVORITES_H
 #define HACKFAVORITES_H
 
+#include <QHash>
 #include <QObject>
 
 #include "global.h"
@@ -23,6 +24,14 @@ protected:
 //        ("id", "") //weibo id
 //        ;
     }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        hash.insert ("Referer", "http://m.weibo.cn/");
+        return hash;
+    }
 };
 
 //获取当前用户的收藏列表  get http://m.weibo.cn/p/index?containerid=2302592889227340&format=cards&page=2
@@ -41,6 +50,22 @@ protected:
         ("page", "1")
         ("format", "cards")
         ;
+    }
+};
+
+//post http://m.weibo.cn/mblogDeal/delFavMblog?id=
+class QWEIBOSDK_EXPORT HackFavoritesDestroy : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackFavoritesDestroy(QObject *parent = 0);
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        hash.insert ("Referer", "http://m.weibo.cn/");
+        return hash;
     }
 };
 

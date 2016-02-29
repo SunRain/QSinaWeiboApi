@@ -49,6 +49,12 @@ void BaseHackRequest::resetUrlPath(const QString &urlPath, const QString &tag)
     setUrlPath (urlPath, tag);
 }
 
+QHash<QByteArray, QByteArray> BaseHackRequest::extraRawtHeaders()
+{
+    qDebug()<<Q_FUNC_INFO<<">>>>>>>>>> default empty extraRawtHeaders <<<<<<<<<<";
+    return QHash<QByteArray, QByteArray>();
+}
+
 QNetworkReply *BaseHackRequest::curNetworkReply()
 {
     return m_reply;
@@ -71,6 +77,15 @@ void BaseHackRequest::postRequest()
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
+
+    QHash<QByteArray, QByteArray> headers = extraRawtHeaders ();
+    if (!headers.isEmpty ()) {
+        foreach (QByteArray key, headers.keys ()) {
+            if (key.isEmpty ())
+                continue;
+            request.setRawHeader (key, headers.value (key));
+        }
+    }
 
     QString cookies = TokenProvider::instance ()->hackLoginCookies ();
     if (m_cookieJar) {
@@ -163,6 +178,16 @@ void BaseHackRequest::getRequest()
 //    request.setRawHeader ("Accept-Encoding", "gzip, deflate");
 //    request.setRawHeader ("Referer", "http://weibo.cn/");
 //    request.setRawHeader ("Connection",	"keep-alive");
+
+    QHash<QByteArray, QByteArray> headers = extraRawtHeaders ();
+    if (!headers.isEmpty ()) {
+        foreach (QByteArray key, headers.keys ()) {
+            if (key.isEmpty ())
+                continue;
+            request.setRawHeader (key, headers.value (key));
+        }
+    }
+
     QString cookies = TokenProvider::instance ()->hackLoginCookies ();
     if (m_cookieJar) {
         QString extra = m_cookieJar->cookies ();

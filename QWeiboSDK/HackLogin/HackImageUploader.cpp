@@ -35,6 +35,11 @@ void HackImageUploader::uploadImage(const QString &fileUrl)
 
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
+    QHttpPart jsonPart;
+    jsonPart.setHeader (QNetworkRequest::ContentDispositionHeader, "form-data; name=\"type\"");
+    jsonPart.setBody ("json");
+    multiPart->append (jsonPart);
+
     QHttpPart imagePart;
     imagePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("image/" + imageInfo.suffix()));
     imagePart.setHeader(QNetworkRequest::ContentDispositionHeader,
@@ -42,18 +47,12 @@ void HackImageUploader::uploadImage(const QString &fileUrl)
     QFile *file = new QFile(furl);
     bool isOpen = file->open(QIODevice::ReadOnly);
     qDebug() << "file open? " << isOpen <<" file is exist "<<file->exists();
-
     imagePart.setBodyDevice(file);
     file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
 
-//    if (!content.isEmpty ()) {
-//        QHttpPart textPart;
-//        textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
-//        textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"status\""));
-//        textPart.setBody(content.toUtf8());
-//        multiPart->append(textPart);
-//    }
     multiPart->append(imagePart);
+
+    qDebug()<<Q_FUNC_INFO<<"Boundary is "<<multiPart->boundary ();
 
     if (curNetworkReply ()) {
 //        m_requestAborted = true;
@@ -74,9 +73,6 @@ void HackImageUploader::uploadImage(const QString &fileUrl)
     if (data.endsWith ("&"))
         data = data.left (data.length ()-1);
 
-//    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-//    request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
-
     QString cookies = TokenProvider::instance ()->hackLoginCookies ();
     if (m_cookieJar) {
         QString extra = m_cookieJar->cookies ();
@@ -87,7 +83,9 @@ void HackImageUploader::uploadImage(const QString &fileUrl)
         }
     }
     request.setRawHeader ("Cookie", cookies.toUtf8 ());
-//    request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
+    request.setRawHeader ("Referer", "http://m.weibo.cn/mblog");
+    request.setRawHeader ("Accept", "application/json, text/javascript, */*; q=0.01");
+    request.setRawHeader ("X-Requested-With", "XMLHttpRequest");
 
     qDebug()<<Q_FUNC_INFO<<"post request for url: "<<url;
     foreach (QByteArray ba, request.rawHeaderList ()) {

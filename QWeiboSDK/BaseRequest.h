@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QStringList>
 
 #include "global.h"
 
@@ -34,7 +35,18 @@ public:
     inline QMap<QString, QString> postDataParameters() const {
         return m_postDataParameters;
     }
+
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
+    inline QStringList parameterKeys() const {
+        if (m_parameters.isEmpty ())
+            return QStringList();
+        return m_parameters.keys ();
+    }
+    inline QString parameter(const QString &key, const QString &defaultValue = QString()) const {
+        if (!m_parameters.isEmpty () && m_parameters.contains (key))
+            return m_parameters.value (key, defaultValue);
+        return QString();
+    }
 
     BaseRequest& operator ()(const QString &key, const QVariant &value);
     BaseRequest& operator ()(const QString &key, const char *value);
@@ -65,8 +77,8 @@ private:
     bool m_Editable;
     bool m_requestAborted;
     int m_timerInterval;
-    QString m_urlPath;
     QString m_baseUrl;
+    QString m_urlPath;
     QMap<QString, QString> m_parameters;
     QMap<QString, QString> m_postDataParameters;
     QNetworkAccessManager *m_networkMgr;

@@ -28,6 +28,12 @@ protected:
     QString parseContent(const QString &content);
 };
 
+class QWEIBOSDK_EXPORT WrapperFavoritesDestroy : public BaseWrapper
+{
+    Q_OBJECT
+public:
+    explicit WrapperFavoritesDestroy(QObject *parent = 0);
+};
 
 } //Wrapper
 } //QWeiboSDK

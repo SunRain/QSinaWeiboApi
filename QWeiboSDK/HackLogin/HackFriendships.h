@@ -1,6 +1,7 @@
 #ifndef HACKFRIENDSHIPS_H
 #define HACKFRIENDSHIPS_H
 
+#include <QHash>
 #include <QObject>
 
 #include "global.h"
@@ -24,9 +25,20 @@ protected:
         ("st", "") //ok if empty
         ;
     }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QByteArray ba("http://m.weibo.cn/u/");
+        ba += parameter ("uid", QString()).simplified ().toUtf8 ();
+        hash.insert ("Referer", ba);
+        return hash;
+    }
 };
 
 //post http://m.weibo.cn/attentionDeal/delAttention?uid=1494848464
+//Need to add Referer:http://m.weibo.cn/u/3180788643 in request
 class QWEIBOSDK_EXPORT HackFriendshipsDestroy : public BaseHackRequest
 {
     Q_OBJECT
@@ -39,6 +51,16 @@ protected:
         (*this)
         ("uid", "")
         ;
+    }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QByteArray ba("http://m.weibo.cn/u/");
+        ba += parameter ("uid", QString()).simplified ().toUtf8 ();
+        hash.insert ("Referer", ba);
+        return hash;
     }
 };
 

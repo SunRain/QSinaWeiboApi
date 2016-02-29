@@ -1,6 +1,7 @@
 #ifndef HACKSTATUSES_H
 #define HACKSTATUSES_H
 
+#include <QHash>
 #include <QObject>
 
 #include "global.h"
@@ -68,6 +69,14 @@ protected:
         //ac361c4cjw1f1fgdqivguj20hs0dct9v,ac361c4cjw1f1fgeqsgvxj20900g5gmi"
         ("st", "") //unknow seems ok if empty
         ;
+    }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        hash.insert ("Referer", "http://m.weibo.cn/mblog");
+        return hash;
     }
 };
 
