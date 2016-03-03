@@ -148,6 +148,24 @@ protected:
     }
 };
 
+// 2/statuses/show: 根据ID获取单条微博信息
+//get http://m.weibo.cn/---user.id ---/--- bid ----
+//need resetUrlPath
+class QWEIBOSDK_EXPORT HackStatusesShow : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackStatusesShow(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("format", "cards")
+        ;
+    }
+};
+
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKSTATUSES_H

@@ -44,5 +44,11 @@ HackStatusesUserTimeline::HackStatusesUserTimeline(QObject *parent)
     initiate ();
 }
 
+HackStatusesShow::HackStatusesShow(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK
