@@ -131,8 +131,12 @@ QUrl BaseRequest::initUrl()
     //add url parameters
 //    QString str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
     QString str = m_baseUrl;
-    if (!m_urlPath.isEmpty ())
-        str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
+    if (!m_urlPath.isEmpty ()) {
+        if (m_urlPath.startsWith ("/"))
+            str = QString("%1%2").arg (m_baseUrl).arg (m_urlPath);
+        else
+            str = QString("%1/%2").arg (m_baseUrl).arg (m_urlPath);
+    }
     QUrl url(str);
     if (!m_parameters.isEmpty ()) {
         QUrlQuery query;
