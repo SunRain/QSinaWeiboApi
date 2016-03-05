@@ -99,6 +99,18 @@ protected:
         ("st", "") //unknow, seems ok if empty
         ;
     }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QString id = parameter ("id", QString()).simplified ();
+        QString referer = QString("http://m.weibo.cn/repost?id=%1").arg (id);
+        hash.insert ("Referer", referer.toUtf8 ());
+        hash.insert ("Accept", "application/json, text/javascript, */*; q=0.01");
+        hash.insert ("X-Requested-With", "XMLHttpRequest");
+        return hash;
+    }
 };
 
 // 2/statuses/mentions: 获取@当前用户的最新微博

@@ -94,6 +94,17 @@ protected:
         ("st", "") //don't know ,but ok to use empty
         ;
     }
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QString id = parameter ("id", QString()).simplified ();
+        QString referer = QString("http://m.weibo.cn/comment?id=%1").arg (id);
+        hash.insert ("Referer", referer.toUtf8 ());
+        hash.insert ("Accept", "application/json, text/javascript, */*; q=0.01");
+        hash.insert ("X-Requested-With", "XMLHttpRequest");
+        return hash;
+    }
 };
 
 //2/comments/mentions: 获取@到我的评论
