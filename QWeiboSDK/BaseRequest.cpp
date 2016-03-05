@@ -74,7 +74,7 @@ void BaseRequest::appendPostDataParameters(const QString &key, const QString &va
 {
     if (key.isEmpty ())
         return;
-    m_postDataParameters.insert (key, value);
+    m_postDataParameters.insert (key.simplified (), value.simplified ());
 }
 
 void BaseRequest::setParameters(const QString &key, const QString &value)
@@ -199,6 +199,8 @@ void BaseRequest::postRequest()
     //create request, if request exists, abort previous
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    if (data.isNull () || data.isEmpty ())
+        data = url.query (QUrl::FullyEncoded).toUtf8 ();
     request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
 
     qDebug()<<Q_FUNC_INFO<<" post data ["<<data<<"] to ["<<url<<"]";

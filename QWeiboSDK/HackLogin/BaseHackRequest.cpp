@@ -76,7 +76,9 @@ void BaseHackRequest::postRequest()
         data = data.left (data.length ()-1);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.length()));
+    if (data.isNull () || data.isEmpty ())
+        data = url.query (QUrl::FullyEncoded).toUtf8 ();
+    request.setHeader(QNetworkRequest::ContentLengthHeader, QByteArray::number(data.size()));
 
     QHash<QByteArray, QByteArray> headers = extraRawtHeaders ();
     if (!headers.isEmpty ()) {

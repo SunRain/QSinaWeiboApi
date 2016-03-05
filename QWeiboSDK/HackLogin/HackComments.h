@@ -1,6 +1,7 @@
 #ifndef HACKCOMMENTS_H
 #define HACKCOMMENTS_H
 
+#include <QHash>
 #include <QObject>
 
 #include "global.h"
@@ -52,11 +53,26 @@ protected:
         (*this)
 //        ("format", "cards")
         ("content", "") //reply content,  need URLencode
-        ("id", "") //weibo id
-        ("cid", "") //the weibo Comment content id
-        ("rt", "1") //当评论转发微博时，是否评论给原微博，0：否、1：是，默认为0。
+        ("id", "") //weibo id , from weibo.card.id
+        ("cid", "") //the weibo Comment content id, from weibo.id
+        ("rt", "1") //当评论转发微博时，是否评论给原微博，0：否、1：是，默认为1。
         ("st", "") //don't know ,but ok to use empty
         ;
+    }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QString id = parameter ("id", QString()).simplified ();
+        QString cid = parameter ("cid", QString()).simplified ();
+        QString content = parameter ("content", QString()).simplified ();
+        QString value = QString("http://m.weibo.cn/comment?id=%1&reply=%2&content=%3")
+                .arg (id).arg (cid).arg (content);
+        hash.insert ("Referer", /*value.toUtf8 ()*/"http://m.weibo.cn/msg/atMeCmt?subtype=allPL");
+        hash.insert ("Accept", "application/json, text/javascript, */*; q=0.01");
+        hash.insert ("X-Requested-With", "XMLHttpRequest");
+        return hash;
     }
 };
 

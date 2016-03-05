@@ -35,7 +35,11 @@ public:
     inline QMap<QString, QString> postDataParameters() const {
         return m_postDataParameters;
     }
-
+    inline QString postDataParameter(const QString &key, const QString &defaultValue = QString()) const {
+        if (!m_postDataParameters.isEmpty () && m_postDataParameters.contains (key))
+            return m_postDataParameters.value (key, defaultValue);
+        return QString();
+    }
     Q_INVOKABLE void setParameters(const QString &key, const QString &value);
     inline QStringList parameterKeys() const {
         if (m_parameters.isEmpty ())
