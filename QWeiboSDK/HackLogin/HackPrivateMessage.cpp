@@ -17,5 +17,19 @@ HackPrivateMessageNoteList::HackPrivateMessageNoteList(QObject *parent)
     initiate ();
 }
 
+HackPrivateMessageChatList::HackPrivateMessageChatList(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msg/messages", "");
+    initiate ();
+}
+
+HackPrivateMessageSend::HackPrivateMessageSend(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msgDeal/sendMsg", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK

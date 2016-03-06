@@ -54,6 +54,56 @@ protected:
     }
 };
 
+//http://m.weibo.cn/msg/messages?uid=3180788643&page=1
+class QWEIBOSDK_EXPORT HackPrivateMessageChatList : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackPrivateMessageChatList(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("page", "1")
+        ("uid", "")
+        ("format", "cards")
+        ;
+    }
+};
+
+//post http://m.weibo.cn/msgDeal/sendMsg
+class QWEIBOSDK_EXPORT HackPrivateMessageSend : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackPrivateMessageSend(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("fileId", "null")
+        ("uid", "")
+        ("content", "")
+        ("st", "d79c76") //where is it? ok if use hard coded ?
+        ;
+    }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QString uid = parameter ("uid");
+        QString referer = QString("http://m.weibo.cn/msg/chat?uid=%1").arg (uid);
+        hash.insert ("Referer", referer.toUtf8 ());
+        hash.insert ("Accept", "application/json");
+        hash.insert ("X-Requested-With", "XMLHttpRequest");
+        return hash;
+    }
+};
+
+
 } //HackLogin
 } //QWeiboSDK
 #endif // HACKPRIVATEMESSAGE_H
