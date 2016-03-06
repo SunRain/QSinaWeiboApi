@@ -15,6 +15,7 @@
 #include "HackLogin/HackSearch.h"
 #include "HackLogin/HackFriendships.h"
 #include "HackLogin/HackImageUploader.h"
+#include "HackLogin/HackPrivateMessage.h"
 #endif
 
 #ifdef WITH_SDK_WRAPPER
@@ -219,6 +220,8 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackImageUploader>(url, 1, 0, "HackImageUploader");
     qmlRegisterType<QWeiboSDK::HackLogin::HackFavoritesDestroy>(url, 1, 0, "HackFavoritesDestroy");
     qmlRegisterType<QWeiboSDK::HackLogin::HackStatusesShow>(url, 1, 0, "HackStatusesShow");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageList>(url, 1, 0, "HackPrivateMessageList");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageNoteList>(url, 1, 0, "HackPrivateMessageNoteList");
 
 #endif
 
