@@ -86,7 +86,7 @@ protected:
         ("fileId", "null")
         ("uid", "")
         ("content", "")
-        ("st", "d79c76") //where is it? ok if use hard coded ?
+        ("st", "") //can be taken from  HackPrivateMessageToken
         ;
     }
 
@@ -99,6 +99,32 @@ protected:
         hash.insert ("Referer", referer.toUtf8 ());
         hash.insert ("Accept", "application/json");
         hash.insert ("X-Requested-With", "XMLHttpRequest");
+        return hash;
+    }
+};
+
+//get http://m.weibo.cn/msg/chat?uid=xxx
+class QWEIBOSDK_EXPORT HackPrivateMessageToken : public BaseHackRequest
+{
+    Q_OBJECT
+public:
+    explicit HackPrivateMessageToken(QObject *parent = 0);
+
+    // BaseRequest interface
+protected:
+    void initParameters() {
+        (*this)
+        ("uid", "")
+        ;
+    }
+
+    // BaseHackRequest interface
+protected:
+    QHash<QByteArray, QByteArray> extraRawtHeaders() {
+        QHash<QByteArray, QByteArray> hash;
+        QString uid = parameter ("uid");
+        QString referer = QString("http://m.weibo.cn/msg/chat?uid=%1").arg (uid);
+        hash.insert ("Referer", referer.toUtf8 ());
         return hash;
     }
 };

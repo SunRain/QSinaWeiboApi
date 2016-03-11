@@ -31,5 +31,12 @@ HackPrivateMessageSend::HackPrivateMessageSend(QObject *parent)
     initiate ();
 }
 
+HackPrivateMessageToken::HackPrivateMessageToken(QObject *parent)
+    : BaseHackRequest(parent)
+{
+    setUrlPath ("msg/chat", "");
+    initiate ();
+}
+
 } //HackLogin
 } //QWeiboSDK

@@ -224,6 +224,7 @@ void registerPlugins(const char *url)
     qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageNoteList>(url, 1, 0, "HackPrivateMessageNoteList");
     qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageChatList>(url, 1, 0, "HackPrivateMessageChatList");
     qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageSend>(url, 1, 0, "HackPrivateMessageSend");
+    qmlRegisterType<QWeiboSDK::HackLogin::HackPrivateMessageToken>(url, 1, 0, "HackPrivateMessageToken");
 
 #endif
 
