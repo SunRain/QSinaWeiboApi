@@ -489,8 +489,9 @@ void CookieDataProvider::login()
                 }
                 QJsonObject obj = doc.object ();
                 int retcode = obj.value ("retcode").toInt (-1);
+                QString msg = obj.value ("msg").toString ();
                 if (retcode != 20000000) {
-                    emit loginFailure (QString("retcode = %1").arg (retcode));
+                    emit loginFailure (QString("[retcode=%1],[msg=%2]").arg (retcode).arg (msg));
                     return;
                 }
                 QJsonValue v = obj.value ("data");
