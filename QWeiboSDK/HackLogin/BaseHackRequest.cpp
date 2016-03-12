@@ -9,6 +9,9 @@
 #include "HackRequestCookieJar.h"
 #include "TokenProvider.h"
 
+#define DBG_REQUEST_HEADER 0
+#define DBG_REQUEST_RESULT 0
+
 namespace QWeiboSDK {
 namespace HackLogin {
 BaseHackRequest::BaseHackRequest(QObject *parent)
@@ -102,9 +105,11 @@ void BaseHackRequest::postRequest()
     request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
 
     qDebug()<<Q_FUNC_INFO<<"post request for url: "<<url;
+#if DBG_REQUEST_HEADER
     foreach (QByteArray ba, request.rawHeaderList ()) {
         qDebug()<<Q_FUNC_INFO<<"request rawheader ["<<ba<<"="<<request.rawHeader (ba)<<"]";
     }
+#endif
 
     if (curNetworkReply ()) {
         setRequestAborted (true);
@@ -138,13 +143,16 @@ void BaseHackRequest::postRequest()
             bool success = (error == QNetworkReply::NoError);
             if (!success) {
                 QString str = m_reply->errorString ();
+#if DBG_REQUEST_RESULT
                 qDebug()<<Q_FUNC_INFO<<"Request error ["<<str<<"]";
+#endif
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
                 emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
+#if DBG_REQUEST_HEADER
                 foreach (QByteArray ar, m_reply->rawHeaderList ()) {
                     qDebug()<<Q_FUNC_INFO<<ar;
 
@@ -152,12 +160,13 @@ void BaseHackRequest::postRequest()
                 foreach (QNetworkReply::RawHeaderPair p, m_reply->rawHeaderPairs ()) {
                     qDebug()<<Q_FUNC_INFO<<p.first<<"||"<<p.second;
                 }
+#endif
                 m_reply->deleteLater ();
                 m_reply = nullptr;
-
+#if DBG_REQUEST_RESULT
                 qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
                 qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
-
+#endif
                 emit requestSuccess (QString(qba));
                 emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
@@ -203,9 +212,11 @@ void BaseHackRequest::getRequest()
     request.setAttribute (QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
 
     qDebug()<<Q_FUNC_INFO<<"create request for url: "<<url;
+#if DBG_REQUEST_HEADER
     foreach (QByteArray ba, request.rawHeaderList ()) {
         qDebug()<<Q_FUNC_INFO<<"request rawheader ["<<ba<<"="<<request.rawHeader (ba)<<"]";
     }
+#endif
 
     if (curNetworkReply ()) {
         setRequestAborted (true);
@@ -238,13 +249,16 @@ void BaseHackRequest::getRequest()
             bool success = (error == QNetworkReply::NoError);
             if (!success) {
                 QString str = m_reply->errorString ();
+#if DBG_REQUEST_RESULT
                 qDebug()<<Q_FUNC_INFO<<"Request error ["<<str<<"]";
+#endif
                 m_reply->deleteLater ();
                 m_reply = nullptr;
                 emit requestFailure (str);
                 emit requestResult (BaseRequest::RET_FAILURE, str);
             } else {
                 QByteArray qba = m_reply->readAll ();
+#if DBG_REQUEST_HEADER
                 foreach (QByteArray ar, m_reply->rawHeaderList ()) {
                     qDebug()<<Q_FUNC_INFO<<ar;
 
@@ -252,12 +266,14 @@ void BaseHackRequest::getRequest()
                 foreach (QNetworkReply::RawHeaderPair p, m_reply->rawHeaderPairs ()) {
                     qDebug()<<Q_FUNC_INFO<<p.first<<"||"<<p.second;
                 }
+#endif
                 m_reply->deleteLater ();
                 m_reply = nullptr;
 
+#if DBG_REQUEST_RESULT
                 qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
                 qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
-
+#endif
                 emit requestSuccess (QString(qba));
                 emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
             }
