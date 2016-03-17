@@ -69,7 +69,8 @@ protected:
         QString content = parameter ("content", QString()).simplified ();
         QString value = QString("http://m.weibo.cn/comment?id=%1&reply=%2&content=%3")
                 .arg (id).arg (cid).arg (content);
-        hash.insert ("Referer", /*value.toUtf8 ()*/"http://m.weibo.cn/msg/atMeCmt?subtype=allPL");
+//        hash.insert ("Referer", "http://m.weibo.cn/msg/atMeCmt?subtype=allPL");
+        hash.insert ("Referer", value.toUtf8 ());
         hash.insert ("Accept", "application/json, text/javascript, */*; q=0.01");
         hash.insert ("X-Requested-With", "XMLHttpRequest");
         return hash;
