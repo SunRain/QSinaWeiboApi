@@ -167,8 +167,8 @@ void BaseHackRequest::postRequest()
                 qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
                 qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
 #endif
-                emit requestSuccess (QString(qba));
-                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
+                emit requestSuccess (QString::fromUtf8(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString::fromUtf8(qba));
             }
         });
     }
@@ -274,8 +274,8 @@ void BaseHackRequest::getRequest()
                 qDebug()<<Q_FUNC_INFO<<"Request success size "<<qba.length ();
                 qDebug()<<Q_FUNC_INFO<<"Request success ["<<QString::fromUtf8 (qba)<<"]";
 #endif
-                emit requestSuccess (QString(qba));
-                emit requestResult (BaseRequest::RET_SUCCESS, QString(qba));
+                emit requestSuccess (QString::fromUtf8(qba));
+                emit requestResult (BaseRequest::RET_SUCCESS, QString::fromUtf8(qba));
             }
         });
     }
